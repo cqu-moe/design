@@ -1,5 +1,5 @@
-import { mkdir, mkdtemp, cp, readFile, writeFile, readdir, realpath } from 'node:fs/promises';
-import { execFileSync, spawn } from 'node:child_process';
+import { mkdir, mkdtemp, cp, readFile, writeFile, readdir, realpath, rm } from 'node:fs/promises';
+import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
@@ -40,6 +40,18 @@ await writeFile(
 await writeFile(join(project, '.npmrc'), 'registry=https://registry.npmjs.org\nsave-exact=true\n');
 execFileSync('pnpm', ['install', '--no-frozen-lockfile'], { cwd: project, stdio: 'inherit' });
 execFileSync('pnpm', ['build'], { cwd: project, stdio: 'inherit' });
+execFileSync('pnpm', ['check:design'], { cwd: project, stdio: 'inherit' });
+await writeFile(join(project, 'src', 'intentional-rule-violation.css'), '.bad { color: #ff0000; }');
+const rejected = spawnSync('pnpm', ['check:design'], { cwd: project, encoding: 'utf8' });
+assert.equal(rejected.status, 1, 'The installed scanner must reject a deliberate raw color');
+await rm(join(project, 'src', 'intentional-rule-violation.css'));
+execFileSync('pnpm', ['check:design'], { cwd: project, stdio: 'inherit' });
+assert.ok(
+  (await readFile(join(project, 'AGENTS.md'), 'utf8')).includes(
+    'node_modules/@cqu-moe/ui/dist/DESIGN.md',
+  ),
+);
+await readFile(join(project, 'node_modules/@cqu-moe/ui/dist/DESIGN.md'), 'utf8');
 const requireApp = createRequire(join(project, 'package.json'));
 const requireUi = createRequire(
   await realpath(join(project, 'node_modules/@cqu-moe/ui/package.json')),
@@ -108,6 +120,7 @@ try {
           'theme persistence',
           'mobile navigation',
           'no browser errors',
+          'portable Agent docs and design checker',
         ],
       },
       null,

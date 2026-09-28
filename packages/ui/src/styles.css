@@ -93,6 +93,9 @@
   [data-slot='input'],
   [data-slot='select-trigger'],
   [data-slot='dropdown-menu-item'],
+  [data-slot='dropdown-menu-radio-item'],
+  [data-slot='dropdown-menu-checkbox-item'],
+  [data-slot='dropdown-menu-sub-trigger'],
   [data-slot='select-item'] {
     min-height: 2.75rem;
   }

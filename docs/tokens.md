@@ -1,6 +1,6 @@
 # 主题与设计变量
 
-唯一来源：packages/theme/src/tokens.css。两个主题共用变量名，业务组件使用语义层，禁止原始颜色。
+唯一来源：源码 packages/theme/src/tokens.css，安装后为 @cqu-moe/theme/dist/styles.css。两个主题共用变量名，业务组件使用语义层，禁止原始颜色。
 
 | 用途 | 变量 |
 | --- | --- |

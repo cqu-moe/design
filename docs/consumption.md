@@ -68,3 +68,9 @@ React ThemeProvider 当前面向客户端应用；不要直接在 SSR 环境调�
 
 修改共享包后先通过 check、test:e2e、verify:consumer，再同步两个包版本、模板依赖和锁文件。
 如果公开 API、主题变量或视觉行为发生变化，记录具体迁移说明并重新检查消费页面。单独复制旧组件不属于升级方式。
+
+## Agent 随包入口
+
+复制模板时保留 AGENTS.md。它指向安装包内的 dist/DESIGN.md，规则、主题说明、组件用法、参考页面与检查器随 UI 版本一起升级。
+消费项目执行 pnpm check:design；检查器使用 TypeScript，模板已安装这个可选 peer dependency。它不进入应用运行时 bundle。
+脱离源码仓库后，仍可读取 node_modules/@cqu-moe/ui/dist/docs/ 与 dist/examples/，无需依赖个人电脑的 design 绝对路径。

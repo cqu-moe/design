@@ -39,3 +39,5 @@ AppShell 负责顶部身份区、桌面侧栏、手机导航和正文区域。�
 
 简单页面允许使用 inline style 或页面自己的类表达 flex/grid 布局，gap/padding 等值取共享变量；不要创建通用布局 DSL，也不要覆盖共享组件内部样式。
 同步的本地演示保存直接给出完成反馈，不伪造 loading。真实异步保存则必须显示进度并防止重复提交。
+
+安装包中的对应参考页面位于 dist/examples/pages/，示例样式为 dist/examples/styles.css。它们用于理解组合方式，不应把 ui 基础组件复制到消费项目。

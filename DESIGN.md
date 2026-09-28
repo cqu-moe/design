@@ -34,11 +34,12 @@
 
 主题与 UI 包当前版本均为 0.1.0，尚未发布到 registry。预览包含账号设置、服务列表、详情及组件状态页，都是本地演示数据。
 
-组件 API 以 packages/ui/src/index.ts 的导出和 TypeScript 类型为准。未列出的变体不能凭空使用。
+组件 API 以源码的 packages/ui/src/index.ts 或安装包的 dist/index.d.ts 及关联类型声明为准。未列出的变体不能凭空使用。
 DESIGN.md 定义使用规则；SPEC.md / PLAN.md 记录建设背景，不替代当前代码与文档。
 
 ## 验收
 
-运行 pnpm check、pnpm test:e2e、pnpm verify:consumer。
+设计仓库运行 pnpm check、pnpm test:e2e、pnpm verify:consumer。
+消费项目运行 pnpm check:design，以及项目自身的构建和交互测试。
 检查 390、768、1440 宽度 × 双主题，并在 320 宽度检查内容重排。
 静态检查不能替代视觉、交互或真实手机验收。截图候选尚待用户确认。

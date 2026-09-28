@@ -1,6 +1,6 @@
 # 组件选择
 
-公开 API：packages/ui/src/index.ts。类型是允许属性的最终依据，未导出的组件或不存在的变体不能使用。
+公开 API：源码的 packages/ui/src/index.ts；安装包对应 dist/index.d.ts 及关联声明。类型是允许属性的最终依据，未导出的组件或不存在的变体不能使用。
 
 ## Button
 

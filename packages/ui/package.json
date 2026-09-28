@@ -22,7 +22,8 @@
   },
   "peerDependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "typescript": ">=5.9 <8"
   },
   "dependencies": {
     "@cqu-moe/theme": "workspace:*",
@@ -35,5 +36,10 @@
   "devDependencies": {
     "react": "19.3.0",
     "react-dom": "19.3.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
   }
 }

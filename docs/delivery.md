@@ -4,8 +4,8 @@
 
 ## 验证证据
 
-- pnpm check：生产构建、TypeScript、5 项主题逻辑测试、3 项设计检查器测试通过。
-- pnpm test:e2e：22 项 Chromium 浏览器测试通过，包含双主题、多宽度、触屏、键盘、减少动态效果、主题同步和演示业务流程。
+- pnpm check：生产构建、TypeScript、5 项主题逻辑测试、5 项设计与分发检查测试通过。
+- pnpm test:e2e：24 项 Chromium 浏览器测试通过，包含双主题、多宽度、触屏、键盘、减少动态效果、主题同步和演示业务流程。
 - pnpm verify:consumer：两个 tarball 在独立应用中安装，类型和生产构建通过；React 实例一致，CSS 不依赖共享源码扫描，主题和移动导航可用。记录见 consumer-verification.json。
 - 独立 Agent 只凭入口文档制作页面，主 Agent 对产物执行类型、规则及交互验证。见 agent-verification.md。
 - 截图及颜色测量见 visual-review.md、screenshots/、contrast.json。
@@ -25,3 +25,15 @@
 - 真实 iPhone / Android、软键盘、安全区域与真实浏览器缩放尚未验收。
 - 本版本验证 Chromium，不把其结果推广为完整 Safari / Firefox 验收。
 - registry 与命名空间待实际发布时确认，目前用本地 tarball 接入。
+
+## 独立审查与修复
+
+独立审查没有 Critical，发现 3 项 Important，均已补回归并修复：
+
+- 深色危险按钮实际合成色对比度 3.59:1；移除半透明覆盖，组件浏览器对比度测试从失败转为通过。
+- 主题菜单 radio item 的触屏高度约 32px；共享规则扩展到 radio、checkbox、sub-trigger，44px 测试通过。
+- 独立模板缺少 Agent 规范入口；模板加入 AGENTS.md，UI 包携带版本化规则、参考页面和检查器，外部安装后可读取并运行。
+
+外部安装验证又发现 pnpm 符号链接使检查器未执行 CLI；改为真实路径比较，加入符号链接回归，并在消费副本中故意写入违规颜色，确认检查失败后移除并重新通过。
+
+审查明确未覆盖真实业务 API、SSR Provider、registry 发布、蓄意绕过检查器、跨浏览器/真机验收及用户视觉批准。这些均保持既定范围或待验收状态，不作为已完成事项。没有延期处理的 Minor。

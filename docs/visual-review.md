@@ -18,3 +18,5 @@
 模拟触屏与 CSS 200% 缩放已验证；真实 iPhone / Android、软键盘、安全区域及真实浏览器缩放仍需设备验收。不能将 Chromium 模拟描述为真实手机测试。
 
 技能使用：emil-ask-emil 路由 foundations/color/forms；animate 与 css-techniques 决定动效；touch-and-accessibility 与 ui-review 用于复核。
+
+最终独立审查补充了组件实际合成色检查，修复了深色危险按钮对比度及菜单选项触屏高度。Token 对比度报告只描述 token 配对，不能替代组件状态测试。
