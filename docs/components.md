@@ -62,3 +62,10 @@ AppShell、ContentContainer、PageHeader 的接口见 layout.md，业务逻辑�
 同一任务中的并列子页面使用 Tabs、TabsList、TabsTrigger、TabsContent；账号设置示例使用 line 变体。默认变体用于紧凑分段选择。
 支持方向键、Home/End；每个 Content 与 Trigger 使用相同 value。业务草稿放在 Tabs 上层，避免切换时丢失。
 字段旁的保存按钮只提交该字段，全局保存提交全部草稿。两者使用同一个保存状态与并发锁。
+
+## 图表
+
+从 @cqu-moe/ui/charts 导入 DataChart，避免让只用基础控件的页面加载 Recharts。
+kind 仅支持 line、area、bar；传入 title、valueLabel 和 data，数据项为 { label: string, value: number, secondary?: number }。
+需要第二组时提供 secondaryLabel。趋势用 line/area，分类比较用 bar；柱图从零起，次级趋势使用虚线。单位写在标签中。
+每张图保留可展开的数据表，不只提供悬停提示。后台示例按路由懒加载；默认不播放图表入场动画。

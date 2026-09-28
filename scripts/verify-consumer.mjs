@@ -16,6 +16,16 @@ for (const name of ['theme', 'ui'])
   });
 const project = join(work, 'app');
 await cp('templates/app', project, { recursive: true });
+const entry = join(project, 'src/main.tsx');
+const source = await readFile(entry, 'utf8');
+await writeFile(
+  entry,
+  "import {DataChart} from '@cqu-moe/ui/charts';\n" +
+    source.replace(
+      '<Button onClick={',
+      '<DataChart title="独立图表验证" kind="bar" valueLabel="请求数" data={[{label:"示例",value:12}]} />\n      <Button onClick={',
+    ),
+);
 const manifest = JSON.parse(await readFile(join(project, 'package.json'), 'utf8'));
 const files = await readdir(artifacts);
 const theme =
@@ -90,6 +100,8 @@ try {
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('http://127.0.0.1:5174');
   await page.getByRole('heading', { name: '新的工作空间' }).waitFor();
+  await page.getByText('查看独立图表验证数据', { exact: true }).click();
+  assert.ok(await page.getByRole('table', { name: '独立图表验证数据' }).isVisible());
   const button = page.getByRole('button', { name: '检查交互' });
   assert.ok(
     await button.evaluate((el) => getComputedStyle(el).minHeight === '44px'),
@@ -121,6 +133,7 @@ try {
           'mobile navigation',
           'no browser errors',
           'portable Agent docs and design checker',
+          'charts subpath and accessible data table',
         ],
       },
       null,

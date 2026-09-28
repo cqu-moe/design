@@ -14,6 +14,28 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/settings" replace /> },
       {
+        path: 'admin',
+        lazy: async () => ({ Component: (await import('./pages/admin/state')).AdminLayout }),
+        children: [
+          {
+            index: true,
+            lazy: async () => ({ Component: (await import('./pages/admin/dashboard')).Dashboard }),
+          },
+          {
+            path: 'analytics',
+            lazy: async () => ({ Component: (await import('./pages/admin/analytics')).Analytics }),
+          },
+          {
+            path: 'users',
+            lazy: async () => ({ Component: (await import('./pages/admin/users')).Users }),
+          },
+          {
+            path: 'clients',
+            lazy: async () => ({ Component: (await import('./pages/admin/clients')).Clients }),
+          },
+        ],
+      },
+      {
         path: 'settings',
         lazy: async () => ({ Component: (await import('./pages/settings')).Settings }),
       },

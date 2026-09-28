@@ -1,6 +1,16 @@
 import { AppShell, ContentContainer, ThemeMenu } from '@cqu-moe/ui';
 import { NavLink, Outlet, useLocation } from 'react-router';
-import { UserRound, Layers, FolderOpen, Box, CheckCheck } from 'lucide-react';
+import {
+  UserRound,
+  Layers,
+  FolderOpen,
+  Box,
+  CheckCheck,
+  LayoutDashboard,
+  ChartNoAxesCombined,
+  Users,
+  MonitorSmartphone,
+} from 'lucide-react';
 export function App() {
   const { pathname } = useLocation();
   return (
@@ -15,7 +25,7 @@ export function App() {
       }
       utilities={
         <>
-          <span className="preview-label">预览 · 0.1</span>
+          <span className="preview-label">预览 · 0.2</span>
           <ThemeMenu />
         </>
       }
@@ -29,6 +39,23 @@ export function App() {
           <NavLink to="/items">
             <FolderOpen aria-hidden="true" />
             服务管理
+          </NavLink>
+          <span className="ds-nav-label">后台管理</span>
+          <NavLink to="/admin" end>
+            <LayoutDashboard aria-hidden="true" />
+            仪表盘
+          </NavLink>
+          <NavLink to="/admin/analytics">
+            <ChartNoAxesCombined aria-hidden="true" />
+            数据分析
+          </NavLink>
+          <NavLink to="/admin/users">
+            <Users aria-hidden="true" />
+            用户管理
+          </NavLink>
+          <NavLink to="/admin/clients">
+            <MonitorSmartphone aria-hidden="true" />
+            客户端管理
           </NavLink>
           <span className="ds-nav-label">设计系统</span>
           <NavLink to="/components">

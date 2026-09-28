@@ -54,3 +54,24 @@ test('desktop service list uses compact width and rows', async ({ page }) => {
   const row = page.getByRole('row').nth(1);
   expect((await row.boundingBox())!.height).toBeLessThanOrEqual(72);
 });
+
+test('inline failure retains drafts and global validation returns to the invalid tab', async ({
+  page,
+}) => {
+  await page.goto('/settings');
+  await page.getByLabel('显示名称', { exact: true }).fill('尚未保存');
+  await page.getByText('演示状态', { exact: true }).click();
+  await page.getByLabel('模拟保存失败').check();
+  await page.getByRole('button', { name: '保存显示名称', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('保存失败');
+  await expect(page.getByRole('button', { name: '保存显示名称', exact: true })).toBeEnabled();
+  await page.getByLabel('联系邮箱', { exact: true }).fill('invalid');
+  await page.getByRole('tab', { name: '通知', exact: true }).click();
+  await page.getByRole('button', { name: '保存更改', exact: true }).click();
+  await expect(page.getByRole('tab', { name: '个人资料', exact: true })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await expect(page.getByLabel('联系邮箱', { exact: true })).toBeFocused();
+  await expect(page.getByLabel('显示名称', { exact: true })).toHaveValue('尚未保存');
+});

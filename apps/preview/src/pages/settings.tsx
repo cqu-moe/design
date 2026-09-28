@@ -42,6 +42,7 @@ export function Settings() {
   const lock = useRef(false);
   const [result, setResult] = useState<{ kind: 'success' | 'error'; text: string } | null>(null);
   const [fail, setFail] = useState(false);
+  const [focusField, setFocusField] = useState<Field | null>(null);
   const dirty = (Object.keys(draft) as (keyof Profile)[]).filter(
     (key) => draft[key] !== saved[key],
   );
@@ -70,9 +71,7 @@ export function Settings() {
     const invalid = fields.find((field) => next[field]);
     if (invalid) {
       if (section !== 'profile') choose('profile');
-      requestAnimationFrame(() =>
-        document.getElementById(invalid === 'name' ? 'display-name' : 'email')?.focus(),
-      );
+      setFocusField(invalid);
       return;
     }
     lock.current = true;
@@ -144,6 +143,12 @@ export function Settings() {
                           <div className="inline-save-row">
                             <Input
                               id={id}
+                              ref={(element) => {
+                                if (element && focusField === field) {
+                                  element.focus();
+                                  setFocusField(null);
+                                }
+                              }}
                               name={field}
                               type={field === 'email' ? 'email' : 'text'}
                               autoComplete={field}

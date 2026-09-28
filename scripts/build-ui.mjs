@@ -1,8 +1,8 @@
 import { build } from 'esbuild';
 import { execFileSync } from 'node:child_process';
 await build({
-  entryPoints: ['src/index.ts'],
-  outfile: 'dist/index.js',
+  entryPoints: ['src/index.ts', 'src/charts.tsx'],
+  outdir: 'dist',
   bundle: true,
   format: 'esm',
   target: 'es2022',
@@ -27,5 +27,6 @@ await copyFile('../../scripts/check-design.mjs', 'dist/check-design.mjs');
 await cp('../../apps/preview/src/pages', 'dist/examples/pages', { recursive: true });
 await copyFile('../../apps/preview/src/styles.css', 'dist/examples/styles.css');
 await copyFile('../../apps/preview/src/demo-data.ts', 'dist/examples/demo-data.ts');
+await copyFile('../../apps/preview/src/admin-data.ts', 'dist/examples/admin-data.ts');
 await cp('../../docs/screenshots', 'dist/docs/screenshots', { recursive: true });
 await copyFile('../../docs/contrast.json', 'dist/docs/contrast.json');

@@ -8,7 +8,7 @@ pnpm build
 pnpm dev
 ```
 
-打开 http://127.0.0.1:5173/settings。预览包含设置、服务列表、详情及组件状态。
+打开 http://127.0.0.1:5173/settings。预览包含设置子页面、内联与全局保存、紧凑服务列表，以及 /admin 后台示例（仪表盘、图表、用户批量管理、客户端管理）。
 修改共享包源码后，执行 pnpm --filter @cqu-moe/theme build 或 pnpm --filter @cqu-moe/ui build。
 
 - [Agent 入口](AGENTS.md)
@@ -24,4 +24,4 @@ pnpm verify:consumer
 
 首次运行浏览器测试需安装 Chromium：pnpm exec playwright install chromium。
 需要 Node.js 22.12+ 和 pnpm 11；本次在 Node.js 22.22.3、pnpm 11.19.0 验证。
-包版本为 0.1.0，尚未发布。不要直接从公共 registry 安装本项目包名。
+包版本为 0.2.0，尚未发布。不要直接从公共 registry 安装本项目包名。
