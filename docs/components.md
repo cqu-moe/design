@@ -56,3 +56,9 @@ Skeleton 保留内容形状；空和错误状态写明恢复动作，不让加�
 
 ThemeProvider 放在应用根部。ThemeMenu 用于全局外观选择；useTheme 提供 preference、resolvedTheme、setPreference。
 AppShell、ContentContainer、PageHeader 的接口见 layout.md，业务逻辑不放进共享外壳。
+
+## Tabs
+
+同一任务中的并列子页面使用 Tabs、TabsList、TabsTrigger、TabsContent；账号设置示例使用 line 变体。默认变体用于紧凑分段选择。
+支持方向键、Home/End；每个 Content 与 Trigger 使用相同 value。业务草稿放在 Tabs 上层，避免切换时丢失。
+字段旁的保存按钮只提交该字段，全局保存提交全部草稿。两者使用同一个保存状态与并发锁。

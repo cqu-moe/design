@@ -25,6 +25,7 @@
   --radius-lg: 0.75rem;
   --content-reading: 48rem;
   --content-standard: 75rem;
+  --content-compact: 64rem;
   --content-wide: 90rem;
   --sidebar-width: 15rem;
   --ease-out: cubic-bezier(0.19, 1, 0.22, 1);

@@ -1,7 +1,8 @@
 import { AppShell, ContentContainer, ThemeMenu } from '@cqu-moe/ui';
-import { NavLink, Outlet } from 'react-router';
+import { NavLink, Outlet, useLocation } from 'react-router';
 import { UserRound, Layers, FolderOpen, Box, CheckCheck } from 'lucide-react';
 export function App() {
+  const { pathname } = useLocation();
   return (
     <AppShell
       brand={
@@ -46,7 +47,11 @@ export function App() {
         </>
       }
     >
-      <ContentContainer>
+      <ContentContainer
+        width={
+          pathname.startsWith('/items') || pathname.startsWith('/settings') ? 'compact' : 'standard'
+        }
+      >
         <Outlet />
       </ContentContainer>
     </AppShell>

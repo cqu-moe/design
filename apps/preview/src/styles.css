@@ -53,22 +53,6 @@ code {
   color: var(--muted-foreground);
   line-height: 1.8;
 }
-.section-links {
-  display: flex;
-  gap: var(--space-6);
-  border-bottom: 1px solid var(--border);
-  margin-bottom: var(--space-8);
-  font-size: var(--text-sm);
-}
-.section-links a {
-  padding-block: var(--space-3);
-  color: var(--muted-foreground);
-  text-decoration: none;
-}
-.section-links a:first-child {
-  color: var(--foreground);
-  border-bottom: 2px solid var(--foreground);
-}
 .settings-form {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -329,7 +313,7 @@ code {
   background: var(--muted);
 }
 .service-list td {
-  padding: var(--space-5) var(--space-4);
+  padding: var(--space-3) var(--space-4);
   font-size: var(--text-sm);
 }
 .service-title {
@@ -557,10 +541,65 @@ code {
   .list-toolbar [data-slot='select-trigger'] {
     min-width: 0;
   }
-  .section-links {
-    gap: var(--space-5);
-  }
+
   .details > div {
     grid-template-columns: 1fr 2fr;
+  }
+}
+
+.settings-tab-list {
+  margin-bottom: var(--space-5);
+}
+.settings-panel-viewport {
+  overflow-x: clip;
+}
+.settings-pane {
+  margin: 0;
+  min-height: 22rem;
+}
+.settings-pane .settings-section {
+  border-bottom: 0;
+}
+.inline-save-row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+.inline-save-row input {
+  min-width: 0;
+  flex: 1;
+}
+.inline-save-row button {
+  flex-shrink: 0;
+}
+.settings-form .form-footer {
+  border-top: 1px solid var(--border);
+}
+.settings-pane[data-direction='forward'][data-state='active'] {
+  animation: settings-forward 180ms var(--ease-out);
+}
+.settings-pane[data-direction='backward'][data-state='active'] {
+  animation: settings-backward 180ms var(--ease-out);
+}
+@keyframes settings-forward {
+  from {
+    opacity: 0;
+    transform: translateX(var(--space-4));
+  }
+}
+@keyframes settings-backward {
+  from {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--space-4)));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .settings-pane {
+    animation: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .settings-pane {
+    min-height: 22rem;
   }
 }

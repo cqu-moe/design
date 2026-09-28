@@ -184,3 +184,7 @@
     gap: var(--space-1);
   }
 }
+
+.ds-container[data-width='compact'] {
+  max-width: var(--content-compact);
+}

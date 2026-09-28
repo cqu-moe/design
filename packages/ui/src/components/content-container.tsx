@@ -3,7 +3,7 @@ export function ContentContainer({
   width = 'standard',
   children,
 }: {
-  width?: 'reading' | 'standard' | 'wide';
+  width?: 'reading' | 'compact' | 'standard' | 'wide';
   children: ReactNode;
 }) {
   return (
