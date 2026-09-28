@@ -52,6 +52,11 @@ export function Users() {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const trigger = useRef<HTMLButtonElement | null>(null);
+  const searchRef = useRef<HTMLInputElement | null>(null);
+  function restoreFocus(target: HTMLButtonElement | null) {
+    if (target?.isConnected && !target.disabled) target.focus();
+    else searchRef.current?.focus();
+  }
   const filtered = users.filter(
     (user) =>
       `${user.name} ${user.email}`.toLowerCase().includes(query.toLowerCase()) &&
@@ -172,6 +177,7 @@ export function Users() {
         <div className="search-field">
           <Search aria-hidden="true" />
           <Input
+            ref={searchRef}
             type="search"
             aria-label="搜索用户"
             placeholder="搜索姓名或邮箱…"
@@ -221,41 +227,57 @@ export function Users() {
         </div>
       )}
       {selected.size > 0 && (
-        <div className="bulk-toolbar">
-          <strong>已选择 {selected.size} 位用户</strong>
-          <Select value={bulkAction} onValueChange={(value) => setBulkAction(value as BulkAction)}>
-            <SelectTrigger aria-label="批量操作">
-              <SelectValue placeholder="选择批量操作" />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(bulkLabels).map(([value, label]) => (
-                <SelectItem value={value} key={value}>
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Button
-            disabled={!bulkAction}
-            onClick={(event) => {
-              if (!bulkAction) return;
-              bulkTrigger.current = event.currentTarget;
-              setBulkDraft({ action: bulkAction, ids: [...selected] });
-              setBulkOpen(true);
-            }}
-          >
-            应用更改
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={() => {
-              setSelected(new Set());
-              setBulkAction('');
-            }}
-          >
-            清空选择
-          </Button>
-          <span>跨页保留选择，修改筛选时清空。</span>
+        <div
+          className="bulk-toolbar"
+          role="region"
+          aria-label="批量操作工具栏"
+          aria-describedby="bulk-help"
+        >
+          <div className="bulk-selection">
+            <strong title="跨页保留选择，修改筛选时清空。">已选择 {selected.size} 位用户</strong>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => {
+                setSelected(new Set());
+                setBulkAction('');
+              }}
+            >
+              清除选择
+            </Button>
+          </div>
+          <div className="bulk-actions">
+            <Select
+              value={bulkAction}
+              onValueChange={(value) => setBulkAction(value as BulkAction)}
+            >
+              <SelectTrigger size="sm" aria-label="批量操作">
+                <SelectValue placeholder="选择批量操作" />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(bulkLabels).map(([value, label]) => (
+                  <SelectItem value={value} key={value}>
+                    {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button
+              size="sm"
+              disabled={!bulkAction}
+              onClick={(event) => {
+                if (!bulkAction) return;
+                bulkTrigger.current = event.currentTarget;
+                setBulkDraft({ action: bulkAction, ids: [...selected] });
+                setBulkOpen(true);
+              }}
+            >
+              应用更改
+            </Button>
+          </div>
+          <span id="bulk-help" className="sr-only">
+            跨页保留选择，修改筛选时清空。
+          </span>
         </div>
       )}
       <p className="table-scroll-hint">左右滑动查看完整表格</p>
@@ -384,8 +406,7 @@ export function Users() {
         <DialogContent
           onCloseAutoFocus={(event) => {
             event.preventDefault();
-            if (bulkTrigger.current?.isConnected) bulkTrigger.current.focus();
-            else document.getElementById('select-all-users')?.focus();
+            restoreFocus(bulkTrigger.current);
           }}
         >
           <DialogTitle>确认批量更改</DialogTitle>
@@ -422,7 +443,7 @@ export function Users() {
         <DialogContent
           onCloseAutoFocus={(event) => {
             event.preventDefault();
-            trigger.current?.focus();
+            restoreFocus(trigger.current);
           }}
           onOpenAutoFocus={(event) => {
             if (matchMedia('(pointer: coarse)').matches) {

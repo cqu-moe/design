@@ -45,3 +45,34 @@ test('advanced filters apply together, validate dates, reset and clear selection
   await page.getByRole('button', { name: '重置全部筛选', exact: true }).click();
   await expect(page.getByText('共 6 位用户', { exact: true })).toBeVisible();
 });
+
+test('editing a filtered-out row returns focus to search', async ({ page }) => {
+  await page.goto('/admin/users');
+  const search = page.getByRole('searchbox', { name: '搜索用户' });
+  await search.fill('林同学');
+  await page.getByRole('button', { name: '编辑林同学' }).click();
+  await page.getByRole('dialog').getByLabel('显示名称', { exact: true }).fill('已改名');
+  await page.getByRole('button', { name: '保存用户' }).click();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(search).toBeFocused();
+});
+test('bulk operation that empties the filter returns focus to search', async ({ page }) => {
+  await page.goto('/admin/users');
+  await page.getByRole('combobox', { name: '筛选用户状态' }).click();
+  await page.getByRole('option', { name: '正常', exact: true }).click();
+  await page.getByRole('checkbox', { name: '选择本页全部用户' }).check();
+  await page.getByRole('combobox', { name: '批量操作' }).click();
+  await page.getByRole('option', { name: '停用账号', exact: true }).click();
+  await page.getByRole('button', { name: '应用更改', exact: true }).click();
+  await page.getByRole('button', { name: '确认应用', exact: true }).click();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(page.getByRole('checkbox', { name: '选择本页全部用户' })).toBeDisabled();
+  await expect(page.getByRole('searchbox', { name: '搜索用户' })).toBeFocused();
+});
+
+test('desktop bulk toolbar remains a compact single row', async ({ page }) => {
+  await page.setViewportSize({ width: 1000, height: 900 });
+  await page.goto('/admin/users');
+  await page.getByRole('checkbox', { name: '选择本页全部用户' }).check();
+  expect((await page.locator('.bulk-toolbar').boundingBox())!.height).toBeLessThanOrEqual(52);
+});

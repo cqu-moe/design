@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-09-28T16:05:57.571Z",
+  "checkedAt": "2026-09-28T16:34:28.518Z",
   "result": "passed",
-  "workspace": "/Users/uu/Developer/cqu-moe/design/.worktrees/design-system/.verification/consumer-xuDXKB",
+  "workspace": "/Users/uu/Developer/cqu-moe/design/.worktrees/design-system/.verification/consumer-gmGugB",
   "checks": [
     "tarball install",
     "TypeScript and production build",
@@ -10,6 +10,7 @@
     "theme persistence",
     "mobile navigation",
     "no browser errors",
-    "portable Agent docs and design checker"
+    "portable Agent docs and design checker",
+    "charts subpath and accessible data table"
   ]
 }

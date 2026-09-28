@@ -209,3 +209,10 @@
     height: 15rem;
   }
 }
+
+@media (pointer: fine) {
+  .ds-button[data-size='sm'],
+  [data-slot='select-trigger'][data-size='sm'] {
+    min-height: 2rem;
+  }
+}

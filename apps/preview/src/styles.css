@@ -886,8 +886,8 @@ code {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
   background: var(--muted);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -902,7 +902,7 @@ code {
   color: var(--muted-foreground);
 }
 .bulk-toolbar [data-slot='select-trigger'] {
-  min-width: 10rem;
+  min-width: 8rem;
 }
 .admin-table .selection-column {
   width: var(--space-12);
@@ -960,4 +960,20 @@ code {
   .bulk-toolbar > span {
     flex-basis: 100%;
   }
+}
+
+.bulk-toolbar {
+  justify-content: space-between;
+}
+.bulk-selection,
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.bulk-selection {
+  flex-shrink: 0;
+}
+.bulk-actions {
+  margin-left: auto;
 }

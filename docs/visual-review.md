@@ -20,3 +20,5 @@
 技能使用：emil-ask-emil 路由 foundations/color/forms；animate 与 css-techniques 决定动效；touch-and-accessibility 与 ui-review 用于复核。
 
 最终独立审查补充了组件实际合成色检查，修复了深色危险按钮对比度及菜单选项触屏高度。Token 对比度报告只描述 token 配对，不能替代组件状态测试。
+
+0.2.0 新截图由 capture-admin.mjs 生成，覆盖后台模块、设置子页面、用户批量工具栏与高级筛选。用户已对布局提出并确认迭代方向，具体视觉仍可继续调整；未进行真机验收。
