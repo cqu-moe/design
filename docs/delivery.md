@@ -5,7 +5,7 @@
 ## 验证证据
 
 - pnpm check：生产构建、TypeScript、5 项主题逻辑测试、5 项设计与分发检查测试通过。
-- pnpm test:e2e：24 项 Chromium 浏览器测试通过，包含双主题、多宽度、触屏、键盘、减少动态效果、主题同步和演示业务流程。
+- pnpm test:e2e：25 项 Chromium 浏览器测试通过，包含双主题、多宽度、触屏、键盘、减少动态效果、主题同步和演示业务流程。
 - pnpm verify:consumer：两个 tarball 在独立应用中安装，类型和生产构建通过；React 实例一致，CSS 不依赖共享源码扫描，主题和移动导航可用。记录见 consumer-verification.json。
 - 独立 Agent 只凭入口文档制作页面，主 Agent 对产物执行类型、规则及交互验证。见 agent-verification.md。
 - 截图及颜色测量见 visual-review.md、screenshots/、contrast.json。
@@ -37,3 +37,5 @@
 外部安装验证又发现 pnpm 符号链接使检查器未执行 CLI；改为真实路径比较，加入符号链接回归，并在消费副本中故意写入违规颜色，确认检查失败后移除并重新通过。
 
 审查明确未覆盖真实业务 API、SSR Provider、registry 发布、蓄意绕过检查器、跨浏览器/真机验收及用户视觉批准。这些均保持既定范围或待验收状态，不作为已完成事项。没有延期处理的 Minor。
+
+路由分包后的首次加载增加明确的状态反馈，HydrateFallback 警告已由回归测试覆盖。

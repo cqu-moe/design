@@ -37,3 +37,13 @@ test('keyboard and reduced motion disable drawer movement and rapid toggles reco
   await expect(page.getByRole('dialog')).not.toBeVisible();
   await expect(trigger).toBeEnabled();
 });
+
+test('lazy route initialization has an explicit loading fallback', async ({ page }) => {
+  const warnings: string[] = [];
+  page.on('console', (message) => {
+    if (message.type() === 'warning') warnings.push(message.text());
+  });
+  await page.goto('/settings');
+  await expect(page.getByRole('heading', { name: '账号设置', exact: true })).toBeVisible();
+  expect(warnings.filter((message) => message.includes('HydrateFallback'))).toEqual([]);
+});
