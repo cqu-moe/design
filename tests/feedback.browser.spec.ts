@@ -8,6 +8,7 @@ test('one global toaster follows theme and updates an existing notification', as
   await expect(page.locator('section[aria-label="通知"]')).toHaveCount(1);
   await page.getByRole('button', { name: '成功通知', exact: true }).click();
   await expect(page.locator('[data-sonner-toast]')).toHaveCount(1);
+  await expect(page.locator('[data-sonner-toast] [data-icon] svg')).toHaveClass(/lucide/);
   await page.getByRole('button', { name: '成功通知', exact: true }).click();
   await expect(page.locator('[data-sonner-toast]')).toHaveCount(1);
   await page.getByRole('button', { name: '外观设置' }).click();
@@ -22,6 +23,7 @@ test('async toast settles, undo works, and persistent feedback remains actionabl
   await page.goto('/feedback');
   await page.getByRole('button', { name: '模拟保存失败', exact: true }).click({ timeout: 3000 });
   await expect(page.locator('[data-sonner-toast]')).toContainText('正在保存');
+  await expect(page.locator('.ds-toast-spinner')).toHaveAttribute('aria-hidden', 'true');
   await expect(page.locator('[data-sonner-toast]')).toContainText('保存失败');
   await page.getByRole('button', { name: '清空通知', exact: true }).click();
   await page.getByRole('button', { name: '归档演示记录', exact: true }).click();

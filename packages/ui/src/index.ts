@@ -21,3 +21,4 @@ export * from './components/ui/tabs';
 export * from './notifications';
 export * from './components/ui/alert';
 export * from './components/action-button';
+export * from './components/page-state';

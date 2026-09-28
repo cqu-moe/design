@@ -1,56 +1,37 @@
-import { mkdir, mkdtemp, cp, readFile, writeFile, readdir, realpath, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, writeFile, realpath, rm, rename } from 'node:fs/promises';
 import { execFileSync, spawn, spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
 import { chromium } from '@playwright/test';
-const root = process.cwd();
+import { createApp } from './create-app.mjs';
 await mkdir('.verification', { recursive: true });
 const work = await mkdtemp(resolve('.verification/consumer-'));
-const artifacts = join(work, 'artifacts');
-await mkdir(artifacts);
-for (const name of ['theme', 'ui'])
-  execFileSync('pnpm', ['pack', '--pack-destination', artifacts], {
-    cwd: join(root, 'packages', name),
-    stdio: 'inherit',
-  });
-const project = join(work, 'app');
-await cp('templates/app', project, { recursive: true });
+const generated = await createApp(join(work, 'generated'));
+const project = join(work, 'relocated-app');
+await rename(generated, project);
 const entry = join(project, 'src/main.tsx');
 const source = await readFile(entry, 'utf8');
-await writeFile(
-  entry,
-  "import {DataChart} from '@cqu-moe/ui/charts';\nimport {ActionButton} from '@cqu-moe/ui';\n" +
-    source.replace(
-      '<Button onClick={',
-      '<ActionButton state="success" labels={{idle:"保存",loading:"保存中",success:"状态组件已就绪",error:"重试"}} /><DataChart title="独立图表验证" kind="bar" valueLabel="请求数" data={[{label:"示例",value:12}]} />\n      <Button onClick={',
-    ),
-);
-const manifest = JSON.parse(await readFile(join(project, 'package.json'), 'utf8'));
-const files = await readdir(artifacts);
-const theme =
-  'file:' +
-  join(
-    artifacts,
-    files.find((f) => f.includes('-theme-')),
-  );
-const ui =
-  'file:' +
-  join(
-    artifacts,
-    files.find((f) => f.includes('-ui-')),
-  );
-manifest.dependencies['@cqu-moe/theme'] = theme;
-manifest.dependencies['@cqu-moe/ui'] = ui;
-await writeFile(join(project, 'package.json'), JSON.stringify(manifest, null, 2));
-await writeFile(
-  join(project, 'pnpm-workspace.yaml'),
-  `packages:\n  - .\noverrides:\n  '@cqu-moe/theme': '${theme}'\nallowBuilds:\n  esbuild: true\n  '@parcel/watcher': true\n`,
-);
-await writeFile(join(project, '.npmrc'), 'registry=https://registry.npmjs.org\nsave-exact=true\n');
 execFileSync('pnpm', ['install', '--no-frozen-lockfile'], { cwd: project, stdio: 'inherit' });
 execFileSync('pnpm', ['build'], { cwd: project, stdio: 'inherit' });
 execFileSync('pnpm', ['check:design'], { cwd: project, stdio: 'inherit' });
+await writeFile(
+  entry,
+  "import {DataChart} from '@cqu-moe/ui/charts';\nimport {ActionButton} from '@cqu-moe/ui';\n" +
+    source
+      .replace(
+        'children: [',
+        `children: [
+      { path: 'verify-forbidden', loader: () => { throw new Response('PRIVATE_SERVER_MESSAGE', { status: 403 }); } },
+    `,
+      )
+      .replace(
+        '<Button onClick={',
+        '<ActionButton state="success" labels={{idle:"保存",loading:"保存中",success:"状态组件已就绪",error:"重试"}} /><DataChart title="独立图表验证" kind="bar" valueLabel="请求数" data={[{label:"示例",value:12}]} />\n      <Button onClick={',
+      ),
+);
+execFileSync('pnpm', ['build'], { cwd: project, stdio: 'inherit' });
+
 await writeFile(join(project, 'src', 'intentional-rule-violation.css'), '.bad { color: #ff0000; }');
 const rejected = spawnSync('pnpm', ['check:design'], { cwd: project, encoding: 'utf8' });
 assert.equal(rejected.status, 1, 'The installed scanner must reject a deliberate raw color');
@@ -104,6 +85,17 @@ try {
     await page.getByRole('button', { name: '状态组件已就绪' }).getAttribute('data-action-state'),
     'success',
   );
+  assert.equal(
+    await page
+      .getByRole('button', { name: '检查交互' })
+      .locator('svg')
+      .getAttribute('stroke-width'),
+    '2',
+  );
+  assert.equal(
+    await page.getByRole('button', { name: '检查交互' }).locator('svg').getAttribute('aria-hidden'),
+    'true',
+  );
   await page.getByRole('button', { name: '检查交互' }).click();
   await page
     .locator('[data-sonner-toast]')
@@ -126,6 +118,13 @@ try {
   await page.getByRole('button', { name: '打开导航' }).click();
   await page.getByRole('dialog').waitFor();
   await page.keyboard.press('Escape');
+  await page.goto('http://127.0.0.1:5174/verify-forbidden');
+  await page.getByRole('heading', { name: '没有访问权限', exact: true }).waitFor();
+  assert.equal(await page.getByText('PRIVATE_SERVER_MESSAGE').count(), 0);
+  await page.getByRole('link', { name: '返回首页', exact: true }).click();
+  await page.goto('http://127.0.0.1:5174/missing');
+  await page.getByRole('heading', { name: '未找到页面', exact: true }).waitFor();
+  await page.getByRole('link', { name: '返回首页', exact: true }).click();
   assert.deepEqual(errors, []);
   await page.screenshot({ path: join(work, 'consumer-dark-mobile.png'), fullPage: true });
   await writeFile(
@@ -136,7 +135,11 @@ try {
         result: 'passed',
         workspace: work,
         checks: [
+          'generated template with portable relative tarballs',
           'tarball install',
+          'lucide-react direct import and decorative icon semantics',
+          'not-found and forbidden recovery without exposing server errors',
+          'ActionButton from installed package',
           'TypeScript and production build',
           'single React instance',
           'standalone CSS',

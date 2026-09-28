@@ -15,7 +15,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-  Skeleton,
+  PageState,
 } from '@cqu-moe/ui';
 import {
   Search,
@@ -24,8 +24,6 @@ import {
   ChevronRight,
   CheckCircle2,
   PauseCircle,
-  AlertCircle,
-  FolderOpen,
 } from 'lucide-react';
 import { items } from '../demo-data';
 export function Items() {
@@ -49,63 +47,84 @@ export function Items() {
       <PageHeader
         title="服务管理"
         description="查看工作空间中的服务与运行状态。"
-        actions={<span className="preview-badge">{items.length} 个服务 · 演示数据</span>}
+        actions={
+          scenario === 'normal' ? (
+            <span className="preview-badge">{items.length} 个服务 · 演示数据</span>
+          ) : undefined
+        }
       />
-      <div className="list-toolbar">
-        <div className="search-field">
-          <Search aria-hidden="true" />
-          <Input
-            type="search"
-            aria-label="搜索服务"
-            placeholder="搜索服务…"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
+      {scenario !== 'forbidden' && (
+        <div className="list-toolbar">
+          <div className="search-field">
+            <Search aria-hidden="true" />
+            <Input
+              type="search"
+              aria-label="搜索服务"
+              placeholder="搜索服务…"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setPage(1);
+              }}
+            />
+          </div>
+          <Select
+            value={status}
+            onValueChange={(v) => {
+              setStatus(v);
               setPage(1);
             }}
-          />
+          >
+            <SelectTrigger aria-label="筛选状态">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">全部状态</SelectItem>
+              <SelectItem value="active">运行中</SelectItem>
+              <SelectItem value="paused">已暂停</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <Select
-          value={status}
-          onValueChange={(v) => {
-            setStatus(v);
-            setPage(1);
-          }}
-        >
-          <SelectTrigger aria-label="筛选状态">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">全部状态</SelectItem>
-            <SelectItem value="active">运行中</SelectItem>
-            <SelectItem value="paused">已暂停</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      )}
       {scenario === 'loading' ? (
-        <div className="loading-list" aria-label="正在加载">
-          {[1, 2, 3].map((x) => (
-            <Skeleton key={x} className="loading-row" />
-          ))}
-        </div>
+        <PageState state="loading" title="正在加载服务" description="正在获取服务列表，请稍候。" />
+      ) : scenario === 'forbidden' ? (
+        <PageState
+          state="forbidden"
+          title="没有查看服务的权限"
+          description="请联系工作空间管理员确认你的访问权限。"
+          action={
+            <Button asChild variant="outline">
+              <Link to="/settings">返回账号设置</Link>
+            </Button>
+          }
+        />
       ) : scenario === 'error' ? (
-        <div className="empty-state" role="alert">
-          <AlertCircle />
-          <h2>暂时无法加载服务</h2>
-          <p>请重试，筛选条件会为你保留。</p>
-          <Button variant="outline" onClick={() => setScenario('normal')}>
-            重新加载
-          </Button>
-        </div>
-      ) : !filtered.length ? (
-        <div className="empty-state">
-          <FolderOpen />
-          <h2>没有找到匹配的服务</h2>
-          <p>试试其他名称，或清除当前筛选。</p>
-          <Button variant="outline" onClick={clear}>
-            清除筛选
-          </Button>
-        </div>
+        <PageState
+          state="error"
+          title="暂时无法加载服务"
+          description="请重试，筛选条件会为你保留。"
+          action={
+            <Button variant="outline" onClick={() => setScenario('normal')}>
+              重新加载
+            </Button>
+          }
+        />
+      ) : scenario === 'empty' || !filtered.length ? (
+        <PageState
+          state="empty"
+          title={scenario === 'empty' ? '还没有服务' : '没有找到匹配的服务'}
+          description={
+            scenario === 'empty'
+              ? '服务接入后会显示在这里。这是空数据演示。'
+              : '试试其他名称，或清除当前筛选。'
+          }
+          action={
+            <Button variant="outline" onClick={clear}>
+              清除筛选
+            </Button>
+          }
+        />
       ) : (
         <div className="service-list">
           <Table>
@@ -152,32 +171,34 @@ export function Items() {
           </Table>
         </div>
       )}
-      <div className="list-footer">
-        <span>共 {filtered.length} 个服务</span>
-        <div className="pagination">
-          <Button
-            variant="outline"
-            size="icon"
-            aria-label="上一页"
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
-            <ChevronLeft />
-          </Button>
-          <span>
-            {page} / {pages}
-          </span>
-          <Button
-            variant="outline"
-            size="icon"
-            aria-label="下一页"
-            disabled={page >= pages}
-            onClick={() => setPage((p) => p + 1)}
-          >
-            <ChevronRight />
-          </Button>
+      {scenario === 'normal' && (
+        <div className="list-footer">
+          <span>共 {filtered.length} 个服务</span>
+          <div className="pagination">
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="上一页"
+              disabled={page <= 1}
+              onClick={() => setPage((p) => p - 1)}
+            >
+              <ChevronLeft />
+            </Button>
+            <span>
+              {page} / {pages}
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="下一页"
+              disabled={page >= pages}
+              onClick={() => setPage((p) => p + 1)}
+            >
+              <ChevronRight />
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
       <details className="demo-controls">
         <summary>演示状态</summary>
         <label>
@@ -185,6 +206,8 @@ export function Items() {
           <select value={scenario} onChange={(e) => setScenario(e.target.value)}>
             <option value="normal">正常</option>
             <option value="loading">加载中</option>
+            <option value="empty">空数据</option>
+            <option value="forbidden">权限不足</option>
             <option value="error">加载失败</option>
           </select>
         </label>

@@ -29,6 +29,10 @@ export function checkSource(file, source) {
       if (ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier)) {
         const name = node.moduleSpecifier.text;
         if (
+          name === 'react-icons' ||
+          name.startsWith('react-icons/') ||
+          name.startsWith('@heroicons/') ||
+          name.startsWith('@phosphor-icons/') ||
           name === 'radix-ui' ||
           name === 'sonner' ||
           name.startsWith('sonner/') ||
@@ -37,7 +41,10 @@ export function checkSource(file, source) {
           name.startsWith('./components/ui/') ||
           /@cqu-moe\/[^/]+\/src(?:\/|$)/.test(name)
         )
-          report(node.getStart(tree), '消费项目必须从 @cqu-moe/ui 公开入口复用组件');
+          report(
+            node.getStart(tree),
+            '消费项目从 @cqu-moe/ui 公开入口复用组件；图标统一使用 lucide-react',
+          );
       }
       ts.forEachChild(node, inspect);
     };

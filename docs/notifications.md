@@ -1,6 +1,6 @@
 # 通知与反馈
 
-使用 Sonner。共享包导出 Toaster 与原生 toast API，保留 Sonner 的定位、堆叠、滑动关闭和无障碍通知行为。
+使用 Sonner，类型、加载与关闭图标通过 Toaster icons 配置统一为 lucide-react。共享包导出 Toaster 与原生 toast API，保留 Sonner 的定位、堆叠、滑动关闭和无障碍通知行为。
 
 ## 接入
 
@@ -45,4 +45,4 @@ toast.promise(request, { id: 'save-request', loading: '正在保存…', success
 - 系统减少动态效果使用 Sonner 自带支持。/feedback 还有仅当前预览生效的减少动态效果开关，离开后清理。
 
 预览：/feedback。覆盖成功/错误/警告/信息、Promise 状态、撤销、自动关闭、持续通知条、行内校验、弹窗与抽屉。
-认证示例保留行内结果；用户、客户端管理及账号设置的成功反馈已经接入 Toast。
+账号设置和登录注册使用 ActionButton；错误原因及认证后的下一步保留行内反馈。用户、客户端管理的同步操作使用 Toast，不人为增加等待。

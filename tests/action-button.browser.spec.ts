@@ -82,3 +82,19 @@ test('action button respects reduced motion on touch and semantic colors in both
   }
   await context.close();
 });
+
+test('completed form buttons remain readable when disabled', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const theme of ['light', 'dark']) {
+    await page.goto('/settings');
+    await page.evaluate((value) => localStorage.setItem('cqu-moe-theme', value), theme);
+    await page.reload();
+    await page.getByLabel('显示名称', { exact: true }).fill('已保存的名字');
+    const button = page.getByRole('button', { name: '保存显示名称', exact: true });
+    await button.click();
+    await expect(button).toHaveAttribute('data-action-state', 'success');
+    await expect(button).toBeDisabled();
+    expect(await button.evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
+    expect(await button.evaluate(elementContrast)).toBeGreaterThanOrEqual(4.5);
+  }
+});

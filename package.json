@@ -11,7 +11,8 @@
     "test:e2e": "playwright test",
     "check": "pnpm build && pnpm typecheck && pnpm test && node --test tests/*.test.mjs && node scripts/check-design.mjs",
     "verify:consumer": "node scripts/verify-consumer.mjs",
-    "format": "prettier --write packages apps templates scripts tests *.json *.ts"
+    "format": "prettier --write packages apps templates scripts tests *.json *.ts",
+    "create:app": "pnpm build && node scripts/create-app.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

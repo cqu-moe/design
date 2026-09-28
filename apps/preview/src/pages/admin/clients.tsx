@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import {
   Button,
+  PageState,
   toast,
   Input,
   Label,
@@ -187,18 +188,22 @@ export function Clients() {
           </TableBody>
         </Table>
         {!filtered.length && (
-          <div className="empty-state">
-            <h2>没有匹配的客户端</h2>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setQuery('');
-                setKind('all');
-              }}
-            >
-              清除筛选
-            </Button>
-          </div>
+          <PageState
+            state="empty"
+            title="没有匹配的客户端"
+            description="试试其他条件，或清除当前筛选。"
+            action={
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setQuery('');
+                  setKind('all');
+                }}
+              >
+                清除筛选
+              </Button>
+            }
+          />
         )}
       </div>
       <p className="list-footer">共 {filtered.length} 个客户端</p>

@@ -1,23 +1,32 @@
-# 接入其他系统
+# 安装、创建项目与升级
 
-当前包名为 @cqu-moe/theme 与 @cqu-moe/ui，版本 0.4.0，尚未发布到 registry。先使用本地 tarball；实际发布时另行确定命名空间和 registry。
+当前 @cqu-moe/theme 与 @cqu-moe/ui **1.0.0** 尚未发布到 registry。使用本地 tarball，不要执行从公共 registry 安装这两个包的命令。
 
-## 本地完整验证
+## 从源码创建新项目（推荐）
 
-在 design 仓库根目录运行：
+设计仓库根目录：
+
+```sh
+pnpm install
+pnpm create:app ../my-subsystem
+```
+
+命令先构建，再创建新目录、复制模板、打包 theme/ui 到新项目 .design/，写入相对 file: 依赖和 pnpm theme override。目标已存在时直接拒绝，不覆盖用户文件。它不自动安装、不提交 Git、不连接业务 API。
+
+新项目目录：
 
 ```sh
 pnpm install
 pnpm build
-pnpm verify:consumer
+pnpm check:design
+pnpm dev
 ```
 
-脚本打包主题和 UI，在 .verification 下复制独立应用，安装 tarball、编译类型和生产代码、验证单一 React 实例，再通过浏览器检查样式、主题持久化与手机导航。它会打印可用副本路径，且不使用 workspace 源码别名。
+默认 http://127.0.0.1:5174，Node.js 22.12+、pnpm 11。修改项目名和页面标题；提交 .design/*.tgz、pnpm-workspace.yaml、package.json 和锁文件以便复现。
 
-## 创建实际项目
+## 接入已有项目 / 手工分发
 
-1. 将 templates/app 复制到新项目目录，修改项目名称。
-2. 在 design 根目录运行下列命令，生成两个包：
+在设计仓库先 `pnpm build`，再打包：
 
 ```sh
 mkdir -p artifacts
@@ -25,52 +34,54 @@ pnpm --dir packages/theme pack --pack-destination ../../artifacts
 pnpm --dir packages/ui pack --pack-destination ../../artifacts
 ```
 
-3. 在新项目 package.json 中把两个 0.4.0 依赖替换为各自 tarball 的 file: 绝对路径。
-4. 若使用 pnpm，在新项目 pnpm-workspace.yaml 中加 theme override，让 UI 的间接依赖使用同一个 tarball：
+把两个 tgz 复制到业务项目 .design/。按模板合并依赖（不要覆盖业务 package.json）：
+
+```json
+{
+  "dependencies": {
+    "@cqu-moe/theme": "file:./.design/cqu-moe-theme-1.0.0.tgz",
+    "@cqu-moe/ui": "file:./.design/cqu-moe-ui-1.0.0.tgz",
+    "lucide-react": "1.48.0"
+  },
+  "scripts": {
+    "check:design": "node node_modules/@cqu-moe/ui/dist/check-design.mjs src"
+  }
+}
+```
+
+UI 的 peerDependencies 要求 React/React DOM ^19.0.0；检查器需要 TypeScript >=5.9 <8（模板已装）。模板还锁定 React Router 7、Vite、Tailwind 的实际验证版本，详情以模板 package.json 为准。旧系统不兼容时先规划依赖迁移，不使用强制 peer 忽略。
+
+在已有 pnpm-workspace.yaml 合并以下配置；monorepo 保留原 packages 列表，调整 tarball 路径相对于 workspace 根目录，不覆盖整个文件：
 
 ```yaml
 packages:
   - .
 overrides:
-  '@cqu-moe/theme': 'file:/绝对路径/cqu-moe-theme-0.4.0.tgz'
+  '@cqu-moe/theme': 'file:./.design/cqu-moe-theme-1.0.0.tgz'
 allowBuilds:
   esbuild: true
   '@parcel/watcher': true
 ```
 
-5. 在新项目执行 pnpm install、pnpm build、pnpm dev。分发给他人时同时提供两个 tarball，不能留下只在个人电脑有效的 file: 路径。
+运行 pnpm install 并提交锁文件。业务项目的 AGENTS.md 合并模板的消费规则，不覆盖原有项目约束。
 
-发布到 registry 后移除临时 override，依赖锁定准确版本。不要把 workspace:* 直接写入外部项目。
-
-## 样式与主题
-
-模板的 main.tsx 已按以下顺序加载：
+## 根入口和样式
 
 ```tsx
 import '@cqu-moe/theme/styles.css';
 import '@cqu-moe/ui/styles.css';
 import './styles.css';
+// 渲染一次：<ThemeProvider><RouterProvider router={router} /><Toaster /></ThemeProvider>
 ```
 
-消费应用 styles.css 加载一次 Tailwind reset，仅扫描自身源码；共享 UI 已提供编译后的 CSS。
-不要让消费项目扫描 UI 的 src 或 dist 来补齐样式。React、React DOM 和 UI 包的 peer 范围须兼容。
+业务 styles.css 加载一次 Tailwind reset，仅扫描自身源码（见模板）；不要扫描 UI 的 src/dist 补样式。共享包已经编译 CSS，React 实例必须一致。模板 Vite 配置把 themeInitScript 注入 head，在首帧应用偏好；已有构建工具按其 HTML 插件接入同一脚本。部署 CSP 时配置匹配 hash 或 nonce，不全局开放任意内联脚本。
 
-ThemeProvider 包裹应用；ThemeMenu 提供外观切换。模板的 Vite 插件将 themeInitScript 注入 head，在首次绘制前应用偏好。
-若部署配置 CSP，需为这段固定初始化脚本配置匹配的 nonce 或 hash；不要为方便全局开放任意内联脚本。
+完整根入口、路由、Lucide、PageState 和通知组合在 templates/app/src/main.tsx。安装包内也携带 dist/template/，无需个人绝对路径即可阅读模板与对应规则。
 
-## 内容站
+## 更新和内容站
 
-内容站可单独安装 theme 并引入 styles.css，使用语义变量。无脚本时 CSS 跟随系统主题。
-需要手动偏好时，从 theme 导入 themeInitScript，在站点框架的 head 模板中执行，并复用导出的解析/应用函数。
-React ThemeProvider 当前面向客户端应用；不要直接在 SSR 环境调用。内容站保留自己的渲染框架。
+维护者提供同版本的两个 tarball 及迁移说明，业务项目替换依赖/override、运行 pnpm install，再执行 acceptance.md。不要直接改 node_modules 或留旧组件分叉。0.4 → 1.0 为兼容新增 PageState、模板图标/错误页/生成器和消费文档；设置/认证示例改用 ActionButton。
 
-## 更新
+内容站可仅使用 theme/styles.css；无脚本跟随系统，有手动偏好时在框架 head 接入 themeInitScript。当前 React ThemeProvider 面向客户端，不支持直接 SSR 使用；内容站保留自己的渲染框架。
 
-修改共享包后先通过 check、test:e2e、verify:consumer，再同步两个包版本、模板依赖和锁文件。
-如果公开 API、主题变量或视觉行为发生变化，记录具体迁移说明并重新检查消费页面。单独复制旧组件不属于升级方式。
-
-## Agent 随包入口
-
-复制模板时保留 AGENTS.md。它指向安装包内的 dist/DESIGN.md，规则、主题说明、组件用法、参考页面与检查器随 UI 版本一起升级。
-消费项目执行 pnpm check:design；检查器使用 TypeScript，模板已安装这个可选 peer dependency。它不进入应用运行时 bundle。
-脱离源码仓库后，仍可读取 node_modules/@cqu-moe/ui/dist/docs/ 与 dist/examples/，无需依赖个人电脑的 design 绝对路径。
+设计仓库的 `pnpm verify:consumer` 通过同一生成器建立独立应用，安装实际 tarball、构建并验证样式/主题/图标/通知/导航。它是技术安装验证，不是独立 Agent 接入验证。

@@ -17,6 +17,7 @@ AppShell 负责顶部身份区、桌面侧栏、手机导航和正文区域。�
 ## 内容宽度
 
 - reading：48rem，长文或单列内容。
+- compact：64rem，设置与紧凑管理列表。
 - standard：75rem，默认设置和列表页。
 - wide：90rem，二维数据或课表等需要额外空间的页面。
 
@@ -42,7 +43,7 @@ AppShell 负责顶部身份区、桌面侧栏、手机导航和正文区域。�
 
 安装包中的对应参考页面位于 dist/examples/pages/，示例样式为 dist/examples/styles.css。它们用于理解组合方式，不应把 ui 基础组件复制到消费项目。
 
-compact：64rem，适合账号设置和紧凑管理列表。数据多列且确需空间时再使用 standard/wide。
+数据多列且确需空间时再使用 standard/wide。
 
 后台示例位于 apps/preview/src/pages/admin/：dashboard、analytics、users、clients。共用 AdminLayout 的内存演示状态；离开后台或刷新后恢复初始数据。
 管理表格在手机端允许局部横向滚动，保留完整字段和操作，并显示滚动提示。

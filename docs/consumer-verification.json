@@ -1,9 +1,13 @@
 {
-  "checkedAt": "2026-09-28T18:06:30.669Z",
+  "checkedAt": "2026-09-28T18:36:47.815Z",
   "result": "passed",
-  "workspace": "/Users/uu/Developer/cqu-moe/design/.worktrees/design-system/.verification/consumer-DiyD4Z",
+  "workspace": "/Users/uu/Developer/cqu-moe/design/.worktrees/design-system/.verification/consumer-9sMlEy",
   "checks": [
+    "generated template with portable relative tarballs",
     "tarball install",
+    "lucide-react direct import and decorative icon semantics",
+    "not-found and forbidden recovery without exposing server errors",
+    "ActionButton from installed package",
     "TypeScript and production build",
     "single React instance",
     "standalone CSS",

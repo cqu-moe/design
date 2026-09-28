@@ -1,8 +1,7 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router';
 import {
-  Button,
-  toast,
+  ActionButton,
   Input,
   Label,
   Switch,
@@ -13,7 +12,7 @@ import {
   TabsTrigger,
   TabsContent,
 } from '@cqu-moe/ui';
-import { Sun, Moon, Monitor, Check, AlertCircle, ArrowUpRight } from 'lucide-react';
+import { Sun, Moon, Monitor, Check, AlertCircle } from 'lucide-react';
 const sections = ['profile', 'appearance', 'notifications'] as const;
 type Section = (typeof sections)[number];
 type Profile = { name: string; email: string; notify: boolean };
@@ -41,6 +40,20 @@ export function Settings() {
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [pending, setPending] = useState<Field | 'all' | null>(null);
   const lock = useRef(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [outcome, setOutcome] = useState<{
+    scope: Field | 'all';
+    state: 'success' | 'error';
+  } | null>(null);
+  useEffect(
+    () => () => {
+      if (timer.current !== null) clearTimeout(timer.current);
+    },
+    [],
+  );
+  function actionState(scope: Field | 'all') {
+    return pending === scope ? 'loading' : outcome?.scope === scope ? outcome.state : 'idle';
+  }
   const [result, setResult] = useState<string | null>(null);
   const [fail, setFail] = useState(false);
   const [focusField, setFocusField] = useState<Field | null>(null);
@@ -62,13 +75,15 @@ export function Settings() {
       current[field] ? { ...current, [field]: errorFor(field, value) } : current,
     );
     setResult(null);
+    setOutcome(null);
   }
-  async function save(scope: Field | 'all') {
+  function save(scope: Field | 'all') {
     if (lock.current) return;
     const fields: Field[] = scope === 'all' ? ['name', 'email'] : [scope];
     const next = Object.fromEntries(fields.map((field) => [field, errorFor(field, draft[field])]));
     setErrors((current) => ({ ...current, ...next }));
     setResult(null);
+    setOutcome(null);
     const invalid = fields.find((field) => next[field]);
     if (invalid) {
       if (section !== 'profile') choose('profile');
@@ -78,23 +93,19 @@ export function Settings() {
     lock.current = true;
     setPending(scope);
     const snapshot = { ...draft };
-    await new Promise((resolve) => setTimeout(resolve, 450));
-    if (fail) setResult('保存失败，输入已保留，请重试。');
-    else {
-      setSaved((current) =>
-        scope === 'all' ? snapshot : { ...current, [scope]: snapshot[scope] },
-      );
-      toast.success(
-        scope === 'all' ? '已保存全部更改' : `${scope === 'name' ? '显示名称' : '联系邮箱'}已保存`,
-        {
-          id: 'settings-save',
-          description: scope === 'all' ? '仅在本次演示中生效。' : '其他未保存修改保持不变。',
-        },
-      );
-    }
-    setPending(null);
-    lock.current = false;
+    timer.current = setTimeout(() => {
+      if (fail) setResult('保存失败，输入已保留，请重试。');
+      else {
+        setSaved((current) =>
+          scope === 'all' ? snapshot : { ...current, [scope]: snapshot[scope] },
+        );
+      }
+      setOutcome({ scope, state: fail ? 'error' : 'success' });
+      setPending(null);
+      lock.current = false;
+    }, 450);
   }
+
   function submit(event: FormEvent) {
     event.preventDefault();
     void save('all');
@@ -125,7 +136,7 @@ export function Settings() {
                       可单独保存，也可一次保存全部更改。
                     </p>
                   </div>
-                  <fieldset disabled={pending !== null} className="section-fields">
+                  <fieldset className="section-fields">
                     <div className="avatar-row">
                       <span className="avatar" aria-hidden="true">
                         {saved.name.slice(0, 1)}
@@ -150,6 +161,7 @@ export function Settings() {
                                   setFocusField(null);
                                 }
                               }}
+                              disabled={pending !== null}
                               name={field}
                               type={field === 'email' ? 'email' : 'text'}
                               autoComplete={field}
@@ -158,15 +170,23 @@ export function Settings() {
                               aria-describedby={errors[field] ? `${field}-error` : `${field}-help`}
                               onChange={(event) => edit(field, event.target.value)}
                             />
-                            <Button
+                            <ActionButton
                               type="button"
                               variant="outline"
                               aria-label={'保存' + label}
-                              disabled={pending !== null || draft[field] === saved[field]}
-                              onClick={() => void save(field)}
-                            >
-                              {pending === field ? '保存中…' : '保存'}
-                            </Button>
+                              state={actionState(field)}
+                              labels={{
+                                idle: '保存',
+                                loading: '保存中…',
+                                success: '已保存',
+                                error: '重试',
+                              }}
+                              disabled={
+                                (pending !== null && pending !== field) ||
+                                draft[field] === saved[field]
+                              }
+                              onClick={() => save(field)}
+                            />
                           </div>
                           <p id={`${field}-help`} className="field-hint">
                             {draft[field] !== saved[field]
@@ -220,9 +240,9 @@ export function Settings() {
                             </span>
                           </span>
                           <span className="theme-choice-caption">
-                            <Icon size={15} />
+                            <Icon size={16} aria-hidden="true" />
                             {['浅色', '深色', '跟随系统'][i]}
-                            {preference === value && <Check size={14} />}
+                            {preference === value && <Check size={16} aria-hidden="true" />}
                           </span>
                         </button>
                       );
@@ -258,6 +278,7 @@ export function Settings() {
                       onCheckedChange={(notify) => {
                         setDraft((current) => ({ ...current, notify }));
                         setResult(null);
+                        setOutcome(null);
                       }}
                     />
                   </div>
@@ -271,10 +292,17 @@ export function Settings() {
                 </span>
                 <span className="field-hint">仅演示，不会修改真实账号。</span>
               </div>
-              <Button type="submit" disabled={pending !== null || dirty.length === 0}>
-                {pending === 'all' ? '正在保存…' : '保存更改'}
-                {pending !== 'all' && <ArrowUpRight aria-hidden="true" />}
-              </Button>
+              <ActionButton
+                type="submit"
+                state={actionState('all')}
+                labels={{
+                  idle: '保存更改',
+                  loading: '正在保存…',
+                  success: '已保存',
+                  error: '重试保存',
+                }}
+                disabled={(pending !== null && pending !== 'all') || dirty.length === 0}
+              />
             </footer>
             {result && (
               <p role="alert" className="form-result error">

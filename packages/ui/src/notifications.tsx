@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { Toaster as SonnerToaster } from 'sonner';
+import { CircleCheck, CircleX, TriangleAlert, Info, LoaderCircle, X } from 'lucide-react';
 import { useTheme } from './theme-provider';
 export { toast } from 'sonner';
 export function Toaster() {
@@ -10,6 +11,14 @@ export function Toaster() {
       className="ds-toaster"
       position="bottom-right"
       richColors
+      icons={{
+        success: <CircleCheck size={16} aria-hidden="true" />,
+        error: <CircleX size={16} aria-hidden="true" />,
+        warning: <TriangleAlert size={16} aria-hidden="true" />,
+        info: <Info size={16} aria-hidden="true" />,
+        loading: <LoaderCircle size={16} aria-hidden="true" className="ds-toast-spinner" />,
+        close: <X size={12} aria-hidden="true" />,
+      }}
       closeButton
       visibleToasts={3}
       duration={4000}

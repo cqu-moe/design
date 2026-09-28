@@ -21,6 +21,8 @@ const { cp, mkdir, copyFile } = await import('node:fs/promises');
 await mkdir('dist/docs', { recursive: true });
 await mkdir('dist/examples/pages', { recursive: true });
 await copyFile('../../DESIGN.md', 'dist/DESIGN.md');
+await copyFile('../../START-HERE.md', 'dist/START-HERE.md');
+await cp('../../templates/app', 'dist/template', { recursive: true });
 for (const name of [
   'tokens',
   'layout',
@@ -29,6 +31,15 @@ for (const name of [
   'consumption',
   'notifications',
   'visual-review',
+  'agent-start',
+  'agent-prompts',
+  'icons',
+  'states',
+  'business-integration',
+  'acceptance',
+  'feedback-contract',
+  'maintenance',
+  'v1-acceptance',
 ])
   await copyFile(`../../docs/${name}.md`, `dist/docs/${name}.md`);
 await copyFile('../../scripts/check-design.mjs', 'dist/check-design.mjs');

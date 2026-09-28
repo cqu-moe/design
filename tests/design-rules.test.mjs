@@ -11,6 +11,9 @@ test('rejects local colors and arbitrary size utilities', () => {
 });
 test('rejects direct primitives, copied components and cross-package internals', () => {
   for (const name of [
+    'react-icons/fa',
+    '@heroicons/react/24/outline',
+    '@phosphor-icons/react',
     'radix-ui',
     'sonner',
     '@radix-ui/react-dialog',

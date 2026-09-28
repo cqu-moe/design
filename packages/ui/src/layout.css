@@ -188,3 +188,54 @@
 .ds-container[data-width='compact'] {
   max-width: var(--content-compact);
 }
+
+.ds-page-state {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-12) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  overflow-wrap: anywhere;
+}
+.ds-page-state > svg {
+  color: var(--muted-foreground);
+  width: var(--space-8);
+  height: var(--space-8);
+  flex-shrink: 0;
+}
+.ds-page-state h2 {
+  margin: 0;
+  color: var(--foreground);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+.ds-page-state p {
+  margin: var(--space-2) 0 0;
+  color: var(--muted-foreground);
+  font-size: var(--text-sm);
+  max-width: 42em;
+}
+.ds-page-state-action {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+.ds-page-state[data-state='error'] > svg {
+  color: var(--destructive);
+}
+.ds-page-state[data-state='loading'] > svg {
+  animation: ds-action-spin 900ms linear infinite;
+}
+:root[data-motion-preview='reduce'] .ds-page-state > svg,
+:root[data-input='keyboard'] .ds-page-state > svg {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-page-state > svg {
+    animation: none !important;
+  }
+}

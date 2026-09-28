@@ -1,16 +1,18 @@
-# 本项目的设计入口
+# 子系统开发入口
 
-首先阅读 node_modules/@cqu-moe/ui/dist/DESIGN.md，再按任务读取其链接文档。
-这些规范、参考页面与检查器随 UI 包版本分发；不要另建一份独立演化的基础设计规范。
-依赖尚未安装时先按项目 README 安装依赖，不根据组件名猜测变体。
+本项目使用 CQU Moe Design。你负责业务实现，不负责重新设计基础控件。
 
-具体设计使用 emil-ask-emil 路由当前阶段的技能，动效使用 animate。若技能不可用，遵守包内具体规则，并报告技能未执行。
+1. 依赖未安装先读 README.md 完成安装。
+2. 从 node_modules/@cqu-moe/ui/dist/START-HERE.md 开始；再读 node_modules/@cqu-moe/ui/dist/DESIGN.md、dist/docs/agent-start.md。
+3. 按页面读取 dist/docs/ 下的布局、组件、图标、状态、通知、动效说明。参考页在 dist/examples/pages/，类型以 dist/index.d.ts 及其导出为准。
 
-- 只从 @cqu-moe/ui 公开入口导入基础组件，不直接导入 Radix，不复制基础组件源码。
-- 复用 AppShell、ContentContainer、PageHeader；业务数据与权限由本项目负责。
-- 使用语义变量与现有刻度，不硬编码颜色、任意字号或间距。
-- 桌面与手机功能完整，支持浅色与石墨灰深色、键盘、触屏和减少动态效果。
-- 交付前执行 pnpm build 和 pnpm check:design，并用本项目测试工具检查交互和页面截图。
-- 报告使用的 UI 包版本、验证结果、例外及未验证设备；规则检查不等于视觉验收。
+- 基础组件仅从 @cqu-moe/ui 导入，图表从 @cqu-moe/ui/charts，图标从 lucide-react。
+- 复用 AppShell、ContentContainer、PageHeader、PageState；不复制基础组件、不覆盖 .ds-* 内部样式、不从源码路径导入。
+- 主题、单一 Toaster、首帧主题脚本和响应式规则已接入，不再另建。
+- 业务请求、认证、权限由本项目负责；演示数据/定时器须替换。真实成功依赖服务端确认。
+- 保持双主题、桌面/手机完整操作、键盘和减少动态效果。样式使用语义变量。
+- 具体设计用 emil-ask-emil 路由技能，动效用 animate；技能缺失时按包内具体规则执行并报告。
+- 交付前执行 pnpm build、pnpm check:design 和本项目交互测试，按 dist/docs/acceptance.md 报告结果、版本、例外及人工待验项。
+- 发现设计系统缺陷/缺口按 dist/docs/feedback-contract.md 提醒用户。只有明确授权和指定 issue 仓库才创建 issue；默认交付反馈记录，不自行分叉组件。
 
-包内参考页面位于 node_modules/@cqu-moe/ui/dist/examples/pages/。使用页面组合，不复制基础组件。
+需要修改共享设计系统时回到它的源码仓库，遵守该仓库维护入口；不要把维护步骤混入本项目的业务工作。

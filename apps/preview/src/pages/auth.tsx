@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import {
   Button,
+  ActionButton,
   Input,
   Label,
   Checkbox,
@@ -55,7 +56,7 @@ function AuthForm({
   }
   function submit(event: FormEvent) {
     event.preventDefault();
-    if (lock.current) return;
+    if (lock.current || result === 'success') return;
     const next = {
       name: mode === 'register' ? validate('name', name) : '',
       email: validate('email', email),
@@ -185,17 +186,19 @@ function AuthForm({
               )
             )}
           </div>
-          <Button type="submit" className="auth-submit" disabled={pending}>
-            {pending
-              ? mode === 'login'
-                ? '正在登录…'
-                : '正在创建…'
-              : mode === 'login'
-                ? '登录'
-                : '创建账号'}
-            {!pending && <ArrowRight aria-hidden="true" />}
-          </Button>
         </fieldset>
+        <ActionButton
+          type="submit"
+          className="auth-submit"
+          disabled={result === 'success'}
+          state={pending ? 'loading' : (result ?? 'idle')}
+          labels={{
+            idle: mode === 'login' ? '登录' : '创建账号',
+            loading: mode === 'login' ? '正在登录…' : '正在创建…',
+            success: mode === 'login' ? '登录演示完成' : '注册演示完成',
+            error: '重试提交',
+          }}
+        />
         {result === 'error' && (
           <p role="alert" className="auth-result error">
             <AlertCircle />

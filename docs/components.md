@@ -7,6 +7,7 @@
 动作使用 Button，导航使用真实链接；按钮外观的导航用 Button asChild 包裹链接。
 
 变体仅有 default、secondary、outline、ghost、destructive、link。
+尺寸仅有 default、xs、sm、lg、icon、icon-xs、icon-sm、icon-lg；默认 default。工具栏可用 sm，纯图标首选 icon，触屏由共享样式统一扩展点击区域。
 
 - default：默认变体，只用于最重要的动作。
 - outline：普通次要动作的首选，例如取消或重新加载。
@@ -84,4 +85,20 @@ Toaster 在应用根部挂载一次，toast 原生 API 用于操作结果。Aler
 
 所有文字占据同一个固定网格，按最长标签预留宽度。进行中使用 aria-busy / aria-disabled 并阻止点击，保留键盘焦点；业务提交处理器仍应防止并发。
 成功和失败使用语义色、图标与文字。状态由调用方更新；修改输入或开始新任务时回到 idle，不自动计时复位。size 支持 default、sm、lg，不支持 asChild 或图标专用尺寸。
-按钮成功通常不再额外弹同文 Toast；需要详情或撤销入口时可以组合可操作通知。示例在 /feedback。
+按钮成功通常不再额外弹同文 Toast；需要详情或撤销入口时可以组合可操作通知。示例在 /feedback、/settings、/auth。
+
+
+## PageState
+
+用于内容区域的加载、空数据、错误、权限不足和未找到。局部字段错误用表单关联说明，持续但不替代内容的状态用 Alert；不要为每种状态创建业务私有副本。
+
+state 仅为 loading、empty、error、forbidden、not-found；title、description 必填，action 是可选 ReactNode。页面仍需 PageHeader 提供 h1。
+
+```tsx
+// 正确：权限失败与空结果分开
+<PageState state="forbidden" title="没有访问权限" description="请联系管理员确认权限。" />
+// 错误：没有 denied 变体，也不能用 empty 隐藏授权失败
+<PageState state="denied" title="没有数据" description="" />
+```
+
+选择顺序：尚未完成首次请求 → loading；403 → forbidden；404 → not-found；网络/服务失败 → error；成功但没有记录 → empty。恢复动作由业务提供，PageState 不请求数据也不实现授权。细节见 states.md。

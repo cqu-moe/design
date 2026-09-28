@@ -343,8 +343,8 @@ code {
   white-space: nowrap;
 }
 .status-label svg {
-  width: var(--space-3);
-  height: var(--space-3);
+  width: var(--space-4);
+  height: var(--space-4);
 }
 .status-active {
   color: var(--success);
@@ -365,25 +365,6 @@ code {
   align-items: center;
   gap: var(--space-3);
   font-variant-numeric: tabular-nums;
-}
-.empty-state {
-  border: 1px dashed var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-12) var(--space-6);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: var(--space-3);
-}
-.empty-state > svg {
-  color: var(--muted-foreground);
-  width: var(--space-8);
-  height: var(--space-8);
-}
-.empty-state p {
-  color: var(--muted-foreground);
-  font-size: var(--text-sm);
 }
 .loading-list {
   display: flex;
@@ -501,9 +482,6 @@ code {
   }
   .theme-choice-caption svg:first-child {
     display: none;
-  }
-  .theme-choice-caption svg:last-child {
-    width: var(--space-3);
   }
   .form-footer {
     padding: var(--space-5);
@@ -1078,7 +1056,7 @@ code {
 }
 .auth-submit {
   width: 100%;
-  margin-top: var(--space-1);
+  margin-top: var(--space-6);
 }
 .auth-result {
   display: flex;

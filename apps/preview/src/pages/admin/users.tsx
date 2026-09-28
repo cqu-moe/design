@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import {
   Button,
+  PageState,
   toast,
   Checkbox,
   Input,
@@ -348,12 +349,16 @@ export function Users() {
           </TableBody>
         </Table>
         {!filtered.length && (
-          <div className="empty-state">
-            <h2>没有匹配的用户</h2>
-            <Button variant="outline" onClick={resetFilters}>
-              清除筛选
-            </Button>
-          </div>
+          <PageState
+            state="empty"
+            title="没有匹配的用户"
+            description="试试其他条件，或清除当前筛选。"
+            action={
+              <Button variant="outline" onClick={resetFilters}>
+                清除筛选
+              </Button>
+            }
+          />
         )}
       </div>
       <div className="list-footer user-pagination">

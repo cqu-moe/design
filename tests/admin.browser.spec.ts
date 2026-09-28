@@ -29,7 +29,7 @@ test('user management search, edit and client details work locally', async ({ pa
   await expect(page.getByRole('dialog')).toContainText('schedule-web');
   await expect(page.getByRole('dialog')).toContainText('https://schedule.example.test/callback');
 });
-for (const width of [390, 1440])
+for (const width of [320, 390, 768, 1440])
   for (const theme of ['light', 'dark'])
     test(`admin views fit ${width} ${theme}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 });

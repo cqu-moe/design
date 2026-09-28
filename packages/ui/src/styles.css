@@ -270,6 +270,7 @@
   cursor: progress;
 }
 .ds-action-button[data-action-state='success'] {
+  opacity: 1;
   background: color-mix(in oklab, var(--success) 12%, var(--surface));
   color: var(--success);
   border-color: color-mix(in oklab, var(--success) 35%, var(--border));
@@ -329,5 +330,17 @@
   .ds-action-button[data-action-state='loading'] .ds-action-spinner {
     transition: none;
     animation: none;
+  }
+}
+
+.ds-toast-spinner {
+  animation: ds-action-spin 900ms linear infinite;
+}
+:root[data-input='keyboard'] .ds-toast-spinner {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-toast-spinner {
+    animation: none !important;
   }
 }

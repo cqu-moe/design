@@ -37,14 +37,24 @@ test('registration validates password length and demonstrates failure then succe
   await page.getByLabel('模拟提交失败').check();
   await page.getByRole('button', { name: '创建账号', exact: true }).click();
   await expect(page.getByRole('button', { name: '正在创建…', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: '正在创建…', exact: true })).toBeFocused();
   await expect(page.getByRole('alert')).toContainText('提交失败');
   await page.getByLabel('模拟提交失败').uncheck();
-  await page.getByRole('button', { name: '创建账号', exact: true }).click();
-  await expect(page.getByRole('status')).toContainText('注册演示完成');
+  await page.getByRole('button', { name: '重试提交', exact: true }).click();
+  await expect(page.locator('.auth-result[role=status]')).toContainText('注册演示完成');
+  await expect(page.getByRole('button', { name: '注册演示完成', exact: true })).toHaveAttribute(
+    'data-action-state',
+    'success',
+  );
+  await page.getByLabel('密码', { exact: true }).fill('Another123!');
+  await expect(page.getByRole('button', { name: '创建账号', exact: true })).toHaveAttribute(
+    'data-action-state',
+    'idle',
+  );
   expect(posts).toEqual([]);
 });
 test('auth forms fit mobile and desktop in both themes', async ({ page }) => {
-  for (const width of [390, 1440])
+  for (const width of [320, 390, 768, 1440])
     for (const mode of ['light', 'dark']) {
       await page.setViewportSize({ width, height: 850 });
       await page.goto('/auth');

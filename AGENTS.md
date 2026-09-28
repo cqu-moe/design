@@ -1,4 +1,6 @@
-# Agent 开发入口
+# 设计系统维护 Agent 入口
+
+此文件仅面向修改 design 仓库的 Agent。子系统开发从 START-HERE.md → docs/agent-start.md 开始，复制模板内的消费 AGENTS.md，不复制本文件。维护流程见 docs/maintenance.md。
 
 先阅读 DESIGN.md，再按任务加载对应主题文档。计划执行记录见 PLAN.md；已有系统的业务重构不在本仓库范围内。
 
@@ -30,3 +32,7 @@ pnpm check 验证类型、逻辑、规则与构建；pnpm test:e2e 验证浏览�
 ## 测试页任务
 
 收到仅用于规则验证的页面任务时，在指定路径创建页面；不修改共享包、不加依赖、不接外部 API。优先使用文档中已存在的组件和页面组合。
+
+## 缺陷与能力反馈
+
+遵守 docs/feedback-contract.md；提醒用户并提供复现、实际/预期、影响和建议。仅在明确授权且有对应 issue 仓库时对外创建 issue，不让子系统复制修改基础组件。本轮 v1 不执行新的独立 Agent 接入验证或老系统试点。

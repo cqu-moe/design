@@ -34,3 +34,45 @@ test('scanner invoked through an installed symlink actually rejects violations',
     await rm(dir, { recursive: true, force: true });
   }
 });
+
+test('v1 consumer entry, template dependencies and local documentation links travel with the package', async () => {
+  const { readdir } = await import('node:fs/promises');
+  const { resolve, dirname, join } = await import('node:path');
+  const root = resolve('packages/ui/dist');
+  for (const name of [
+    'START-HERE.md',
+    'docs/agent-start.md',
+    'docs/icons.md',
+    'docs/states.md',
+    'docs/feedback-contract.md',
+    'docs/agent-prompts.md',
+    'template/src/main.tsx',
+  ])
+    assert.ok(existsSync(join(root, name)), name);
+  for (const file of [
+    'START-HERE.md',
+    'DESIGN.md',
+    ...(await readdir(join(root, 'docs')))
+      .filter((name) => name.endsWith('.md'))
+      .map((name) => 'docs/' + name),
+  ]) {
+    const source = readFileSync(join(root, file), 'utf8');
+    for (const [, target] of source.matchAll(/\[[^\]]+\]\(([^\s)]+)\)/g)) {
+      if (/^(https?:|#)/.test(target)) continue;
+      assert.ok(
+        existsSync(resolve(dirname(join(root, file)), target.split('#')[0])),
+        `${file} -> ${target}`,
+      );
+    }
+  }
+  const ui = JSON.parse(readFileSync('packages/ui/package.json', 'utf8'));
+  const template = JSON.parse(readFileSync('templates/app/package.json', 'utf8'));
+  assert.equal(template.dependencies['lucide-react'], ui.dependencies['lucide-react']);
+  assert.equal(template.dependencies['@cqu-moe/ui'], ui.version);
+  assert.equal(template.dependencies['@cqu-moe/theme'], ui.version);
+});
+
+test('project generator refuses to overwrite existing work', async () => {
+  const { createApp } = await import('../scripts/create-app.mjs');
+  await assert.rejects(createApp('templates/app'), /目标已存在/);
+});

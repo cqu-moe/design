@@ -19,7 +19,7 @@ export function App() {
     <AppShell
       brand={
         <>
-          <Box size={22} aria-hidden="true" />
+          <Box size={24} aria-hidden="true" />
           CQU Moe
           <span className="brand-divider" />
           设计系统
@@ -27,7 +27,7 @@ export function App() {
       }
       utilities={
         <>
-          <span className="preview-label">预览 · 0.4</span>
+          <span className="preview-label">预览 · 1.0</span>
           <ThemeMenu />
         </>
       }

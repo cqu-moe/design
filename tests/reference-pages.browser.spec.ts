@@ -16,8 +16,11 @@ test('settings validates, prevents duplicate submission and recovers after failu
   await expect(page.getByRole('alert')).toContainText('保存失败');
   await expect(name).toHaveValue('新的显示名称');
   await page.getByLabel('模拟保存失败').uncheck();
-  await page.getByRole('button', { name: '保存更改', exact: true }).click();
-  await expect(page.locator('[data-sonner-toast]')).toContainText('已保存');
+  await page.getByRole('button', { name: '重试保存', exact: true }).click();
+  await expect(page.getByRole('button', { name: '已保存', exact: true })).toHaveAttribute(
+    'data-action-state',
+    'success',
+  );
 });
 test('list empty state recovers and unknown detail is navigable', async ({ page }) => {
   await page.goto('/items');
