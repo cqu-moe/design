@@ -15,3 +15,7 @@ test('theme switches survive reload and system changes',async({page})=>{
  await page.getByRole('button',{name:'跟随系统',exact:true}).click(); await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  await page.emulateMedia({colorScheme:'dark'}); await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
 });
+test('theme preference syncs across tabs and storage denial allows temporary choice',async({context,page})=>{
+ await page.goto('/components');const other=await context.newPage();await other.goto('/components');await page.getByRole('button',{name:'深色',exact:true}).click();await expect(other.locator('html')).toHaveAttribute('data-theme','dark');
+ await page.addInitScript(()=>Object.defineProperty(window,'localStorage',{get(){throw new Error('denied')}}));await page.reload();await page.getByRole('button',{name:'深色',exact:true}).click();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+});

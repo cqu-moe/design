@@ -1,0 +1,132 @@
+[
+  {
+    "theme": "light",
+    "pairs": [
+      {
+        "fg": "foreground",
+        "bg": "background",
+        "ratio": 15.79
+      },
+      {
+        "fg": "foreground",
+        "bg": "surface",
+        "ratio": 16.48
+      },
+      {
+        "fg": "muted-foreground",
+        "bg": "background",
+        "ratio": 6.82
+      },
+      {
+        "fg": "muted-foreground",
+        "bg": "surface",
+        "ratio": 7.11
+      },
+      {
+        "fg": "success",
+        "bg": "background",
+        "ratio": 8.37
+      },
+      {
+        "fg": "success",
+        "bg": "surface",
+        "ratio": 8.74
+      },
+      {
+        "fg": "warning",
+        "bg": "background",
+        "ratio": 7.26
+      },
+      {
+        "fg": "warning",
+        "bg": "surface",
+        "ratio": 7.58
+      },
+      {
+        "fg": "link",
+        "bg": "background",
+        "ratio": 6.91
+      },
+      {
+        "fg": "link",
+        "bg": "surface",
+        "ratio": 7.22
+      },
+      {
+        "fg": "destructive",
+        "bg": "background",
+        "ratio": 6.58
+      },
+      {
+        "fg": "destructive",
+        "bg": "surface",
+        "ratio": 6.87
+      }
+    ]
+  },
+  {
+    "theme": "dark",
+    "pairs": [
+      {
+        "fg": "foreground",
+        "bg": "background",
+        "ratio": 13.61
+      },
+      {
+        "fg": "foreground",
+        "bg": "surface",
+        "ratio": 12.51
+      },
+      {
+        "fg": "muted-foreground",
+        "bg": "background",
+        "ratio": 7.09
+      },
+      {
+        "fg": "muted-foreground",
+        "bg": "surface",
+        "ratio": 6.52
+      },
+      {
+        "fg": "success",
+        "bg": "background",
+        "ratio": 8.38
+      },
+      {
+        "fg": "success",
+        "bg": "surface",
+        "ratio": 7.7
+      },
+      {
+        "fg": "warning",
+        "bg": "background",
+        "ratio": 8.81
+      },
+      {
+        "fg": "warning",
+        "bg": "surface",
+        "ratio": 8.1
+      },
+      {
+        "fg": "link",
+        "bg": "background",
+        "ratio": 8.32
+      },
+      {
+        "fg": "link",
+        "bg": "surface",
+        "ratio": 7.65
+      },
+      {
+        "fg": "destructive",
+        "bg": "background",
+        "ratio": 6.83
+      },
+      {
+        "fg": "destructive",
+        "bg": "surface",
+        "ratio": 6.28
+      }
+    ]
+  }
+]

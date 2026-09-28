@@ -14,3 +14,4 @@ export * from './theme-provider';
 export * from './components/app-shell';
 export * from './components/page-header';
 export * from './components/content-container';
+export * from './components/theme-menu';
