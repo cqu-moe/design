@@ -216,3 +216,7 @@
     min-height: 2rem;
   }
 }
+
+[data-slot='tabs-list'][data-variant='default'] {
+  height: auto;
+}

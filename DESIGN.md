@@ -21,7 +21,7 @@
 ## 不变的规则
 
 - 浅色与深色使用同名语义变量。业务页面不用原始颜色、任意字号或间距 utility。
-- 所有交互式页面使用 AppShell、ContentContainer、PageHeader。导航项和业务内容由系统提供。
+- 业务页面使用 AppShell、ContentContainer、PageHeader；登录/注册入口采用独立品牌顶栏与居中表单。导航项和业务内容由系统提供。
 - 每个操作区域只突出最重要的动作；普通浏览页面不必强加主要按钮。
 - 保留 loading、empty、error、disabled、focus 状态。错误说明如何恢复。
 - 手机端不能删掉核心操作。次要字段可移到详情，但仍需可访问。

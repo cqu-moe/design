@@ -3,6 +3,15 @@ import { PageHeader, Button, ContentContainer } from '@cqu-moe/ui';
 import { App } from './app';
 export const router = createBrowserRouter([
   {
+    path: 'auth',
+    lazy: async () => ({ Component: (await import('./pages/auth')).Auth }),
+    hydrateFallbackElement: (
+      <main className="auth-main">
+        <p role="status">正在加载账号入口…</p>
+      </main>
+    ),
+  },
+  {
     element: <App />,
     hydrateFallbackElement: (
       <main>

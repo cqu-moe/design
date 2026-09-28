@@ -8,7 +8,7 @@ pnpm build
 pnpm dev
 ```
 
-打开 http://127.0.0.1:5173/settings。预览包含设置子页面、内联与全局保存、紧凑服务列表，以及 /admin 后台示例（仪表盘、图表、用户批量管理、客户端管理）。
+打开 http://127.0.0.1:5173/settings；登录注册二合一示例位于 /auth。预览包含设置子页面、内联与全局保存、紧凑服务列表，以及 /admin 后台示例（仪表盘、图表、用户批量管理、客户端管理）。
 修改共享包源码后，执行 pnpm --filter @cqu-moe/theme build 或 pnpm --filter @cqu-moe/ui build。
 
 - [Agent 入口](AGENTS.md)
