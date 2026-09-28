@@ -27,7 +27,7 @@ export function App() {
       }
       utilities={
         <>
-          <span className="preview-label">预览 · 0.3</span>
+          <span className="preview-label">预览 · 0.4</span>
           <ThemeMenu />
         </>
       }

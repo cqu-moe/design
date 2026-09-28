@@ -1,3 +1,4 @@
+import { elementContrast, elementBackground } from './helpers/contrast';
 import { test, expect } from '@playwright/test';
 test('one global toaster follows theme and updates an existing notification', async ({ page }) => {
   await page.goto('/feedback');
@@ -91,4 +92,28 @@ test('keyboard-triggered notifications appear without movement', async ({ page }
       .locator('[data-sonner-toast]')
       .evaluate((el) => getComputedStyle(el).transitionDuration),
   ).toBe('0s');
+});
+
+test('colored toast types remain readable and ordinary notifications dismiss automatically', async ({
+  page,
+}) => {
+  for (const theme of ['light', 'dark']) {
+    await page.goto('/feedback');
+    await page.evaluate((value) => localStorage.setItem('cqu-moe-theme', value), theme);
+    await page.reload();
+    for (const label of ['成功通知', '错误通知', '警告通知', '信息通知']) {
+      await page.getByRole('button', { name: label, exact: true }).click();
+      const note = page.locator('[data-sonner-toast]');
+      await expect(note).toHaveAttribute('data-rich-colors', 'true');
+      expect(await note.evaluate(elementContrast)).toBeGreaterThanOrEqual(4.5);
+      const rgb = await note.evaluate(elementBackground);
+      if (label === '成功通知') expect(rgb[1]).toBeGreaterThanOrEqual(rgb[0]);
+      if (label === '信息通知') expect(rgb[2]).toBeGreaterThanOrEqual(rgb[0]);
+      await page.getByRole('button', { name: '关闭通知', exact: true }).click();
+      await expect(note).toHaveCount(0);
+    }
+  }
+  await page.getByRole('button', { name: '成功通知', exact: true }).click();
+  await expect(page.locator('[data-sonner-toast]')).toHaveCount(1);
+  await expect(page.locator('[data-sonner-toast]')).toHaveCount(0, { timeout: 6500 });
 });

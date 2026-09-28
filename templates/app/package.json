@@ -9,8 +9,8 @@
     "check:design": "node node_modules/@cqu-moe/ui/dist/check-design.mjs src"
   },
   "dependencies": {
-    "@cqu-moe/theme": "0.3.0",
-    "@cqu-moe/ui": "0.3.0",
+    "@cqu-moe/theme": "0.4.0",
+    "@cqu-moe/ui": "0.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-router": "7.18.4"

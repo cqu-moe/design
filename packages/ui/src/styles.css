@@ -256,3 +256,78 @@
   animation: none !important;
   transition: none !important;
 }
+
+.ds-action-button {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 150ms ease;
+}
+.ds-action-button[data-action-state='loading'] {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  cursor: progress;
+}
+.ds-action-button[data-action-state='success'] {
+  background: color-mix(in oklab, var(--success) 12%, var(--surface));
+  color: var(--success);
+  border-color: color-mix(in oklab, var(--success) 35%, var(--border));
+}
+.ds-action-button[data-action-state='error'] {
+  background: color-mix(in oklab, var(--destructive) 10%, var(--surface));
+  color: var(--destructive);
+  border-color: color-mix(in oklab, var(--destructive) 35%, var(--border));
+}
+.ds-action-button[aria-disabled='true']:active {
+  transform: none;
+}
+.ds-action-labels {
+  display: inline-grid;
+}
+.ds-action-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  grid-area: 1/1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(var(--space-1));
+  transition:
+    opacity 150ms ease,
+    transform 180ms var(--ease-out);
+}
+.ds-action-label[data-active='true'] {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ds-action-button[data-action-state='loading'] .ds-action-spinner {
+  animation: ds-action-spin 900ms linear infinite;
+}
+@keyframes ds-action-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+:root[data-input='keyboard'] .ds-action-label,
+:root[data-motion-preview='reduce'] .ds-action-label {
+  transition: none;
+  transform: none;
+}
+:root[data-motion-preview='reduce'] .ds-action-button,
+:root[data-motion-preview='reduce'] .ds-action-spinner {
+  transition: none;
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-action-label {
+    transition: none;
+    transform: none;
+  }
+  .ds-action-button,
+  .ds-action-button[data-action-state='loading'] .ds-action-spinner {
+    transition: none;
+    animation: none;
+  }
+}

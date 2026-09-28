@@ -1,3 +1,4 @@
+import { ButtonFeedback } from './button-feedback';
 import { useEffect, useState, type FormEvent } from 'react';
 import {
   Button,
@@ -51,7 +52,7 @@ export function Feedback() {
   useEffect(
     () => () => {
       toast.dismiss('feedback-undo');
-      toast.dismiss('feedback-persistent');
+      toast.dismiss('feedback-long');
     },
     [],
   );
@@ -77,7 +78,7 @@ export function Feedback() {
     toast('演示记录已归档', {
       id: 'feedback-undo',
       description: '可以撤销这次本地操作。',
-      duration: Infinity,
+      duration: 8000,
       action: { label: '撤销', onClick: () => setArchived(false) },
     });
   }
@@ -95,7 +96,7 @@ export function Feedback() {
     <>
       <PageHeader
         title="通知与反馈"
-        description="操作结果用短提示，需要处理的问题留在原位。"
+        description="按钮呈现操作状态，通知补充必要信息。"
         actions={
           <Button variant="outline" onClick={() => toast.dismiss()}>
             <X />
@@ -103,12 +104,13 @@ export function Feedback() {
           </Button>
         }
       />
-      <p className="admin-demo-note">所有通知均为交互示例，可重复触发。</p>
+      <p className="admin-demo-note">所有反馈均为交互示例，可重复操作。</p>
+      <ButtonFeedback />
       <section className="component-section">
         <div className="section-intro">
           <h2>短提示</h2>
           <p>
-            轻量确认，不打断当前操作。
+            约 4 秒自动收起，悬停时暂停。
             <br />
             相同操作重复触发时更新已有通知。
           </p>
@@ -188,7 +190,7 @@ export function Feedback() {
           <p>
             需要下一步时提供明确的动作。
             <br />
-            重要操作不能只靠短暂的提示承载。
+            通知收起后，页面仍提供恢复入口。
           </p>
         </div>
         <div className="feedback-stack">
@@ -211,14 +213,14 @@ export function Feedback() {
             <Button
               variant="outline"
               onClick={() =>
-                toast.info('需要你手动关闭', {
-                  id: 'feedback-persistent',
-                  duration: Infinity,
-                  description: '这条通知会保留，直到点击关闭或清空。',
+                toast.info('这条通知会自动关闭', {
+                  id: 'feedback-long',
+                  duration: 8000,
+                  description: '这条通知停留 8 秒后自动收起，也可提前关闭。',
                 })
               }
             >
-              持续通知
+              较长通知
             </Button>
           </div>
           <p className="field-hint">演示记录：{archived ? '已归档' : '正常'}</p>

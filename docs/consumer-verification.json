@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-09-28T17:40:40.192Z",
+  "checkedAt": "2026-09-28T18:06:30.669Z",
   "result": "passed",
-  "workspace": "/Users/uu/Developer/cqu-moe/design/.worktrees/design-system/.verification/consumer-2HWnVo",
+  "workspace": "/Users/uu/Developer/cqu-moe/design/.worktrees/design-system/.verification/consumer-DiyD4Z",
   "checks": [
     "tarball install",
     "TypeScript and production build",

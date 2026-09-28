@@ -20,10 +20,10 @@ const entry = join(project, 'src/main.tsx');
 const source = await readFile(entry, 'utf8');
 await writeFile(
   entry,
-  "import {DataChart} from '@cqu-moe/ui/charts';\n" +
+  "import {DataChart} from '@cqu-moe/ui/charts';\nimport {ActionButton} from '@cqu-moe/ui';\n" +
     source.replace(
       '<Button onClick={',
-      '<DataChart title="独立图表验证" kind="bar" valueLabel="请求数" data={[{label:"示例",value:12}]} />\n      <Button onClick={',
+      '<ActionButton state="success" labels={{idle:"保存",loading:"保存中",success:"状态组件已就绪",error:"重试"}} /><DataChart title="独立图表验证" kind="bar" valueLabel="请求数" data={[{label:"示例",value:12}]} />\n      <Button onClick={',
     ),
 );
 const manifest = JSON.parse(await readFile(join(project, 'package.json'), 'utf8'));
@@ -100,6 +100,10 @@ try {
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('http://127.0.0.1:5174');
   await page.getByRole('heading', { name: '新的工作空间' }).waitFor();
+  assert.equal(
+    await page.getByRole('button', { name: '状态组件已就绪' }).getAttribute('data-action-state'),
+    'success',
+  );
   await page.getByRole('button', { name: '检查交互' }).click();
   await page
     .locator('[data-sonner-toast]')
