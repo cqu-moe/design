@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.worktrees/
+.superpowers/
+.verification/
+test-results/
+playwright-report/
+.DS_Store
