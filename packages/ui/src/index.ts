@@ -11,3 +11,6 @@ export * from './components/ui/dropdown-menu';
 export * from './components/ui/table';
 export * from './components/ui/skeleton';
 export * from './theme-provider';
+export * from './components/app-shell';
+export * from './components/page-header';
+export * from './components/content-container';
