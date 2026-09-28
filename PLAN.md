@@ -42,7 +42,7 @@
 | 键盘或减少动态效果模式打开浮层 | 焦点正确，操作不等待动画，不产生大幅位移 | 3 |
 | 请求失败、快速重复提交、列表为空 | 不误报成功、不重复提交，能恢复操作 | 4 |
 
-## 任务 1：可运行的双主题基座
+## Task 1：可运行的双主题基座
 
 **文件：** 根 package.json、pnpm-workspace.yaml、pnpm-lock.yaml、tsconfig.base.json、.gitignore；packages/theme/package.json、src/tokens.css、src/theme.ts；apps/preview/package.json、index.html、src/main.tsx、src/styles.css、vite.config.ts；tests/theme.test.ts、tests/theme.browser.spec.ts。
 
@@ -58,7 +58,7 @@
 - [ ] 使用 emil-color 的 OKLCH 方法制作候选色；测量实际渲染对比度，不以感知亮度差代替计算。深色 background 必须与纯黑有可见区分。
 - [ ] 预览主题角色与文字层级，导出两种主题截图；运行 pnpm test、pnpm build 及主题浏览器测试，全部通过后提交。
 
-## 任务 2：可独立消费的共享组件
+## Task 2：可独立消费的共享组件
 
 **文件：** packages/ui/package.json、components.json、tsconfig.json、src/index.ts、src/styles.css、src/lib/utils.ts、src/components/ui/{button,input,label,textarea,checkbox,switch,select,dialog,sheet,dropdown-menu,table,skeleton}.tsx、src/theme-provider.tsx；scripts/build-ui.mjs；tests/components.browser.spec.ts。
 
@@ -72,7 +72,7 @@
 - [ ] 对 CSS 标记 sideEffects，显式导出 CSS 与类型；预览只通过包导出使用组件，禁止跨包导入 src。
 - [ ] 运行 pnpm test、pnpm build 和组件浏览器测试；验证深浅主题下的浮层、焦点与禁用状态后提交。
 
-## 任务 3：统一页面外壳与动效
+## Task 3：统一页面外壳与动效
 
 **文件：** packages/ui/src/components/{app-shell,page-header,content-container}.tsx、src/motion.css；apps/preview/src/app.tsx；docs/motion.md；tests/shell.browser.spec.ts。
 
@@ -86,7 +86,7 @@
 - [ ] 减少动态效果时移除缩放与位移，仅保留必要的短淡入或即时更新。键盘触发的浮层即时打开；主题切换抑制组件颜色过渡；快速开关不能遗留遮罩或阻塞操作。
 - [ ] 运行 shell 测试，覆盖 reducedMotion: reduce、键盘打开、快速开关三次和长导航。检查录屏中的跳变与退出状态，通过后提交。
 
-## 任务 4：可审核的业务参考页面
+## Task 4：可审核的业务参考页面
 
 **文件：** apps/preview/src/pages/{components,settings,items,item-detail}.tsx、src/demo-data.ts、src/router.tsx；tests/reference-pages.browser.spec.ts；docs/visual-review.md。
 
@@ -100,7 +100,7 @@
 - [ ] 为 390、768、1440 宽度 × 双主题生成截图，另验 320 宽度重排。执行 emil-touch-and-accessibility 和 emil-ui-review，修复阻塞问题。
 - [ ] 在 visual-review.md 记录视觉参数、截图路径、交互验证及真实设备未验证项，向用户展示样板后冻结视觉基线。通过后提交。
 
-## 任务 5：独立模板、规范与防偏离检查
+## Task 5：独立模板、规范与防偏离检查
 
 **文件：** templates/app/{package.json,index.html,vite.config.ts,tsconfig.json,src/main.tsx,src/styles.css}；DESIGN.md、AGENTS.md、docs/{tokens,layout,components,consumption}.md；scripts/{check-design,verify-consumer}.mjs；tests/design-rules.test.mjs。
 
