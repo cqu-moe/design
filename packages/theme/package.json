@@ -1,0 +1,1 @@
+{"name":"@cqu-moe/theme","version":"0.1.0","type":"module","files":["dist"],"sideEffects":["**/*.css"],"exports":{".":{"types":"./dist/theme.d.ts","import":"./dist/theme.js"},"./styles.css":"./dist/styles.css"},"scripts":{"build":"node ../../scripts/build-theme.mjs"}}

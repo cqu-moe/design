@@ -1,0 +1,38 @@
+{
+  "name": "@cqu-moe/ui",
+  "version": "0.1.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "NOTICE.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-ui.mjs"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@cqu-moe/theme": "workspace:*",
+    "radix-ui": "1.6.7",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "tailwind-merge": "3.7.0",
+    "lucide-react": "1.48.0"
+  },
+  "devDependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  }
+}

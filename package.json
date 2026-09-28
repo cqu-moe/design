@@ -1,0 +1,29 @@
+{
+  "name": "cqu-moe-design",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "build": "pnpm --filter @cqu-moe/theme build && pnpm --filter @cqu-moe/ui build && pnpm --filter @cqu-moe/preview build",
+    "dev": "pnpm --filter @cqu-moe/preview dev",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "check": "pnpm typecheck && pnpm test && pnpm build && node scripts/check-design.mjs",
+    "verify:consumer": "node scripts/verify-consumer.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/cli": "4.3.3",
+    "@tailwindcss/vite": "4.3.3",
+    "@types/node": "22.20.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "esbuild": "0.28.2",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "vite": "8.3.1",
+    "vitest": "5.0.2"
+  }
+}
