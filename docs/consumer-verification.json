@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-09-28T15:51:28.765Z",
+  "result": "passed",
+  "workspace": "/Users/uu/Developer/cqu-moe/design/.worktrees/design-system/.verification/consumer-2rPiWd",
+  "checks": [
+    "tarball install",
+    "TypeScript and production build",
+    "single React instance",
+    "standalone CSS",
+    "theme persistence",
+    "mobile navigation",
+    "no browser errors"
+  ]
+}

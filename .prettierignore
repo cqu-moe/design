@@ -1,0 +1,7 @@
+**/dist/
+**/node_modules/
+.verification/
+.superpowers/
+.worktrees/
+docs/screenshots/
+pnpm-lock.yaml
