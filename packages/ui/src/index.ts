@@ -17,3 +17,6 @@ export * from './components/content-container';
 export * from './components/theme-menu';
 
 export * from './components/ui/tabs';
+
+export * from './notifications';
+export * from './components/ui/alert';

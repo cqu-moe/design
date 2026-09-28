@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import {
   Button,
+  toast,
   Checkbox,
   Input,
   Label,
@@ -50,7 +51,6 @@ export function Users() {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<DemoUser | null>(null);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
   const trigger = useRef<HTMLButtonElement | null>(null);
   const searchRef = useRef<HTMLInputElement | null>(null);
   function restoreFocus(target: HTMLButtonElement | null) {
@@ -81,7 +81,7 @@ export function Users() {
     setFilters(value);
     setPage(1);
     setSelected(new Set());
-    setMessage('');
+    toast.dismiss('user-operation');
   }
   function resetFilters() {
     setQuery('');
@@ -120,7 +120,10 @@ export function Users() {
     setBulkAction('');
     setBulkOpen(false);
     setPage(1);
-    setMessage(`已对 ${ids.size} 位用户应用“${bulkLabels[bulkDraft.action]}”，仅对本次演示有效。`);
+    toast.success(
+      `已对 ${ids.size} 位用户应用“${bulkLabels[bulkDraft.action]}”，仅对本次演示有效。`,
+      { id: 'user-operation' },
+    );
   }
   function edit(user: DemoUser | null, button: HTMLButtonElement) {
     trigger.current = button;
@@ -158,7 +161,7 @@ export function Users() {
     );
     setOpen(false);
     setSelected(new Set());
-    setMessage('用户已保存，仅对本次演示有效。');
+    toast.success('用户已保存，仅对本次演示有效。', { id: 'user-operation' });
   }
   return (
     <>
@@ -186,7 +189,7 @@ export function Users() {
               setQuery(event.target.value);
               setPage(1);
               setSelected(new Set());
-              setMessage('');
+              toast.dismiss('user-operation');
             }}
           />
         </div>
@@ -397,11 +400,6 @@ export function Users() {
           </Button>
         </div>
       </div>
-      {message && (
-        <p role="status" className="admin-feedback">
-          {message}
-        </p>
-      )}
       <Dialog open={bulkOpen} onOpenChange={setBulkOpen}>
         <DialogContent
           onCloseAutoFocus={(event) => {

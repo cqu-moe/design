@@ -30,6 +30,8 @@ export function checkSource(file, source) {
         const name = node.moduleSpecifier.text;
         if (
           name === 'radix-ui' ||
+          name === 'sonner' ||
+          name.startsWith('sonner/') ||
           name.startsWith('@radix-ui/') ||
           name.includes('/components/ui/') ||
           name.startsWith('./components/ui/') ||

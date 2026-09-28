@@ -12,6 +12,7 @@ test('rejects local colors and arbitrary size utilities', () => {
 test('rejects direct primitives, copied components and cross-package internals', () => {
   for (const name of [
     'radix-ui',
+    'sonner',
     '@radix-ui/react-dialog',
     './components/ui/button',
     '@cqu-moe/ui/src/button',

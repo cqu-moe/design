@@ -100,6 +100,13 @@ try {
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('http://127.0.0.1:5174');
   await page.getByRole('heading', { name: '新的工作空间' }).waitFor();
+  await page.getByRole('button', { name: '检查交互' }).click();
+  await page
+    .locator('[data-sonner-toast]')
+    .getByText('共享组件已就绪。', { exact: true })
+    .waitFor();
+  assert.equal(await page.locator('section[aria-label="通知"]').count(), 1);
+  await page.getByRole('button', { name: '关闭通知', exact: true }).click();
   await page.getByText('查看独立图表验证数据', { exact: true }).click();
   assert.ok(await page.getByRole('table', { name: '独立图表验证数据' }).isVisible());
   const button = page.getByRole('button', { name: '检查交互' });
@@ -134,6 +141,7 @@ try {
           'no browser errors',
           'portable Agent docs and design checker',
           'charts subpath and accessible data table',
+          'single themed notification host',
         ],
       },
       null,

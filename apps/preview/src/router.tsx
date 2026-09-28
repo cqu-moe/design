@@ -21,6 +21,10 @@ export const router = createBrowserRouter([
       </main>
     ),
     children: [
+      {
+        path: 'feedback',
+        lazy: async () => ({ Component: (await import('./pages/feedback')).Feedback }),
+      },
       { index: true, element: <Navigate to="/settings" replace /> },
       {
         path: 'admin',

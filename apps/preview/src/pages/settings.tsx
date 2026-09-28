@@ -2,6 +2,7 @@ import { useRef, useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router';
 import {
   Button,
+  toast,
   Input,
   Label,
   Switch,
@@ -40,7 +41,7 @@ export function Settings() {
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [pending, setPending] = useState<Field | 'all' | null>(null);
   const lock = useRef(false);
-  const [result, setResult] = useState<{ kind: 'success' | 'error'; text: string } | null>(null);
+  const [result, setResult] = useState<string | null>(null);
   const [fail, setFail] = useState(false);
   const [focusField, setFocusField] = useState<Field | null>(null);
   const dirty = (Object.keys(draft) as (keyof Profile)[]).filter(
@@ -78,18 +79,18 @@ export function Settings() {
     setPending(scope);
     const snapshot = { ...draft };
     await new Promise((resolve) => setTimeout(resolve, 450));
-    if (fail) setResult({ kind: 'error', text: '保存失败，输入已保留，请重试。' });
+    if (fail) setResult('保存失败，输入已保留，请重试。');
     else {
       setSaved((current) =>
         scope === 'all' ? snapshot : { ...current, [scope]: snapshot[scope] },
       );
-      setResult({
-        kind: 'success',
-        text:
-          scope === 'all'
-            ? '已保存全部更改，仅在本次演示中生效。'
-            : `${scope === 'name' ? '显示名称' : '联系邮箱'}已保存，其他未保存修改保持不变。`,
-      });
+      toast.success(
+        scope === 'all' ? '已保存全部更改' : `${scope === 'name' ? '显示名称' : '联系邮箱'}已保存`,
+        {
+          id: 'settings-save',
+          description: scope === 'all' ? '仅在本次演示中生效。' : '其他未保存修改保持不变。',
+        },
+      );
     }
     setPending(null);
     lock.current = false;
@@ -276,12 +277,9 @@ export function Settings() {
               </Button>
             </footer>
             {result && (
-              <p
-                role={result.kind === 'error' ? 'alert' : 'status'}
-                className={`form-result ${result.kind}`}
-              >
-                {result.kind === 'error' ? <AlertCircle /> : <Check />}
-                {result.text}
+              <p role="alert" className="form-result error">
+                <AlertCircle />
+                {result}
               </p>
             )}
           </div>

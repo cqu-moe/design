@@ -11,7 +11,7 @@ test('page size and cross-page selection support confirmed bulk changes', async 
   await page.getByRole('button', { name: '应用更改', exact: true }).click();
   await expect(page.getByRole('dialog')).toContainText('6 位用户');
   await page.getByRole('button', { name: '确认应用', exact: true }).click();
-  await expect(page.getByRole('status')).toContainText('6 位用户');
+  await expect(page.locator('[data-sonner-toast]')).toContainText('6 位用户');
   await page.getByRole('combobox', { name: '每页条数' }).click();
   await page.getByRole('option', { name: '10 条 / 页', exact: true }).click();
   await expect(page.getByRole('row')).toHaveCount(7);

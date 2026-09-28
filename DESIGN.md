@@ -14,6 +14,7 @@
 | 选颜色、字号、间距 | [主题变量](docs/tokens.md) |
 | 创建页面、适配手机 | [布局规则](docs/layout.md) |
 | 选组件及变体 | [组件规则](docs/components.md) |
+| 选择通知与反馈 | [通知规则](docs/notifications.md) |
 | 添加动效 | [动效规则](docs/motion.md) |
 | 接入新系统或内容站 | [接入说明](docs/consumption.md) |
 | 查看验证范围 | [视觉验证](docs/visual-review.md) |
@@ -32,7 +33,7 @@
 
 ## 当前实现
 
-主题与 UI 包当前版本均为 0.2.0，尚未发布到 registry。预览包含账号设置、服务列表、详情、组件状态及后台仪表盘、图表、用户和客户端管理，都是本地演示数据。
+主题与 UI 包当前版本均为 0.3.0，尚未发布到 registry。预览包含账号设置、服务列表、详情、组件状态及后台仪表盘、图表、用户和客户端管理，都是本地演示数据。
 
 组件 API 以源码的 packages/ui/src/index.ts 或安装包的 dist/index.d.ts 及关联类型声明为准。未列出的变体不能凭空使用。
 DESIGN.md 定义使用规则；SPEC.md / PLAN.md 记录建设背景，不替代当前代码与文档。

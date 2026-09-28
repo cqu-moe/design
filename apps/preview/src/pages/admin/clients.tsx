@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react';
 import {
   Button,
+  toast,
   Input,
   Label,
   PageHeader,
@@ -38,7 +39,6 @@ export function Clients() {
   const [createOpen, setCreateOpen] = useState(false);
   const [draft, setDraft] = useState({ name: '', id: '', callback: '' });
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
   const trigger = useRef<HTMLButtonElement | null>(null);
   const createTrigger = useRef<HTMLButtonElement | null>(null);
   const selected = clients.find((client) => client.id === selectedId);
@@ -80,7 +80,7 @@ export function Clients() {
       ...current,
     ]);
     setCreateOpen(false);
-    setMessage('客户端已添加，仅对本次演示有效。');
+    toast.success('客户端已添加，仅对本次演示有效。', { id: 'client-operation' });
   }
   function toggle() {
     if (!selected) return;
@@ -91,7 +91,7 @@ export function Clients() {
           : client,
       ),
     );
-    setMessage('客户端状态已更新，仅对本次演示有效。');
+    toast.success('客户端状态已更新，仅对本次演示有效。', { id: 'client-operation' });
   }
   return (
     <>
@@ -202,11 +202,6 @@ export function Clients() {
         )}
       </div>
       <p className="list-footer">共 {filtered.length} 个客户端</p>
-      {message && (
-        <p role="status" className="admin-feedback">
-          {message}
-        </p>
-      )}
       <Sheet open={detailsOpen} onOpenChange={setDetailsOpen}>
         <SheetContent
           className="client-sheet"

@@ -69,3 +69,7 @@ AppShell、ContentContainer、PageHeader 的接口见 layout.md，业务逻辑�
 kind 仅支持 line、area、bar；传入 title、valueLabel 和 data，数据项为 { label: string, value: number, secondary?: number }。
 需要第二组时提供 secondaryLabel。趋势用 line/area，分类比较用 bar；柱图从零起，次级趋势使用虚线。单位写在标签中。
 每张图保留可展开的数据表，不只提供悬停提示。后台示例按路由懒加载；默认不播放图表入场动画。
+
+## 通知与 Alert
+
+Toaster 在应用根部挂载一次，toast 原生 API 用于操作结果。Alert、AlertTitle、AlertDescription 用于持续的页面状态。选择规则见 notifications.md，同一结果不重复显示两种反馈。

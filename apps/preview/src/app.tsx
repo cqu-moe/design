@@ -11,6 +11,7 @@ import {
   Users,
   MonitorSmartphone,
   LogIn,
+  Bell,
 } from 'lucide-react';
 export function App() {
   const { pathname } = useLocation();
@@ -26,7 +27,7 @@ export function App() {
       }
       utilities={
         <>
-          <span className="preview-label">预览 · 0.2</span>
+          <span className="preview-label">预览 · 0.3</span>
           <ThemeMenu />
         </>
       }
@@ -59,6 +60,10 @@ export function App() {
             客户端管理
           </NavLink>
           <span className="ds-nav-label">设计系统</span>
+          <NavLink to="/feedback">
+            <Bell aria-hidden="true" />
+            通知与反馈
+          </NavLink>
           <NavLink to="/auth">
             <LogIn aria-hidden="true" />
             登录与注册

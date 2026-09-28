@@ -1177,3 +1177,33 @@ code {
     animation: none !important;
   }
 }
+
+.feedback-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.feedback-stack > .field {
+  width: 100%;
+  max-width: 26rem;
+}
+.feedback-stack [data-slot='alert'] {
+  width: 100%;
+}
+.feedback-motion-switch {
+  gap: var(--space-3);
+  min-height: 2.75rem;
+}
+.connection-state {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--muted-foreground);
+}
+.connection-state svg {
+  width: var(--space-4);
+  height: var(--space-4);
+}

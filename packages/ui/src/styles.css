@@ -1,4 +1,5 @@
 @layer theme, base, components, utilities;
+@import 'sonner/dist/styles.css';
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities) source(none);
 @import './layout.css';
@@ -219,4 +220,39 @@
 
 [data-slot='tabs-list'][data-variant='default'] {
   height: auto;
+}
+
+.ds-toast-description {
+  color: var(--muted-foreground) !important;
+}
+.ds-toaster :focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 3px;
+}
+@media (pointer: coarse) {
+  .ds-toaster [data-sonner-toast] [data-button] {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+  .ds-toast-close::before {
+    content: '';
+    position: absolute;
+    width: 2.75rem;
+    height: 2.75rem;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+  }
+}
+:root[data-motion-preview='reduce'] [data-state],
+:root[data-motion-preview='reduce'] [data-sonner-toast],
+:root[data-motion-preview='reduce'] [data-sonner-toast] *,
+:root[data-motion-preview='reduce'] .sonner-loading-bar {
+  animation: none !important;
+  transition: none !important;
+}
+
+:root[data-input='keyboard'] [data-sonner-toast] {
+  animation: none !important;
+  transition: none !important;
 }

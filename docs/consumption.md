@@ -1,6 +1,6 @@
 # 接入其他系统
 
-当前包名为 @cqu-moe/theme 与 @cqu-moe/ui，版本 0.2.0，尚未发布到 registry。先使用本地 tarball；实际发布时另行确定命名空间和 registry。
+当前包名为 @cqu-moe/theme 与 @cqu-moe/ui，版本 0.3.0，尚未发布到 registry。先使用本地 tarball；实际发布时另行确定命名空间和 registry。
 
 ## 本地完整验证
 
@@ -25,14 +25,14 @@ pnpm --dir packages/theme pack --pack-destination ../../artifacts
 pnpm --dir packages/ui pack --pack-destination ../../artifacts
 ```
 
-3. 在新项目 package.json 中把两个 0.2.0 依赖替换为各自 tarball 的 file: 绝对路径。
+3. 在新项目 package.json 中把两个 0.3.0 依赖替换为各自 tarball 的 file: 绝对路径。
 4. 若使用 pnpm，在新项目 pnpm-workspace.yaml 中加 theme override，让 UI 的间接依赖使用同一个 tarball：
 
 ```yaml
 packages:
   - .
 overrides:
-  '@cqu-moe/theme': 'file:/绝对路径/cqu-moe-theme-0.2.0.tgz'
+  '@cqu-moe/theme': 'file:/绝对路径/cqu-moe-theme-0.3.0.tgz'
 allowBuilds:
   esbuild: true
   '@parcel/watcher': true
