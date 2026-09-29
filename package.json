@@ -12,7 +12,8 @@
     "check": "pnpm build && pnpm typecheck && pnpm test && node --test tests/*.test.mjs && node scripts/check-design.mjs",
     "verify:consumer": "node scripts/verify-consumer.mjs",
     "format": "prettier --write packages apps templates scripts tests *.json *.ts",
-    "create:app": "pnpm build && node scripts/create-app.mjs"
+    "create:app": "pnpm build && node scripts/create-app.mjs",
+    "deploy": "pnpm build && pnpm dlx wrangler@4.94.0 deploy"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

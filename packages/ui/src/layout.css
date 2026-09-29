@@ -38,8 +38,8 @@
 }
 .ds-sidebar {
   border-right: 1px solid var(--border);
-  padding: var(--space-8) var(--space-4);
-  background: var(--surface);
+  padding: var(--space-6) var(--space-4);
+  background: var(--background);
 }
 .ds-navigation {
   display: flex;
@@ -51,10 +51,11 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   min-height: 2.75rem;
   border-radius: var(--radius-sm);
   font-size: var(--text-sm);
+  font-weight: 500;
   color: var(--muted-foreground);
   text-decoration: none;
   overflow-wrap: anywhere;
@@ -62,7 +63,6 @@
 .ds-navigation a[aria-current='page'] {
   background: var(--muted);
   color: var(--foreground);
-  font-weight: 500;
 }
 .ds-navigation svg {
   width: 1rem;
@@ -145,7 +145,7 @@
   outline-offset: 3px;
 }
 @media (hover: hover) and (pointer: fine) {
-  .ds-navigation a:hover {
+  .ds-navigation a:not([aria-current='page']):hover {
     background: var(--muted);
     color: var(--foreground);
   }

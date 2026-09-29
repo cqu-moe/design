@@ -598,15 +598,19 @@ code {
 .metric-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-4);
   margin-bottom: var(--space-6);
-}
-.metric-card {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.metric-card {
   padding: var(--space-5);
   min-width: 0;
+}
+.metric-card + .metric-card {
+  border-left: 1px solid var(--border);
 }
 .metric-card > div {
   display: flex;
@@ -800,6 +804,12 @@ code {
   .metric-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .metric-card:nth-child(odd) {
+    border-left: 0;
+  }
+  .metric-card:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
@@ -810,9 +820,6 @@ code {
   }
 }
 @media (max-width: 767px) {
-  .metric-grid {
-    gap: var(--space-3);
-  }
   .metric-card {
     padding: var(--space-4);
   }
@@ -1203,4 +1210,11 @@ code {
 .button-feedback-case label {
   min-height: 2.75rem;
   gap: var(--space-3);
+}
+
+/* Reference surfaces use the same depth and emphasis as consuming applications. */
+.settings-form,
+.auth-card,
+.admin-panel {
+  box-shadow: var(--shadow-card);
 }

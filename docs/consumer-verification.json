@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-09-28T18:36:47.815Z",
+  "checkedAt": "2026-09-29T04:47:33.876Z",
   "result": "passed",
-  "workspace": "/Users/uu/Developer/cqu-moe/design/.worktrees/design-system/.verification/consumer-9sMlEy",
+  "workspace": "/Users/uu/.codex/worktrees/auth-visual-polish/design/.verification/consumer-WgkAwX",
   "checks": [
     "generated template with portable relative tarballs",
     "tarball install",

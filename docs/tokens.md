@@ -9,6 +9,8 @@
 | 次要背景与说明 | --muted、--muted-foreground |
 | 分组线、输入边界、焦点 | --border、--input、--ring |
 | 主要按钮 | --primary、--primary-foreground |
+| 当前选中与轻交互 | --muted、--accent |
+| 卡片轻投影 | --shadow-card |
 | 错误、成功、警告、链接 | --destructive、--success、--warning、--link |
 
 background 是整页底色，surface 用于确需分组的内容区域，muted 用于选中状态和次要填充。不要为了分组反复套卡片。

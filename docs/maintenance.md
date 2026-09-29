@@ -31,7 +31,7 @@
 
 发布前同步 packages/theme、packages/ui、templates/app 的版本，更新 README、DESIGN、consumption、锁文件和随包规则。`pnpm create:app` 使用现有构建后 pack 的准确版本，不从公共 registry 猜测下载。
 
-当前没有远程/registry 发布目标。创建本地 tarball 不等于发布；发布包、部署和对外 issue 需要用户明确授权。当前 .worktrees 属于活跃工作区，不用 shell 删除。
+预览站通过根目录 wrangler.jsonc 部署到 Cloudflare Workers Static Assets；执行 pnpm deploy。当前没有 registry 发布目标，创建本地 tarball 不等于发布 npm 包。发布包、部署和对外 issue 需要用户明确授权。当前 .worktrees 属于活跃工作区，不用 shell 删除。
 
 ## 文档和问题处理
 

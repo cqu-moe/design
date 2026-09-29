@@ -26,3 +26,37 @@ test('touch theme menu options each provide 44px height', async ({ browser }) =>
   }
   await context.close();
 });
+
+for (const theme of ['light', 'dark']) {
+  test(`${theme} brand actions and selected navigation keep readable contrast`, async ({
+    page,
+  }) => {
+    await page.addInitScript((value) => localStorage.setItem('cqu-moe-theme', value), theme);
+    await page.goto('/components');
+    for (const name of ['主要操作', '次要操作']) {
+      const button = page.getByRole('button', { name, exact: true });
+      expect(await button.evaluate(elementContrast)).toBeGreaterThanOrEqual(4.5);
+      await button.hover();
+      await expect.poll(() => button.evaluate(elementContrast)).toBeGreaterThanOrEqual(4.5);
+    }
+    const current = page.locator('.ds-sidebar a[aria-current="page"]');
+    expect(await current.evaluate(elementContrast)).toBeGreaterThanOrEqual(4.5);
+  });
+}
+
+test('press feedback moves only for pointer input without reduced motion', async ({ page }) => {
+  await page.goto('/components');
+  const button = page.getByRole('button', { name: '主要操作', exact: true });
+  await button.focus();
+  await page.keyboard.down('Space');
+  expect(await button.evaluate((el) => getComputedStyle(el).transform)).toBe('none');
+  await page.keyboard.up('Space');
+  await button.hover();
+  await page.mouse.down();
+  await expect.poll(() => button.evaluate((el) => getComputedStyle(el).transform)).not.toBe('none');
+  await page.mouse.up();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.mouse.down();
+  await expect.poll(() => button.evaluate((el) => getComputedStyle(el).transform)).toBe('none');
+  await page.mouse.up();
+});

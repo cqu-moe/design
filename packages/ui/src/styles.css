@@ -41,11 +41,11 @@
     transition:
       background-color var(--duration-feedback) ease,
       color var(--duration-feedback) ease,
-      transform var(--duration-feedback) ease;
+      transform var(--duration-feedback) var(--ease-out);
     cursor: pointer;
   }
-  .ds-button:active:not(:disabled) {
-    transform: scale(0.98);
+  :root:not([data-input='keyboard']) .ds-button:active:not(:disabled):not([aria-disabled='true']) {
+    transform: scale(0.97);
   }
   .ds-button:disabled {
     opacity: 1;
@@ -124,7 +124,7 @@
   transition: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  .ds-button:active:not(:disabled) {
+  :root:not([data-input='keyboard']) .ds-button:active:not(:disabled):not([aria-disabled='true']) {
     transform: none;
   }
 }
@@ -343,4 +343,12 @@
   .ds-toast-spinner {
     animation: none !important;
   }
+}
+
+:root[data-motion-preview='reduce'] .ds-button:active:not(:disabled) {
+  transform: none;
+}
+[data-slot='switch-thumb'] {
+  transition-duration: 180ms;
+  transition-timing-function: var(--ease-out);
 }

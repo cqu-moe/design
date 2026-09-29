@@ -1,6 +1,6 @@
 # 安装、创建项目与升级
 
-当前 @cqu-moe/theme 与 @cqu-moe/ui **1.0.0** 尚未发布到 registry。使用本地 tarball，不要执行从公共 registry 安装这两个包的命令。
+当前 @cqu-moe/theme 与 @cqu-moe/ui **1.1.0** 尚未发布到 registry。使用本地 tarball，不要执行从公共 registry 安装这两个包的命令。
 
 ## 从源码创建新项目（推荐）
 
@@ -39,8 +39,8 @@ pnpm --dir packages/ui pack --pack-destination ../../artifacts
 ```json
 {
   "dependencies": {
-    "@cqu-moe/theme": "file:./.design/cqu-moe-theme-1.0.0.tgz",
-    "@cqu-moe/ui": "file:./.design/cqu-moe-ui-1.0.0.tgz",
+    "@cqu-moe/theme": "file:./.design/cqu-moe-theme-1.1.0.tgz",
+    "@cqu-moe/ui": "file:./.design/cqu-moe-ui-1.1.0.tgz",
     "lucide-react": "1.48.0"
   },
   "scripts": {
@@ -57,7 +57,7 @@ UI 的 peerDependencies 要求 React/React DOM ^19.0.0；检查器需要 TypeScr
 packages:
   - .
 overrides:
-  '@cqu-moe/theme': 'file:./.design/cqu-moe-theme-1.0.0.tgz'
+  '@cqu-moe/theme': 'file:./.design/cqu-moe-theme-1.1.0.tgz'
 allowBuilds:
   esbuild: true
   '@parcel/watcher': true
