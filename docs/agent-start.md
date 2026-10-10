@@ -14,7 +14,7 @@
 
 ## 新项目
 
-在设计仓库运行 `pnpm install`，然后 `pnpm create:app ../my-subsystem`。新目录必须不存在；生成器不会覆盖已有项目。进入新目录，修改 package.json 的 name 和 index.html 的 title，执行 `pnpm install`、`pnpm build`、`pnpm check:design`、`pnpm dev`。
+按 [安装说明](consumption.md) 的“从源码创建新项目”执行；生成器不会覆盖已有项目。
 
 模板已接入一次 ThemeProvider / Toaster、首帧主题初始化、AppShell、路由错误页、404、Lucide 图标、编译后的共享 CSS 和设计检查器。提交生成的 .design/*.tgz、pnpm-workspace.yaml 及锁文件，保证其他机器能安装。
 
@@ -66,4 +66,4 @@ export function UsersPage({ onCreate }: { onCreate: () => void }) {
 
 ## 遇到缺口
 
-先查公开类型与最近示例；能组合就组合。组件有缺陷或需要通用变体时，按 [反馈约定](feedback-contract.md) 提醒用户并给出可复现记录。无授权不改设计包、不发 issue、不复制出本地分叉。可继续完成不受影响的业务部分，并在交付中列明阻塞与临时方案。
+先查公开类型与最近示例；能组合就组合。组件有缺陷或需要通用变体时，按 [反馈约定](feedback-contract.md) 处理。可继续完成不受影响的业务部分，并在交付中列明阻塞与临时方案。
