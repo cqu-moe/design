@@ -12,10 +12,14 @@ if [[ "$ID" != ubuntu || "$VERSION_ID" != 24.04 || "$(uname -m)" != x86_64 ]]; t
 fi
 pnpm check
 libs="$PWD/.verification/chromium-libs"
-mkdir -p "$libs"
+mkdir -p "$libs/lists/partial" "$libs/cache/archives/partial"
+# Cloudflare strips the global APT indexes. Refresh signed repository metadata
+# into a writable local directory, rather than depending on the host cache.
+apt_options=(-o "Dir::State::lists=$libs/lists" -o "Dir::Cache=$libs/cache")
+apt-get "${apt_options[@]}" update
 (
   cd "$libs"
-  apt-get download \
+  apt-get "${apt_options[@]}" download \
     libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 \
     libcairo2 libcups2t64 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0t64 \
     libnspr4 libnss3 libpango-1.0-0 libx11-6 libxcb1 libxcomposite1 \
