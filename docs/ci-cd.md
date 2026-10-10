@@ -18,12 +18,12 @@ Cloudflare Git Builds remains the production deployer. No Wrangler deploy or bui
 Configure Cloudflare from this repository root for `main` with:
 
 ```sh
-pnpm install --frozen-lockfile && pnpm check && pnpm exec playwright install --with-deps chromium && pnpm test:e2e && pnpm verify:consumer
+pnpm install --frozen-lockfile && bash scripts/build-cloudflare.sh
 ```
 
-`pnpm check` builds theme, UI, and preview, then runs type checking, Vitest, Node distribution tests, and the design-rule scanner. The command then installs Chromium, runs browser E2E, and verifies a relocated consumer installed from the generated tarballs. A failed gate must leave the deployment closed. Because GitHub branch protection is unavailable for this private repository, Cloudflare uses this full command as its own pre-deploy gate rather than relying on **CI result**. This also tests the build under Cloudflare’s actual runtime environment.
+`pnpm check` builds theme, UI, and preview, then runs type checking, Vitest, Node distribution tests, and the design-rule scanner. The script downloads the Chromium shared libraries from the configured Ubuntu APT repositories and extracts them inside `.verification/`, without root access or system changes. It installs the locked Chromium, runs browser E2E, and verifies a relocated consumer installed from the generated tarballs. The GitHub browser job runs this same script on Ubuntu 24.04 so changes to the Cloudflare gate are checked before merge. Cloudflare cannot elevate privileges for `playwright install --with-deps`. A failed gate must leave the deployment closed. Because GitHub branch protection is unavailable for this private repository, Cloudflare uses this full command as its own pre-deploy gate rather than relying on **CI result**. This also tests the build under Cloudflare’s actual runtime environment.
 
-The Cloudflare Worker exists, but no Git connection was configured at audit time. The maintainer has logged in and prepared a connection to `cqu-moe/design` `main`; actual connection/build/deployment evidence remains pending until read back after configuration.
+The Cloudflare Worker is connected to `cqu-moe/design` on `main`. Its deploy command is `pnpm dlx wrangler@4.94.0 deploy`. A saved configuration alone is not proof of a successful deployment; verify the exact commit and build outcome in Workers Builds.
 
 ## Package and local dependency boundaries
 
