@@ -11,21 +11,31 @@ if [[ "$ID" != ubuntu || "$VERSION_ID" != 24.04 || "$(uname -m)" != x86_64 ]]; t
   exit 1
 fi
 pnpm check
-libs="$PWD/.verification/chromium-libs"
+mkdir -p .verification
+libs="$(mktemp -d "$PWD/.verification/chromium-libs.XXXXXX")"
 mkdir -p "$libs/lists/partial" "$libs/cache/archives/partial"
-# Cloudflare strips the global APT indexes. Refresh signed repository metadata
-# into a writable local directory, rather than depending on the host cache.
-apt_options=(-o "Dir::State::lists=$libs/lists" -o "Dir::Cache=$libs/cache")
+# Cloudflare strips global APT indexes. Keep all package state in this build
+# workspace and resolve transitive dependencies against a copy of host state.
+cp /var/lib/dpkg/status "$libs/status"
+cat > "$libs/apt.conf" <<'APT'
+#clear APT::Update::Post-Invoke;
+#clear APT::Update::Post-Invoke-Success;
+#clear DPkg::Post-Invoke;
+APT
+apt_options=(-c "$libs/apt.conf" -o "Dir::State::lists=$libs/lists"
+  -o "Dir::State::status=$libs/status"
+  -o "Dir::State::extended_states=$libs/extended_states"
+  -o "Dir::Cache=$libs/cache" -o Debug::NoLocking=true)
 apt-get "${apt_options[@]}" update
-(
-  cd "$libs"
-  apt-get "${apt_options[@]}" download \
-    libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 \
-    libcairo2 libcups2t64 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0t64 \
-    libnspr4 libnss3 libpango-1.0-0 libx11-6 libxcb1 libxcomposite1 \
-    libxdamage1 libxext6 libxfixes3 libxkbcommon0 libxrandr2
-  for package in *.deb; do dpkg-deb -x "$package" root; done
-)
+apt-get "${apt_options[@]}" --download-only --no-install-recommends -y install \
+  libasound2t64 libatk-bridge2.0-0t64 libatk1.0-0t64 libatspi2.0-0t64 \
+  libcairo2 libcups2t64 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0t64 \
+  libnspr4 libnss3 libpango-1.0-0 libx11-6 libxcb1 libxcomposite1 \
+  libxdamage1 libxext6 libxfixes3 libxkbcommon0 libxrandr2
+shopt -s nullglob
+for package in "$libs"/cache/archives/*.deb; do
+  dpkg-deb -x "$package" "$libs/root"
+done
 export LD_LIBRARY_PATH="$libs/root/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 pnpm exec playwright install chromium
 pnpm test:e2e
