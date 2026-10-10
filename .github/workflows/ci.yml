@@ -64,7 +64,7 @@ jobs:
 
   browser:
     name: Chromium design gates
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
       - name: Check out source
@@ -80,14 +80,8 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Install Chromium
-        run: pnpm exec playwright install --with-deps chromium
-      - name: Build packages and preview
-        run: pnpm build
-      - name: Run browser E2E
-        run: pnpm test:e2e
-      - name: Verify installed tarball consumer
-        run: pnpm verify:consumer
+      - name: Run the Cloudflare source and browser gate without root
+        run: bash scripts/build-cloudflare.sh
       - name: Upload browser reports
         if: always() && !cancelled()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
