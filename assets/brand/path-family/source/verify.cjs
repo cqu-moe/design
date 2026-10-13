@@ -58,6 +58,9 @@ function contrast(a,b){const [lo,hi]=[luminance(a),luminance(b)].sort((a,b)=>a-b
   assert.equal(await page.locator(':focus').getAttribute('href'),'schedule/logo.svg');
   assert.equal(await page.locator(':focus').evaluate(el=>getComputedStyle(el).outlineStyle),'solid');
   for(const id of Object.keys(palette))for(const file of ['logo.svg','logo-1024.png','favicon.ico']){
+   // Chromium limits repeated automatic downloads in the same document.
+   await page.reload();
+   console.log(`Checking download: ${id}/${file}`);
    const event=page.waitForEvent('download');
    await page.locator(`a[href="${id}/${file}"]`).click();
    const download=await event;assert.equal(await download.failure(),null);assert.equal(download.suggestedFilename(),file);

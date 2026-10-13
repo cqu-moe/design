@@ -1,6 +1,6 @@
 """Normalize traced geometry without changing its proportions; sample colors in OKLCH."""
 from pathlib import Path
-import json, math
+import json, math, sys
 import xml.etree.ElementTree as ET
 
 root = Path(__file__).resolve().parent
@@ -17,12 +17,15 @@ def oklch(hexcolor):
     b = .0259040371*l+.7827717662*m-.808675766*s
     return [round(L,6),round(math.hypot(a,b),6),round(math.degrees(math.atan2(b,a))%360,6)]
 meanings = {
+    'feed': '叠放的通知页与汇聚的信息流，表达多来源通知采集、统一阅读与存档。',
     'schedule': '叠放的日历页与贯穿其中的流动带，表达课表订阅及持续同步。',
     'auth': '清晰的锁形与交叠带状结构，表达身份认证及服务之间的可信连接。',
     'quicklogin': '环绕入口的连续带，表达浏览器登录状态的自动同步与顺畅通行。',
 }
 for p in model['products']:
     name = p['id']
+    if sys.argv[1:] and name not in sys.argv[1:]:
+        continue
     info = extraction[name]
     w,h = info['size']
     scale = 52 / (max(w,h)-8)

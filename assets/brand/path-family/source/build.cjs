@@ -32,12 +32,12 @@ write('palette.json',JSON.stringify(Object.fromEntries(products.map(p=>[p.id,{li
 const ink='#242424',muted='#666666',line='#e5e5e5',paper='#fafaf9';
 const text=(x,y,value,size=16,fill=ink,weight=400)=>`<text x="${x}" y="${y}" fill="${fill}" font-size="${size}" font-weight="${weight}">${value}</text>`;
 const placed=(p,x,y,size,color)=>`<g transform="translate(${x} ${y}) scale(${size/64})">${mark(p,color)}</g>`;
-let board=`<rect width="1600" height="1120" fill="${paper}"/>`;
+let board=`<rect width="2100" height="1120" fill="${paper}"/>`;
 board+=text(80,70,'CQU MOE  /  VISUAL IDENTITY',15,muted,600);
 board+=text(80,146,'通路',64,ink,600)+text(252,143,'Path',56,ink,500);
 board+=text(80,193,'已确认概念稿 · SVG 矢量复刻',20,muted);
-board+=text(1280,70,'01 — LOGO FAMILY',13,muted,500);
-board+=`<path d="M80 230H1520" stroke="${line}"/>`;
+board+=text(1780,70,'01 — LOGO FAMILY',13,muted,500);
+board+=`<path d="M80 230H2020" stroke="${line}"/>`;
 products.forEach((p,i)=>{
  const x=80+i*500;
  board+=text(x,270,`0${i+1} / ${p.id.toUpperCase()}`,13,muted,500);
@@ -53,11 +53,11 @@ products.forEach((p,i)=>{
  [16,24,32,48].forEach(n=>{board+=placed(p,sx,890-n/2,n,p.hex)+text(sx,940,String(n),12,muted);sx+=72;});
  board+=`<g transform="translate(${x+344} 864)">${app(p)}</g>`;
 });
-board+=`<path d="M80 985H1520" stroke="${line}"/>`;
+board+=`<path d="M80 985H2020" stroke="${line}"/>`;
 board+=text(80,1029,'可编辑贝塞尔路径 · 原稿比例 · 透明背景 · 彩色与黑白版本',15,muted);
-board+=text(80,1062,'网页：Schedule / Auth 黑白标识；QuickLogin 彩色标识与暖橙主题。',15,muted);
-board+=text(1330,1062,'VECTOR EDITION / 01',12,muted,500);
-write('overview.svg',`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1120" viewBox="0 0 1600 1120" role="img" aria-label="CQU Moe 通路 Logo 家族，Schedule、Auth、QuickLogin 三个标识与黑白及小尺寸展示"><g font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif">${board}</g></svg>`);
+board+=text(80,1062,'网页：Schedule / Auth / Feed 黑白标识；QuickLogin 彩色标识与暖橙主题。',15,muted);
+board+=text(1830,1062,'VECTOR EDITION / 01',12,muted,500);
+write('overview.svg',`<svg xmlns="http://www.w3.org/2000/svg" width="2100" height="1120" viewBox="0 0 2100 1120" role="img" aria-label="CQU Moe 通路 Logo 家族，Schedule、Auth、QuickLogin、Feed 四个标识与黑白及小尺寸展示"><g font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif">${board}</g></svg>`);
 
 // A static artwork catalog; not a product UI or shared-component implementation.
 // design-exception: fixed brand specimen dimensions and palette are content assets.
@@ -65,14 +65,14 @@ const tiles=products.map(p=>`<section aria-labelledby="${p.id}"><div class="spec
 write('index.html',`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>通路 · CQU Moe Logo 家族</title><style>
 :root{color-scheme:light dark;--background:oklch(.985 0 0);--surface:oklch(1 0 0);--foreground:oklch(.24 0 0);--muted-foreground:oklch(.46 0 0);--border:oklch(0 0 0 / .1);--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-6:1.5rem;--space-8:2rem;--space-12:3rem;--radius:.5rem;--text-sm:.875rem;--text-base:1rem;--text-title:1.75rem;--text-display:2.25rem}
 @media(prefers-color-scheme:dark){:root{--background:oklch(.235 0 0);--surface:oklch(.265 0 0);--foreground:oklch(.93 0 0);--muted-foreground:oklch(.735 0 0);--border:oklch(.37 0 0)}}
-*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font:var(--text-base)/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;-webkit-font-smoothing:antialiased}main{max-width:75rem;margin:auto;padding:var(--space-12) var(--space-6)}header{padding-bottom:var(--space-8);border-bottom:1px solid var(--border)}.eyebrow{font-size:var(--text-sm);color:var(--muted-foreground);letter-spacing:.08em}h1{font-size:var(--text-display);letter-spacing:-.04em;line-height:1.2;margin:var(--space-4) 0}h2{font-size:var(--text-title);line-height:1.2;margin:var(--space-6) 0 var(--space-3)}p{color:var(--muted-foreground);max-width:65ch;margin:0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-8);padding:var(--space-8) 0}.specimen{display:grid;place-items:center;background:oklch(1 0 0);aspect-ratio:1.3;border-radius:var(--radius)}.pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-top:var(--space-6)}.pair>div{display:grid;place-items:center;padding:var(--space-4);background:oklch(1 0 0);border:1px solid var(--border);border-radius:var(--radius)}.pair>.inverse{background:oklch(.24 0 0)}.sizes{display:flex;justify-content:space-between;align-items:end;padding:var(--space-6) var(--space-4);background:oklch(1 0 0);color:oklch(.24 0 0);margin-top:var(--space-3);border-radius:var(--radius)}figure{margin:0;text-align:center}figcaption{font-size:var(--text-sm);margin-top:var(--space-2)}img{display:block;max-width:100%;object-fit:contain}figure img{margin:auto}.downloads{display:flex;gap:var(--space-3);margin-top:var(--space-4)}a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:var(--space-2) var(--space-3);border:1px solid var(--border);border-radius:var(--radius);color:var(--foreground);text-underline-offset:3px;touch-action:manipulation}a:focus-visible{outline:2px solid var(--foreground);outline-offset:4px}footer{padding-top:var(--space-8);border-top:1px solid var(--border)}footer p+p{margin-top:var(--space-3)}@media(max-width:50rem){.grid{grid-template-columns:1fr}.specimen{aspect-ratio:1.8}main{padding:var(--space-8) var(--space-4)}}
-</style><main><header><div class="eyebrow">CQU MOE / VISUAL IDENTITY</div><h1>通路 · Path</h1><p>已确认概念稿 · SVG 矢量复刻</p></header><div class="grid">${tiles}</div><footer><p>可编辑贝塞尔路径 · 原稿比例 · 透明背景 · 彩色与黑白版本</p><p>网页：Schedule / Auth 黑白标识；QuickLogin 彩色标识与暖橙主题。<a href="README.md">使用规范</a></p></footer></main></html>`);
+*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font:var(--text-base)/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;-webkit-font-smoothing:antialiased}main{max-width:75rem;margin:auto;padding:var(--space-12) var(--space-6)}header{padding-bottom:var(--space-8);border-bottom:1px solid var(--border)}.eyebrow{font-size:var(--text-sm);color:var(--muted-foreground);letter-spacing:.08em}h1{font-size:var(--text-display);letter-spacing:-.04em;line-height:1.2;margin:var(--space-4) 0}h2{font-size:var(--text-title);line-height:1.2;margin:var(--space-6) 0 var(--space-3)}p{color:var(--muted-foreground);max-width:65ch;margin:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-8);padding:var(--space-8) 0}.specimen{display:grid;place-items:center;background:oklch(1 0 0);aspect-ratio:1.3;border-radius:var(--radius)}.pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-top:var(--space-6)}.pair>div{display:grid;place-items:center;padding:var(--space-4);background:oklch(1 0 0);border:1px solid var(--border);border-radius:var(--radius)}.pair>.inverse{background:oklch(.24 0 0)}.sizes{display:flex;justify-content:space-between;align-items:end;padding:var(--space-6) var(--space-4);background:oklch(1 0 0);color:oklch(.24 0 0);margin-top:var(--space-3);border-radius:var(--radius)}figure{margin:0;text-align:center}figcaption{font-size:var(--text-sm);margin-top:var(--space-2)}img{display:block;max-width:100%;object-fit:contain}figure img{margin:auto}.downloads{display:flex;gap:var(--space-3);margin-top:var(--space-4)}a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:var(--space-2) var(--space-3);border:1px solid var(--border);border-radius:var(--radius);color:var(--foreground);text-underline-offset:3px;touch-action:manipulation}a:focus-visible{outline:2px solid var(--foreground);outline-offset:4px}footer{padding-top:var(--space-8);border-top:1px solid var(--border)}footer p+p{margin-top:var(--space-3)}@media(max-width:50rem){.grid{grid-template-columns:1fr}.specimen{aspect-ratio:1.8}main{padding:var(--space-8) var(--space-4)}}
+</style><main><header><div class="eyebrow">CQU MOE / VISUAL IDENTITY</div><h1>通路 · Path</h1><p>已确认概念稿 · SVG 矢量复刻</p></header><div class="grid">${tiles}</div><footer><p>可编辑贝塞尔路径 · 原稿比例 · 透明背景 · 彩色与黑白版本</p><p>网页：Schedule / Auth / Feed 黑白标识；QuickLogin 彩色标识与暖橙主题。<a href="README.md">使用规范</a></p></footer></main></html>`);
 // end design-exception.
 
 (async()=>{
  const browser=await chromium.launch({headless:true});
  try{
-  const page=await browser.newPage({viewport:{width:1600,height:1120},deviceScaleFactor:1});
+  const page=await browser.newPage({viewport:{width:2100,height:1120},deviceScaleFactor:1});
   let rasterCount=0;
   await page.route('**/*',route=>route.abort());
   async function raster(source,file,width,height=width){
@@ -103,7 +103,7 @@ write('index.html',`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><met
    });
    write(`${p.id}/favicon.ico`,Buffer.concat([header,...frames.map(f=>f.data)]));
   }
-  await raster(fs.readFileSync(path.join(root,'overview.svg'),'utf8'),'overview.png',1600,1120);
+  await raster(fs.readFileSync(path.join(root,'overview.svg'),'utf8'),'overview.png',2100,1120);
   console.log(JSON.stringify({root,products:products.map(p=>({id:p.id,hex:p.hex,darkHex:p.darkHex})),rasterCount}));
  }finally{await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

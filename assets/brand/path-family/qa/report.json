@@ -66,7 +66,10 @@
     "auth/favicon.ico",
     "quicklogin/logo.svg",
     "quicklogin/logo-1024.png",
-    "quicklogin/favicon.ico"
+    "quicklogin/favicon.ico",
+    "feed/logo.svg",
+    "feed/logo-1024.png",
+    "feed/favicon.ico"
   ],
   "contrast": {
     "schedule": {
@@ -80,6 +83,10 @@
     "quicklogin": {
       "lightOnWhite": 3.28,
       "darkOnGraphite": 8.06
+    },
+    "feed": {
+      "lightOnWhite": 5.9,
+      "darkOnGraphite": 7.98
     }
   },
   "warnings": [],

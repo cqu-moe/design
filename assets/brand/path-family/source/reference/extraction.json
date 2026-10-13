@@ -40,5 +40,19 @@
     ],
     "hex": "#eb6433",
     "foregroundPixels": 64445
+  },
+  "feed": {
+    "crop": [
+      649,
+      62,
+      474,
+      451
+    ],
+    "size": [
+      474,
+      451
+    ],
+    "hex": "#b13758",
+    "foregroundPixels": 121956
   }
 }
