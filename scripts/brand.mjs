@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const source = path.join(root, 'assets/brand/path-family');
-const products = ['schedule', 'auth', 'quicklogin'];
+const products = ['schedule', 'auth', 'quicklogin', 'feed'];
 const common = [
   'logo.svg',
   'logo-dark.svg',
@@ -36,7 +36,7 @@ async function copy(from, to) {
 async function run() {
   if (!['prepare', 'sync', 'check'].includes(command))
     throw new Error(
-      'Usage: node scripts/brand.mjs prepare | sync|check <schedule|auth|quicklogin> <repo-root>',
+      'Usage: node scripts/brand.mjs prepare | sync|check <schedule|auth|quicklogin|feed> <repo-root>',
     );
   await verifyManifest();
   if (command === 'prepare') {
@@ -76,7 +76,8 @@ async function run() {
     throw new Error('Specify a supported product and its existing repository root.');
   const target = path.resolve(targetArg);
   await stat(path.join(target, 'package.json'));
-  const publicDir = product === 'quicklogin' ? 'website/public' : 'frontend/public';
+  const publicDir =
+    product === 'feed' ? 'public' : product === 'quicklogin' ? 'website/public' : 'frontend/public';
   await stat(path.join(target, publicDir));
   const files =
     product === 'quicklogin'

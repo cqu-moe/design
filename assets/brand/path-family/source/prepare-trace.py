@@ -14,7 +14,7 @@ if approved != REF / 'approved-concept.png':
 sheet = np.array(Image.open(approved).convert('RGB'))
 assert sheet.shape[:2] == (887, 1774), 'Expected the approved 1774 x 887 sheet'
 regions = {'schedule': (85, 105, 500, 500), 'auth': (710, 95, 1060, 485), 'quicklogin': (1280, 105, 1680, 495)}
-records = {}
+records = json.loads((REF / 'extraction.json').read_text()) if (REF / 'extraction.json').exists() else {}
 for name, (x0, y0, x1, y1) in regions.items():
     crop = sheet[y0:y1, x0:x1]
     spread = crop.max(2).astype(int) - crop.min(2).astype(int)

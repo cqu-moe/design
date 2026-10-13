@@ -21,3 +21,7 @@ node assets/brand/path-family/source/verify.cjs
 VTracer 的 Python 包版本为 0.6.15，输出 SVG 注释中的 Rust 核心版本为 0.6.12；两者不是同一个版本字段。不要用 Python 3.14 复现本次流程，该组合在本机发生过崩溃。
 
 素材或验收报告更新后，在 design 仓库运行 `python3 scripts/package-brand.py`，刷新 SHA-256 清单和可复现 ZIP。随后 `pnpm brand:prepare` 刷新预览资源。
+
+## Feed 独立确认稿
+
+先运行 `python3 assets/brand/path-family/source/prepare-feed.py`，再运行 `uv run --python 3.12 --with vtracer==0.6.15 python assets/brand/path-family/source/trace.py feed` 与 `python3 assets/brand/path-family/source/import-traces.py feed`。Feed 原稿为 `reference/feed-approved-concept.png`，固定裁切区域已排除文字和下方黑白示例。只描摹 Feed 时不会修改前三枚路径。常规重建仍只需 build / verify。

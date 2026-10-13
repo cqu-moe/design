@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-10-13T01:48:21.914Z",
+  "checkedAt": "2026-10-13T04:14:03.470Z",
   "result": "passed",
-  "workspace": "/Users/uu/.codex/worktrees/logo-family/design/.verification/consumer-XSgRY2",
+  "workspace": "/Users/uu/.codex/worktrees/feed-logo/design/.verification/consumer-nTa85V",
   "checks": [
     "generated template with portable relative tarballs",
     "tarball install",
