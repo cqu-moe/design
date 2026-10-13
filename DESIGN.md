@@ -16,6 +16,7 @@
 | 选颜色、字号、间距 | [主题变量](docs/tokens.md) |
 | 创建页面、适配手机 | [布局规则](docs/layout.md) |
 | 选组件及变体 | [组件规则](docs/components.md) |
+| 产品 Logo、favicon 与扩展图标 | [品牌规范](docs/brand.md) |
 | 图标和图标按钮 | [图标规则](docs/icons.md) |
 | 加载、空数据、错误和权限 | [页面状态](docs/states.md) |
 | 选择通知与反馈 | [通知规则](docs/notifications.md) |
