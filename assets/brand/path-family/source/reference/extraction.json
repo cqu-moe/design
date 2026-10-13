@@ -1,0 +1,44 @@
+{
+  "schedule": {
+    "crop": [
+      107,
+      124,
+      375,
+      359
+    ],
+    "size": [
+      375,
+      359
+    ],
+    "hex": "#1c50aa",
+    "foregroundPixels": 61201
+  },
+  "auth": {
+    "crop": [
+      729,
+      108,
+      316,
+      363
+    ],
+    "size": [
+      316,
+      363
+    ],
+    "hex": "#089891",
+    "foregroundPixels": 68581
+  },
+  "quicklogin": {
+    "crop": [
+      1294,
+      122,
+      374,
+      361
+    ],
+    "size": [
+      374,
+      361
+    ],
+    "hex": "#eb6433",
+    "foregroundPixels": 64445
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "viewports": [
+    {
+      "width": 320,
+      "scheme": "light",
+      "overflow": false,
+      "images": true,
+      "targets": true
+    },
+    {
+      "width": 390,
+      "scheme": "light",
+      "overflow": false,
+      "images": true,
+      "targets": true
+    },
+    {
+      "width": 768,
+      "scheme": "light",
+      "overflow": false,
+      "images": true,
+      "targets": true
+    },
+    {
+      "width": 1440,
+      "scheme": "light",
+      "overflow": false,
+      "images": true,
+      "targets": true
+    },
+    {
+      "width": 320,
+      "scheme": "dark",
+      "overflow": false,
+      "images": true,
+      "targets": true
+    },
+    {
+      "width": 390,
+      "scheme": "dark",
+      "overflow": false,
+      "images": true,
+      "targets": true
+    },
+    {
+      "width": 768,
+      "scheme": "dark",
+      "overflow": false,
+      "images": true,
+      "targets": true
+    },
+    {
+      "width": 1440,
+      "scheme": "dark",
+      "overflow": false,
+      "images": true,
+      "targets": true
+    }
+  ],
+  "downloads": [
+    "schedule/logo.svg",
+    "schedule/logo-1024.png",
+    "schedule/favicon.ico",
+    "auth/logo.svg",
+    "auth/logo-1024.png",
+    "auth/favicon.ico",
+    "quicklogin/logo.svg",
+    "quicklogin/logo-1024.png",
+    "quicklogin/favicon.ico"
+  ],
+  "contrast": {
+    "schedule": {
+      "lightOnWhite": 7.56,
+      "darkOnGraphite": 8.32
+    },
+    "auth": {
+      "lightOnWhite": 3.55,
+      "darkOnGraphite": 8.52
+    },
+    "quicklogin": {
+      "lightOnWhite": 3.28,
+      "darkOnGraphite": 8.06
+    }
+  },
+  "warnings": [],
+  "scope": "Static logo assets and artwork catalog only"
+}

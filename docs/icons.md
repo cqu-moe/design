@@ -39,3 +39,5 @@ import { Button } from '@cqu-moe/ui';
 错误示例：`<Pencil onClick={openEditor} />` 没有按钮语义和键盘操作；`<Button size="icon"><Pencil /></Button>` 没有可访问名称。
 
 依据：packages/ui/src/components/ui/button.tsx、layout.css、action-button.tsx 和 page-state.tsx；外部语义参考 [Lucide accessibility](https://lucide.dev/guide/accessibility)。图标规则的自动扫描仅拦截常见替代库，名称、命中区和语义仍需交互检查。
+
+Schedule、Auth、QuickLogin 的正式品牌标识见 [品牌规范](brand.md)。Logo 不替代按钮、状态、列表等功能图标。

@@ -1,0 +1,418 @@
+{
+  "README.md": {
+    "bytes": 4539,
+    "sha256": "0e9060a1e90c6539978c80cf23e63479dc9e51881ae648191a87f59add86317a"
+  },
+  "VERIFICATION.md": {
+    "bytes": 3308,
+    "sha256": "cc7ad3b317cdddc48e4eb700cfdfa008015eed4df64b6a768dbf6abb7af90ec1"
+  },
+  "auth/app-icon.svg": {
+    "bytes": 6747,
+    "sha256": "4a65889bae07df559407858489652f4fe55a51999831db0beff8639a951234a4"
+  },
+  "auth/favicon-16.png": {
+    "bytes": 490,
+    "sha256": "463ae158ac3552eedc595278f83a1ed00b04ccdc1f8fb352a98bc1b5305a9a49"
+  },
+  "auth/favicon-32.png": {
+    "bytes": 1091,
+    "sha256": "ce1e92e1d47e08adeeb13bb0d2adac8dcf1a80dc222210d561f9a05f09d0f1a8"
+  },
+  "auth/favicon-48.png": {
+    "bytes": 1461,
+    "sha256": "585db5115f18b4eac2fee85505a2a3bba8e002cc1f6f4ea68b5938cf9a9ae5d2"
+  },
+  "auth/favicon.ico": {
+    "bytes": 3096,
+    "sha256": "3523c8283ce223ef26637914ffa98dff7a83d18bbc68a643c301070518e78821"
+  },
+  "auth/favicon.svg": {
+    "bytes": 6693,
+    "sha256": "9ac7c373d912a501b37f5acaa5d7e5ebd49434123bf4e75e05a4e8e88b4e728e"
+  },
+  "auth/icon-1024.png": {
+    "bytes": 39696,
+    "sha256": "337d6ff0b886718065f1a4d5c4359d0363c8ae7906f7f88f9d3f669486dc3699"
+  },
+  "auth/icon-128.png": {
+    "bytes": 4051,
+    "sha256": "f365a412a77fa52a46b7001b2064ec796217b69e1c1b125d6e61df4c9197c17e"
+  },
+  "auth/icon-16.png": {
+    "bytes": 557,
+    "sha256": "ba49c81882b0c0c1d72a5a9bf06e4981575aae2a77232af3f3221df7d35b82e8"
+  },
+  "auth/icon-192.png": {
+    "bytes": 6180,
+    "sha256": "80f06388ac780ecd0292f2577acf9e5424fd59262d0448f5da5b9cee2861ec05"
+  },
+  "auth/icon-32.png": {
+    "bytes": 1073,
+    "sha256": "abf376902bee655ef3d2e76da0af2a8c9be3ee275032c4546f0c10673d76b313"
+  },
+  "auth/icon-48.png": {
+    "bytes": 1602,
+    "sha256": "bff364d0f3240d2892f49d8d8e67c24bd357cca496613bee35500d00b146b584"
+  },
+  "auth/icon-512.png": {
+    "bytes": 18081,
+    "sha256": "c81e856103c643b197da31c4e7bf85c99013cd55f97ee954974f035dc869b9be"
+  },
+  "auth/logo-1024.png": {
+    "bytes": 38812,
+    "sha256": "b8b5dc81fc08e86c947f3987e403d176d62d4fd3aa58e23dceae4b1f35325478"
+  },
+  "auth/logo-512.png": {
+    "bytes": 17410,
+    "sha256": "4d1c03d334d9e2e1353cbfeb51516cf9bf367f080d20f070090ffccb9d482c9b"
+  },
+  "auth/logo-black-1024.png": {
+    "bytes": 27287,
+    "sha256": "57a10894f335ca53d144cabafa7d60fa9e93af04db1a5f8df64247707c80fabd"
+  },
+  "auth/logo-black-512.png": {
+    "bytes": 12416,
+    "sha256": "4b7dbeec258fcaab56aab8e7583c7b11fc37950b7f374728b65cf0c1ad69c7d3"
+  },
+  "auth/logo-black.svg": {
+    "bytes": 6634,
+    "sha256": "d5b00dd748670cce7333dd696e81583dd51ac08cc3d7b27d1e803d9d5b561aed"
+  },
+  "auth/logo-current.svg": {
+    "bytes": 6639,
+    "sha256": "b4bde51b0c10cc81029de656b97b90fb074f15eca5666e89790a109beb07404c"
+  },
+  "auth/logo-dark-1024.png": {
+    "bytes": 39472,
+    "sha256": "5f3cfc5be9050a5a5f71aaa96154be2448cb8b1763954b6480cd53fc6ca9b69a"
+  },
+  "auth/logo-dark-512.png": {
+    "bytes": 17684,
+    "sha256": "4d28af92c0be9f2ef2e7993ccc97ceb1feec6eb7edc390a398e6391214d72c0c"
+  },
+  "auth/logo-dark.svg": {
+    "bytes": 6634,
+    "sha256": "2980440a295ace29d329a6971f4cb88614dfccacdbd84c1847b925e4b6495db4"
+  },
+  "auth/logo-white-1024.png": {
+    "bytes": 29806,
+    "sha256": "08e442073411fc62b826ba2087317b2695ce725ff40b8468729b0f1dcbfc52ad"
+  },
+  "auth/logo-white-512.png": {
+    "bytes": 13480,
+    "sha256": "fce7c8114a119aa6d8a9fccfbab2c703693100c99baf7268b986ab1432f62914"
+  },
+  "auth/logo-white.svg": {
+    "bytes": 6634,
+    "sha256": "00b79f15809c0a6a735473a1f905c03731d38354b5ecd7716db16e0bf5e0b3fc"
+  },
+  "auth/logo.svg": {
+    "bytes": 6634,
+    "sha256": "68e91fb2d057f3c80fa7947f488aeac1086306371a7c55724a499c3050375318"
+  },
+  "index.html": {
+    "bytes": 6744,
+    "sha256": "4ba409b606f3ed565e61927b768a2b13992ddfdd6e4663bc66949d8c4fcd51bf"
+  },
+  "overview.png": {
+    "bytes": 124888,
+    "sha256": "cd3e477b8cc262eb64adf4b29f88a0080caa4a4ede4c710485d983e43c678d0d"
+  },
+  "overview.svg": {
+    "bytes": 190352,
+    "sha256": "969a7704cb90ad17668d035c6ddfa83e3e1882e9dfe67ad4effb970c99ed844f"
+  },
+  "palette.json": {
+    "bytes": 802,
+    "sha256": "337c561bd397f2fc00868f672cb353dbb442ddf08e0ea1f3a045063830565b4e"
+  },
+  "qa/report.json": {
+    "bytes": 1642,
+    "sha256": "fe0df50337357db1ffbc0d63e73985b7c301fa7720dd85693769e69d9a1cf2ca"
+  },
+  "quicklogin/app-icon.svg": {
+    "bytes": 8395,
+    "sha256": "1c099c22e41df83acb6fac1f76ddc0481fc8550b914a4df46f4dbe6dd47c696f"
+  },
+  "quicklogin/favicon-16.png": {
+    "bytes": 569,
+    "sha256": "2e1e0b334604c596778f6a9004a80e94b1b6f56b79b24588b816931f56f265c3"
+  },
+  "quicklogin/favicon-32.png": {
+    "bytes": 1091,
+    "sha256": "22c2d817e2bcc9428a8ad79aeecd4f2b9b8355d1bb908e244af679dcd30b6ab5"
+  },
+  "quicklogin/favicon-48.png": {
+    "bytes": 1640,
+    "sha256": "c2bd7384d2b43ac2cfba44fc3dc37a982818e765217ae8049377b76929e9e12f"
+  },
+  "quicklogin/favicon.ico": {
+    "bytes": 3354,
+    "sha256": "fa35a42a27dd1dc3ae757f6007d95f98d026643b42ada23e1a47c761589ca959"
+  },
+  "quicklogin/favicon.svg": {
+    "bytes": 8335,
+    "sha256": "fc327faffcea6d27e584f00eff1be4ade414c66e5ffbcbd08ee05485e41bb71a"
+  },
+  "quicklogin/icon-1024.png": {
+    "bytes": 38476,
+    "sha256": "e08395cb792df062458fb2ea5675a59acf0c9a2a69cbe4faabb3f0eec519bcb7"
+  },
+  "quicklogin/icon-128.png": {
+    "bytes": 3980,
+    "sha256": "e09b1c01ff5d8f80151994925612bcb162963daa32e762d54d06bcf4b7f9e8d1"
+  },
+  "quicklogin/icon-16.png": {
+    "bytes": 532,
+    "sha256": "c78eaa3b4e7dba9db80f18ce53b117a1a6684aa280918b9e53b831a3e04b654c"
+  },
+  "quicklogin/icon-192.png": {
+    "bytes": 6079,
+    "sha256": "71476c2a885d3dd8a9a4af407e94935f8c6d595efab9c50f67e6503fafcb1aa4"
+  },
+  "quicklogin/icon-32.png": {
+    "bytes": 1043,
+    "sha256": "c97e0b50839e392d84f5be700fadf108dd4126da688246c7a0485056a8b5434a"
+  },
+  "quicklogin/icon-48.png": {
+    "bytes": 1518,
+    "sha256": "6524aa3dd84835b4dfce37416dde03c5fccb8b8d047ca6f8a2ff32bbc8cb2efd"
+  },
+  "quicklogin/icon-512.png": {
+    "bytes": 17628,
+    "sha256": "1528a7eebecc342c27b00b75214842e2449519e665d58b3e4462e41733645dd6"
+  },
+  "quicklogin/logo-1024.png": {
+    "bytes": 41882,
+    "sha256": "ed0c10a6ee64bc06e8caecb1d5329c3710352b3f49bb1367e574a75d300631a0"
+  },
+  "quicklogin/logo-512.png": {
+    "bytes": 19102,
+    "sha256": "749f2db7b7b2eaee532591c069115feba9a428c8194866d111e65c42177695a9"
+  },
+  "quicklogin/logo-black-1024.png": {
+    "bytes": 27104,
+    "sha256": "9f3176253787029e81dd8d1347bbdff9c61cc5bfa9b6231a081451b8f3f893ff"
+  },
+  "quicklogin/logo-black-512.png": {
+    "bytes": 12421,
+    "sha256": "1f0dc05524a7f65f9ae01dff7d2e839cf8613a336cc629e4d41e58e5c39594b8"
+  },
+  "quicklogin/logo-black.svg": {
+    "bytes": 8282,
+    "sha256": "769f408324dd3ed11a058faa5d1d916c7996ffbfa41e07871af86c05a5a0384e"
+  },
+  "quicklogin/logo-current.svg": {
+    "bytes": 8287,
+    "sha256": "9cb33edea0ce8374802f982e1ab317cc4813aed7297b01b5da49a186e4882476"
+  },
+  "quicklogin/logo-dark-1024.png": {
+    "bytes": 41593,
+    "sha256": "970dabb98e0ba6d9074cf7c9f279b0310f80ca7335c5972e345450daa3a72530"
+  },
+  "quicklogin/logo-dark-512.png": {
+    "bytes": 18920,
+    "sha256": "2ad72ff886d8e4b53a88332965a130694b3395214b0034cba57e6d971fb2f8b3"
+  },
+  "quicklogin/logo-dark.svg": {
+    "bytes": 8282,
+    "sha256": "b87479f91e6b6e263d646b7435a5d0ec86261b27cf492e8e3c2e0ef53b99ee81"
+  },
+  "quicklogin/logo-white-1024.png": {
+    "bytes": 29876,
+    "sha256": "ea080741bde9f5b5c870ff35266179a2099505826d4dd31a0e2ccdf87f6e097d"
+  },
+  "quicklogin/logo-white-512.png": {
+    "bytes": 13640,
+    "sha256": "20e89bdb3a03f5d537869baef41fd73fca5217637062db9e253511f4e31a03de"
+  },
+  "quicklogin/logo-white.svg": {
+    "bytes": 8282,
+    "sha256": "92cbb36f2f36388f42d7e894a4c0fb8a5197b9d28a7f12380bc07cbf3d756df6"
+  },
+  "quicklogin/logo.svg": {
+    "bytes": 8282,
+    "sha256": "8dc53384274faaa125035d8c0dc39c99ca3a8973dd7c02de6886345455e90556"
+  },
+  "schedule/app-icon.svg": {
+    "bytes": 8654,
+    "sha256": "d0b4a959909b14ad3868d718ebe88a37cb8dd1a0a12449eb2b26166892cb51b0"
+  },
+  "schedule/favicon-16.png": {
+    "bytes": 618,
+    "sha256": "f37506e193f0398a875e4e24e6db04e7f610cb8e009960cf787cbaf3b26810ff"
+  },
+  "schedule/favicon-32.png": {
+    "bytes": 1289,
+    "sha256": "33a986d7ebe212e58faa7b3709393e4ee8629797a4de33f249e85061c6dcd108"
+  },
+  "schedule/favicon-48.png": {
+    "bytes": 2045,
+    "sha256": "8a2c8fc6b114c6a8027b0d493ed8d8f62e6b0d24091aa5fde7e690f198f93092"
+  },
+  "schedule/favicon.ico": {
+    "bytes": 4006,
+    "sha256": "1fc01b16b9060c7eddcb7ce5ece63ecd905c937a693dcbcd8b7184a48f92b095"
+  },
+  "schedule/favicon.svg": {
+    "bytes": 8596,
+    "sha256": "390f6aef5cfd066d09b2f76099bdbd6f8d679a6b1c5baf2c850768df6658e30a"
+  },
+  "schedule/icon-1024.png": {
+    "bytes": 45040,
+    "sha256": "e182713be0b53132b56cfc3a8980d77f576cbd9708a9126a1fc395709fb06841"
+  },
+  "schedule/icon-128.png": {
+    "bytes": 4716,
+    "sha256": "baed0938616b8f34316beeb465dc003c63b8e196bba2fc4bde2d80ea1d6e65b3"
+  },
+  "schedule/icon-16.png": {
+    "bytes": 567,
+    "sha256": "8338a0327020a69dab2d0dfc850613bea9c61240fe163c8b01f9c7b447b9e21f"
+  },
+  "schedule/icon-192.png": {
+    "bytes": 7121,
+    "sha256": "423086cec75aac48949eab5ed4786d8afa0e7d1b40b8e803ebc287865ff47445"
+  },
+  "schedule/icon-32.png": {
+    "bytes": 1171,
+    "sha256": "8d5c6405a6daa492e35d6a8f856a49e92dc5138cf5d707d9b686febc88093e50"
+  },
+  "schedule/icon-48.png": {
+    "bytes": 1816,
+    "sha256": "db7880f430d0a3e4fb46e31c624ba39216d3a0cda741e840d84cb50662fcd133"
+  },
+  "schedule/icon-512.png": {
+    "bytes": 20694,
+    "sha256": "885c47c00381e9805d91883125b7a9a42d31adaeb83d64f9ddd9838ddf0b7a4c"
+  },
+  "schedule/logo-1024.png": {
+    "bytes": 49660,
+    "sha256": "c830f348b0b4e85b1a11e172426f4099d8e3edbb62170474d2ab5d5398c4bab2"
+  },
+  "schedule/logo-512.png": {
+    "bytes": 22477,
+    "sha256": "fa689eb26c8d58dc13d3d286f290052a7aaa10e1055ff61b59c184e90ae1b954"
+  },
+  "schedule/logo-black-1024.png": {
+    "bytes": 32346,
+    "sha256": "6683fb3129506422d33215093e4c159c8bfed1ebe46369543c11dc826b8e73c0"
+  },
+  "schedule/logo-black-512.png": {
+    "bytes": 14786,
+    "sha256": "e77db76b7ff4515fbb506b33f9c7cddf5a7ec90eca9e06ed9e0f406b0136a0eb"
+  },
+  "schedule/logo-black.svg": {
+    "bytes": 8541,
+    "sha256": "1b319126ea51b0f804e40d07603b873cae8ca1b3719adcbd2eed094b0fb6fe80"
+  },
+  "schedule/logo-current.svg": {
+    "bytes": 8546,
+    "sha256": "67ccef1e6ce1f643995752d93ba93cc21ae476e873983a56254626d0f409fddd"
+  },
+  "schedule/logo-dark-1024.png": {
+    "bytes": 47125,
+    "sha256": "9bf01225c5507d2c86625ef22313339ae71092b54d1c8f840b0ed9ca6bddc2be"
+  },
+  "schedule/logo-dark-512.png": {
+    "bytes": 21280,
+    "sha256": "cd3458e3e747d51b952c2807b14be439e1e8b93e1db5cbdc957f8fe52dcb60e2"
+  },
+  "schedule/logo-dark.svg": {
+    "bytes": 8541,
+    "sha256": "7978e818071af0ebb8eaa786b271c9615b5c8fdf09c62725a8d83bc18545d677"
+  },
+  "schedule/logo-white-1024.png": {
+    "bytes": 35816,
+    "sha256": "9f8e36f9b8cdac510e251fa0eccda680640ae95ea9b802e59fdbf947f94ec054"
+  },
+  "schedule/logo-white-512.png": {
+    "bytes": 16171,
+    "sha256": "f216792e5086b3db2f386b84dc087fda0455bee553c88a41e21a8d474f083b63"
+  },
+  "schedule/logo-white.svg": {
+    "bytes": 8541,
+    "sha256": "09cd3eb9a24593853576f1a35329c906b9aedd617e7f27926afc30815e26758d"
+  },
+  "schedule/logo.svg": {
+    "bytes": 8541,
+    "sha256": "114cfc6a729fc1c6c4ccc8a529d9009edefb73893ea1e517b6b666ca0068b6de"
+  },
+  "source/REBUILD.md": {
+    "bytes": 1713,
+    "sha256": "3ac1fb5edd3d34317a9171d158b7cfecc4372f15c32dbc847492dec627b238c5"
+  },
+  "source/build.cjs": {
+    "bytes": 11499,
+    "sha256": "4f8b3ba08f4ed21b20a30ae3458ab3e6967f3373827f876f83b0f67df05ef389"
+  },
+  "source/import-traces.py": {
+    "bytes": 2176,
+    "sha256": "deb898d0734c4d96641e8013b93eb5334230d20184d3c7fff84e9dd261ffcd91"
+  },
+  "source/marks.json": {
+    "bytes": 25071,
+    "sha256": "08fada5d2abe99144f812a4f33490ef4bee3847c469d9cba1524887c1c891e93"
+  },
+  "source/prepare-trace.py": {
+    "bytes": 2009,
+    "sha256": "f234483d623daa5f0d79c136d20fd1c85c5b737fb3c57fed5066f612f0df05bc"
+  },
+  "source/reference/approved-concept.png": {
+    "bytes": 1468661,
+    "sha256": "4733ba08bdab29ebe924eccd58e4fea4afe7b015a0452e51309e16502e3196a7"
+  },
+  "source/reference/auth-mask.png": {
+    "bytes": 2395,
+    "sha256": "a82c471d49f4c62b04fd43ab43a7837ba2336d71d86b23c7ada6dda95cb3d623"
+  },
+  "source/reference/auth-trace.svg": {
+    "bytes": 6649,
+    "sha256": "8c18170ebcecab1313422f289fbd41d7178a739b2888763695d56a934e1af320"
+  },
+  "source/reference/auth-vector-check.png": {
+    "bytes": 9558,
+    "sha256": "5b8590ca715b88435a72fba0959f73b53ba03317a39cdfd9e9a1c9ac8460ba10"
+  },
+  "source/reference/extraction.json": {
+    "bytes": 539,
+    "sha256": "3c30aca9167eac27b6550412b31e68b9a2c831bd2ccf680ca72413b3acc351d1"
+  },
+  "source/reference/quicklogin-mask.png": {
+    "bytes": 2381,
+    "sha256": "75502e0dd5d966d02b7d637f6f8e418971a1b3bc3ff8f88523ab8180fa38e9a6"
+  },
+  "source/reference/quicklogin-trace.svg": {
+    "bytes": 8275,
+    "sha256": "06f628136d0097c353a5332d554bb89a528d829c7ccece506d6ec356bad6c96a"
+  },
+  "source/reference/quicklogin-vector-check.png": {
+    "bytes": 9876,
+    "sha256": "644f504c1a538ccd4fb9afe1057d88d887f26d8fb287e51c7df4767ab6a97275"
+  },
+  "source/reference/schedule-mask.png": {
+    "bytes": 2658,
+    "sha256": "700a7983c9457d75c4f3ac9200e82f5a98824bcf2094bbba60aa5509338b7b34"
+  },
+  "source/reference/schedule-trace.svg": {
+    "bytes": 8584,
+    "sha256": "9594b7562636bd6a5d735c47156f5892d90ef7b188d1259e84bd7f38ee2397d2"
+  },
+  "source/reference/schedule-vector-check.png": {
+    "bytes": 12001,
+    "sha256": "392721026f979f50e34c0bcb87c7f2159f68827c094a17289e02b0a4b53bbb08"
+  },
+  "source/reference/tracer.json": {
+    "bytes": 76,
+    "sha256": "0a2f059b6da5d6e7884aa8f7430df5f0b9dbec54bd8f7c804f376127b78d8ed0"
+  },
+  "source/trace.py": {
+    "bytes": 747,
+    "sha256": "d0f61a92152169e55a9bad3c5a111235c9d9846a9f600a4b9a396f28f5d44640"
+  },
+  "source/verify.cjs": {
+    "bytes": 4635,
+    "sha256": "98dcd9ea1a3871f3510a5eaba34af105dc03bc7c9323c4d2943a65cf2cbda56f"
+  }
+}

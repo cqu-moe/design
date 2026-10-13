@@ -14,6 +14,7 @@ pnpm dev
 - [子系统 Agent 从这里开始](START-HERE.md)
 - [设计系统维护入口](AGENTS.md)
 - [设计规则](DESIGN.md)
+- [品牌标识与素材同步](docs/brand.md)（预览 `/brand`）
 - [接入其他系统](docs/consumption.md)
 - [验证记录](docs/visual-review.md)
 

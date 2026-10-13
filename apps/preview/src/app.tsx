@@ -68,6 +68,10 @@ export function App() {
             <LogIn aria-hidden="true" />
             登录与注册
           </NavLink>
+          <NavLink to="/brand">
+            <Box aria-hidden="true" />
+            品牌标识
+          </NavLink>
           <NavLink to="/components">
             <Layers aria-hidden="true" />
             组件与状态

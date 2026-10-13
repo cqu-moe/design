@@ -9,3 +9,7 @@ playwright-report/
 
 artifacts/
 .wrangler/
+
+# Generated from assets/brand; refreshed for every preview build/dev.
+/apps/preview/public/brand/
+/assets/brand/path-family/qa/*.png
