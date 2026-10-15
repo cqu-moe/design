@@ -48,11 +48,10 @@ jobs:
           pnpm --filter @cqu-moe/theme pack --pack-destination "$PWD/artifacts"
           pnpm --filter @cqu-moe/ui pack --pack-destination "$PWD/artifacts"
           cd artifacts && sha256sum *.tgz > SHA256SUMS
-      - name: Upload main package tarballs
-        if: github.ref == 'refs/heads/main'
+      - name: Upload candidate package tarballs
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: cqu-moe-design-packages
+          name: cqu-moe-design-candidate-packages
           path: |
             artifacts/*.tgz
             artifacts/SHA256SUMS
@@ -69,6 +68,7 @@ jobs:
 
   browser:
     name: Chromium design gates
+    needs: source
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
@@ -85,8 +85,15 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Download source-packaged candidate tarballs
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: cqu-moe-design-candidate-packages
+          path: candidate-packages
       - name: Run the Cloudflare source and browser gate without root
         run: bash scripts/build-cloudflare.sh
+        env:
+          DESIGN_CANDIDATE_PACKAGES: ${{ github.workspace }}/candidate-packages
       - name: Verify assertion, network and zero-test failures
         run: pnpm test:e2e:harness
       - name: Upload browser reports
@@ -171,6 +178,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Download tested candidate packages
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: cqu-moe-design-candidate-packages
+          path: candidate-packages
       - name: Set up pnpm
         uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
       - name: Set up Node.js
@@ -206,13 +218,8 @@ jobs:
           }
           NODE
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main
-      - name: Build and package release tarballs
-        run: |
-          pnpm build
-          mkdir -p artifacts
-          pnpm --filter @cqu-moe/theme pack --pack-destination "$PWD/artifacts"
-          pnpm --filter @cqu-moe/ui pack --pack-destination "$PWD/artifacts"
-          cd artifacts && sha256sum *.tgz > SHA256SUMS
+      - name: Verify release packages are the tested bytes
+        run: node scripts/candidate-packages.mjs --source candidate-packages
       - name: Create immutable GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -220,12 +227,12 @@ jobs:
           cat > "$RUNNER_TEMP/release-notes.md" <<'NOTES'
           This release contains @cqu-moe/theme and @cqu-moe/ui tarballs plus SHA-256 checksums.
 
-          The same tag workflow reran non-browser checks, browser E2E, and installed-tarball consumer verification before publishing. These assets are not published to npm.
+          The same tag workflow installed and verified these exact artifact bytes before publishing. These assets are not published to npm.
           NOTES
           gh release create "$GITHUB_REF_NAME" \
-            artifacts/cqu-moe-theme-*.tgz \
-            artifacts/cqu-moe-ui-*.tgz \
-            artifacts/SHA256SUMS \
+            candidate-packages/cqu-moe-theme-*.tgz \
+            candidate-packages/cqu-moe-ui-*.tgz \
+            candidate-packages/SHA256SUMS \
             --verify-tag \
             --title "CQU Moe Design ${GITHUB_REF_NAME}" \
             --notes-file "$RUNNER_TEMP/release-notes.md"

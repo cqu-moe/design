@@ -2,9 +2,10 @@ import { cp, mkdir, readFile, writeFile, lstat, realpath } from 'node:fs/promise
 import { execFileSync } from 'node:child_process';
 import { resolve, join, relative } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { installCandidatePackages } from './candidate-packages.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-export async function createApp(destination) {
+export async function createApp(destination, { candidateDir } = {}) {
   const project = resolve(destination);
   try {
     await lstat(project);
@@ -22,13 +23,20 @@ export async function createApp(destination) {
   const artifacts = join(project, '.design');
   await mkdir(artifacts);
   const manifest = JSON.parse(await readFile(join(project, 'package.json'), 'utf8'));
+  const expectedVersions = {};
   for (const name of ['theme', 'ui']) {
     const pkg = JSON.parse(await readFile(join(root, 'packages', name, 'package.json'), 'utf8'));
-    execFileSync('pnpm', ['pack', '--pack-destination', artifacts], {
-      cwd: join(root, 'packages', name),
-      stdio: 'inherit',
-    });
+    expectedVersions[name] = pkg.version;
+    if (!candidateDir)
+      execFileSync('pnpm', ['pack', '--pack-destination', artifacts], {
+        cwd: join(root, 'packages', name),
+        stdio: 'inherit',
+      });
     manifest.dependencies[pkg.name] = `file:./.design/cqu-moe-${name}-${pkg.version}.tgz`;
+  }
+  if (candidateDir) {
+    const verified = await installCandidatePackages(candidateDir, artifacts, expectedVersions);
+    console.log(`已校验候选安装包：${verified.source}`);
   }
   await writeFile(join(project, 'package.json'), JSON.stringify(manifest, null, 2) + '\n');
   await writeFile(

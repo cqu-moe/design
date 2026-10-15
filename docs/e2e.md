@@ -4,7 +4,7 @@
 
 ## 运行
 
-使用锁定依赖后安装对应浏览器：`pnpm exec playwright install chromium`。PR 入口为 `pnpm test:e2e`，完整保留原有参考页场景，并增加 Chromium 手机项目；后台桌面专属断言保留在桌面项目，原有显式窄屏和触屏场景仍运行。`pnpm verify:consumer` 打包主题/UI、创建并迁移独立消费者、安装、构建并实际操作生产页面。
+使用锁定依赖后安装对应浏览器：`pnpm exec playwright install chromium`。PR 入口为 `pnpm test:e2e`，完整保留原有参考页场景，并增加 Chromium 手机项目；后台桌面专属断言保留在桌面项目，原有显式窄屏和触屏场景仍运行。本地 `pnpm verify:consumer` 打包主题/UI、创建并迁移独立消费者、安装、构建并实际操作生产页面；GitHub Actions 的 browser job 先下载 source job 上传的候选包，并通过 `DESIGN_CANDIDATE_PACKAGES` 让消费者校验并安装同一批字节。
 
 发布前安装 `pnpm exec playwright install firefox webkit`，运行 `pnpm test:e2e:release`；它包含 Chromium 桌面/手机及 Firefox/WebKit 桌面。Firefox 不支持 isMobile 仿真，既有手动手机上下文在 Firefox 使用真实窄视口与触屏能力，不声称为设备仿真或真机。GitHub 的 v 标签会强制运行 Firefox/WebKit job，手动工作流的 release_browsers 也可启用；发布依赖聚合门禁成功。原有 Cloudflare 构建门禁继续运行 Chromium 与 tarball 消费者。
 

@@ -11,9 +11,13 @@ import { guardNetwork } from './browser-network.mjs';
 
 await verification('consumer', async (run) => {
   const { work } = run;
+  const candidateDir = process.env.DESIGN_CANDIDATE_PACKAGES;
+  run.state.packageSource = candidateDir ? 'candidate-artifact' : 'generated';
   let browser, context, page, server;
   try {
-    const generated = await candidate(run, () => createApp(join(work, 'generated')));
+    const generated = await candidate(run, () =>
+      createApp(join(work, 'generated'), candidateDir ? { candidateDir } : {}),
+    );
     const project = join(work, 'relocated-app');
     await rename(generated, project);
     run.state.packages = {};
