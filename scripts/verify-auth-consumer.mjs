@@ -622,6 +622,11 @@ await verification('auth-consumer', async (run) => {
       if (!summary.executed || summary.skipped || summary.interrupted) {
         throw new Error('Required Auth consumer suite was empty, skipped or interrupted');
       }
+      // e2e 0.21 can leave the body passed after an engine cleanup error.
+      if (report.run.results.some(result => result.selected && result.attempts?.some(attempt =>
+        attempt.cleanup === 'failed' || attempt.secondaryErrors?.some(error => error.phase === 'cleanup')))) {
+        throw new Error('Auth consumer browser cleanup failed in framework attempt evidence');
+      }
       if (process.env.DESIGN_AUTH_BREAK_ASSERTION !== '1') {
         if (code !== 0 || summary.failed || report.run.status !== 'passed') {
           throw new Error('Auth consumer runner result mismatch');
