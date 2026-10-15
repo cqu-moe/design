@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import { spawn, execFileSync } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, open, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { join, resolve, dirname, basename } from 'node:path';
 import { preview } from 'vite';
+import { inspect } from 'node:util';
 
 export async function serveBuild(dist) {
   await readFile(join(dist, 'index.html'));
@@ -31,7 +32,31 @@ export async function serveBuild(dist) {
   };
 }
 
-export async function verification(kind, action) {
+function throwVerificationFailures(failures) {
+  if (failures.length === 1) throw failures[0].error;
+  if (failures.length > 1) {
+    const error = new AggregateError(
+      failures.map(({ error }) => error),
+      'Verification operation and finalization failures',
+    );
+    error.phases = failures.map(({ phase }) => phase);
+    throw error;
+  }
+}
+
+export async function finalizePrivateLog(log, failures) {
+  // Always attempt both operations, retaining their actual errors beside the caller's first cause.
+  for (const phase of ['sync', 'close']) {
+    try {
+      await log[phase]();
+    } catch (error) {
+      failures.push({ phase, error });
+    }
+  }
+  throwVerificationFailures(failures);
+}
+
+export async function verification(kind, action, { privateOutput = false } = {}) {
   await mkdir('.verification', { recursive: true });
   const work = await mkdtemp(resolve(`.verification/${kind}-`));
   const artifacts = resolve('artifacts/e2e', basename(work));
@@ -52,6 +77,47 @@ export async function verification(kind, action) {
     result: 'failed',
     cleanup: false,
   };
+  // Auth consumers retain unreviewed process output outside both work cleanup and uploads.
+  const privateArtifacts = privateOutput
+    ? await mkdtemp(resolve(`.verification/${kind}-private-`))
+    : undefined;
+  if (privateArtifacts) state.privateEvidence = { directory: basename(privateArtifacts) };
+  const retainError = async (phase, error) => {
+    const raw = inspect(error, { depth: null, maxArrayLength: null, maxStringLength: null });
+    const receipt = { phase, sha256: createHash('sha256').update(raw).digest('hex') };
+    try {
+      const file = await open(join(privateArtifacts, `${phase}-error.log`), 'wx', 0o600);
+      const failures = [];
+      try {
+        await file.writeFile(raw);
+      } catch (error) {
+        failures.push({ phase: 'write', error });
+      }
+      await finalizePrivateLog(file, failures);
+      receipt.retained = true;
+    } catch (storageError) {
+      state.privateWorkPreserved = true;
+      receipt.retained = false;
+      receipt.storageFailureSHA256 = createHash('sha256')
+        .update(inspect(storageError))
+        .digest('hex');
+      // Keep the first cause and the new storage failure together in the fallback work.
+      try {
+        await writeFile(
+          join(work, `${phase}-retention-error.log`),
+          `${raw}\n\n${inspect(storageError)}`,
+          { flag: 'wx', mode: 0o600 },
+        );
+        receipt.retainedInWork = true;
+      } catch (fallbackError) {
+        receipt.retainedInWork = false;
+        receipt.fallbackFailureSHA256 = createHash('sha256')
+          .update(inspect(fallbackError))
+          .digest('hex');
+      }
+    }
+    return receipt;
+  };
   let child;
   let interrupted = false;
   const interrupt = () => {
@@ -69,23 +135,29 @@ export async function verification(kind, action) {
   const run = {
     work,
     artifacts,
+    privateArtifacts,
     state,
     async command(command, args, { cwd = process.cwd(), env = process.env } = {}) {
       if (interrupted) throw new Error('Verification interrupted');
-      const log = createWriteStream(join(artifacts, `command-${run.step++}.log`));
-      log.write(`$ ${command} ${args.join(' ')}\n`);
+      const path = join(privateArtifacts || artifacts, `command-${run.step++}.log`);
+      const log = privateOutput ? await open(path, 'wx', 0o600) : createWriteStream(path);
       let timer;
+      const failures = [];
       try {
+        if (privateOutput) await log.writeFile(`$ ${command} ${args.join(' ')}\n`);
+        else log.write(`$ ${command} ${args.join(' ')}\n`);
         child = spawn(command, args, {
           cwd,
           env,
-          stdio: ['ignore', 'pipe', 'pipe'],
+          stdio: privateOutput ? ['ignore', log.fd, log.fd] : ['ignore', 'pipe', 'pipe'],
           detached: true,
         });
-        child.stdout.pipe(log, { end: false });
-        child.stderr.pipe(log, { end: false });
-        child.stdout.pipe(process.stdout);
-        child.stderr.pipe(process.stderr);
+        if (!privateOutput) {
+          child.stdout.pipe(log, { end: false });
+          child.stderr.pipe(log, { end: false });
+          child.stdout.pipe(process.stdout);
+          child.stderr.pipe(process.stderr);
+        }
         const active = child;
         // A lost browser or package-manager process cannot keep CI alive indefinitely.
         timer = setTimeout(() => process.kill(-active.pid, 'SIGKILL'), 20 * 60_000);
@@ -97,17 +169,27 @@ export async function verification(kind, action) {
         });
         assert.equal(code, 0, `${command} exited ${code}; see ${artifacts}`);
         if (interrupted) throw new Error('Verification interrupted');
+      } catch (error) {
+        failures.push({ phase: 'primary', error });
       } finally {
         clearTimeout(timer);
         if (child?.pid) {
           try {
             process.kill(-child.pid, 'SIGKILL');
           } catch (error) {
-            if (error.code !== 'ESRCH') throw error;
+            if (error.code !== 'ESRCH') failures.push({ phase: 'process-cleanup', error });
           }
         }
         child = undefined;
-        await new Promise((done) => log.end(done));
+      }
+      if (privateOutput) await finalizePrivateLog(log, failures);
+      else {
+        try {
+          await new Promise((done) => log.end(done));
+        } catch (error) {
+          failures.push({ phase: 'close', error });
+        }
+        throwVerificationFailures(failures);
       }
     },
     step: 1,
@@ -117,22 +199,56 @@ export async function verification(kind, action) {
     if (interrupted) throw new Error('Verification interrupted');
     state.result = 'passed';
   } catch (error) {
-    state.error = error.stack;
+    state.error = privateOutput
+      ? 'Verification action failed; original error retained privately'
+      : error.stack;
+    if (privateOutput) state.errorReceipt = await retainError('primary', error);
     process.exitCode = 1;
-    console.error(error);
+    if (!privateOutput) console.error(error);
   } finally {
     try {
-      await rm(work, { recursive: true, force: true });
-      state.cleanup = true;
+      if (state.privateWorkPreserved) {
+        state.result = 'failed';
+        state.cleanup = false;
+        state.privateWorkDisposition = 'retained after private evidence quarantine failure';
+        process.exitCode = 1;
+      } else {
+        await rm(work, { recursive: true, force: true });
+        state.cleanup = true;
+      }
     } catch (error) {
       state.result = 'failed';
-      state.cleanupError = error.stack;
+      state.cleanupError = privateOutput
+        ? 'Verification cleanup failed; original error retained privately'
+        : error.stack;
+      if (privateOutput) state.cleanupErrorReceipt = await retainError('cleanup', error);
       process.exitCode = 1;
     }
     process.off('SIGINT', interrupt);
     process.off('SIGTERM', interrupt);
     state.finishedAt = new Date().toISOString();
-    await writeFile(join(artifacts, 'run.json'), JSON.stringify(state, null, 2) + '\n');
+    try {
+      if (privateArtifacts) {
+        state.privateEvidence.logs = [];
+        for (const name of (await readdir(privateArtifacts)).sort()) {
+          const bytes = await readFile(join(privateArtifacts, name));
+          state.privateEvidence.logs.push({
+            name,
+            bytes: bytes.length,
+            sha256: createHash('sha256').update(bytes).digest('hex'),
+          });
+        }
+      }
+      await writeFile(join(artifacts, 'run.json'), JSON.stringify(state, null, 2) + '\n');
+    } catch (error) {
+      if (!privateOutput) throw error;
+      state.result = 'failed';
+      await retainError('publication', error);
+      process.exitCode = 1;
+      console.error(
+        'Verification receipt could not be published; original details retained privately',
+      );
+    }
     console.log(`Verification ${state.result}: ${artifacts}`);
   }
 }

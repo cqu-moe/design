@@ -8,6 +8,9 @@ import { dirname, join, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { installCandidatePackages, verifyCandidatePackages } from './candidate-packages.mjs';
 import { verification, waitForDetachedChild } from './verification-runtime.mjs';
+import { publishAuthConsumerEvidence } from './auth-consumer-artifacts.mjs';
+
+process.umask(0o077);
 
 const AUTH_COMMIT = 'd9bf0c5e6d5cc459029da6a345991b8d0f13f514';
 const AUTH_REPOSITORY = process.env.AUTH_E2E_REPOSITORY || 'https://github.com/cqu-moe/auth.git';
@@ -17,6 +20,17 @@ const candidateDir = process.env.DESIGN_CANDIDATE_PACKAGES;
 if (!candidateDir) {
   throw new Error(
     'DESIGN_CANDIDATE_PACKAGES is required: verify the source-job candidate artifact instead of repacking silently',
+  );
+}
+
+const browserIndex = process.argv.indexOf('--browser');
+const browserName = browserIndex < 0 ? 'chromium' : process.argv[browserIndex + 1];
+if (
+  !['chromium', 'firefox', 'webkit'].includes(browserName) ||
+  process.argv.filter((arg) => arg === '--browser').length > 1
+) {
+  throw new Error(
+    'Usage: node scripts/verify-auth-consumer.mjs [--browser chromium|firefox|webkit] [--variant desktop|mobile]',
   );
 }
 
@@ -212,6 +226,7 @@ async function writeGeneratedSuite(auth) {
 // Config and test are loaded in separate module graphs in e2e 0.21.
 const holder = globalThis;
 export const consumerEngine = holder.designAuthConsumerEngine ??= web({
+  browser: '${browserName}',
   viewport: process.env.AUTH_E2E_MOBILE
     ? { width: 390, height: 844 }
     : { width: 1440, height: 900 },
@@ -241,7 +256,7 @@ export default {
   credentials,
   secrets: { password: async () => credentials.design.password },
   targets: [{
-    name: process.env.AUTH_E2E_MOBILE ? 'mobile' : 'desktop',
+    name: '${browserName}-' + (process.env.AUTH_E2E_MOBILE ? 'mobile' : 'desktop'),
     engine: consumerEngine,
     app: { url: process.env.AUTH_E2E_URL },
   }],
@@ -272,7 +287,20 @@ beforeEach(async ({ app, browser }) => {
   // The engine is lazy: open a script-free JSON response before taking its live context.
   await app.open('/api/v1/auth/get-session');
   expect(await browser.evaluate(() => document.contentType)).toBe('application/json');
-  await consumerContext().routeWebSocket('**/*', socket => {
+  const context = consumerContext();
+  const nativeBrowser = context.browser()!;
+  const actualBrowser = nativeBrowser.browserType().name();
+  const version = nativeBrowser.version();
+  const viewport = await browser.evaluate(() => ({ width: innerWidth, height: innerHeight }));
+  const expectedViewport = process.env.AUTH_E2E_MOBILE
+    ? { width: 390, height: 844 } : { width: 1440, height: 900 };
+  expect(actualBrowser).toBe('${browserName}');
+  expect(version.length > 0).toBe(true);
+  expect(viewport).toEqual(expectedViewport);
+  await writeFile(join(process.env.AUTH_E2E_OUTPUT!, 'browser.json'), JSON.stringify({
+    requested: '${browserName}', actual: actualBrowser, version, viewport,
+  }, null, 2));
+  await context.routeWebSocket('**/*', socket => {
     unexpected.push(new URL(socket.url()).origin);
     socket.close({ code: 1008, reason: 'Unexpected network dependency' });
   });
@@ -291,7 +319,7 @@ test('save, reload, survive a real unauthorized save, and restore a profile sett
   const password = await secrets.get('password');
   const variant = process.env.AUTH_E2E_MOBILE ? 'mobile' : 'desktop';
   await app.open('/login');
-  await app.screenshot('auth-consumer-login-' + variant);
+  await app.screenshot('auth-consumer-login-${browserName}-' + variant);
   if (process.env.DESIGN_AUTH_PROBE_WEBSOCKET === '1') {
     const outcome = await browser.evaluate((url: string) => new Promise(resolve => {
       const socket = new WebSocket(url);
@@ -370,22 +398,6 @@ test('save, reload, survive a real unauthorized save, and restore a profile sett
   );
 }
 
-async function copySanitizedEvidence(source, destination) {
-  await mkdir(destination, { recursive: true });
-  async function walk(directory) {
-    for (const entry of await readdir(directory, { withFileTypes: true })) {
-      const path = join(directory, entry.name);
-      if (entry.isDirectory()) await walk(path);
-      else if (/\.(json|log|md|txt|png)$/.test(entry.name)) {
-        const target = join(destination, relative(source, path));
-        await mkdir(dirname(target), { recursive: true });
-        await cp(path, target);
-      }
-    }
-  }
-  await walk(source);
-}
-
 async function runE2e(auth, output, variant) {
   const log = [];
   let websocket;
@@ -427,9 +439,7 @@ async function runE2e(auth, output, variant) {
   );
   for (const stream of [child.stdout, child.stderr]) {
     stream.on('data', (chunk) => {
-      const text = chunk.toString();
-      log.push(text);
-      process.stdout.write(text);
+      log.push(chunk);
     });
   }
   const timeoutMs = process.env.DESIGN_AUTH_PROBE_TIMEOUT === '1' ? 15_000 : 10 * 60_000;
@@ -457,7 +467,7 @@ async function runE2e(auth, output, variant) {
       }
     }
     try {
-      await writeFile(join(output, 'runner.log'), log.join(''));
+      await writeFile(join(output, 'runner.log'), Buffer.concat(log));
       await writeFile(
         join(output, 'runner.json'),
         JSON.stringify(
@@ -488,204 +498,263 @@ async function runE2e(auth, output, variant) {
   return result.code;
 }
 
-await verification('auth-consumer', async (run) => {
-  const auth = join(run.work, 'auth');
-  const expectedVersions = {};
-  for (const name of ['theme', 'ui']) {
-    const pkg = JSON.parse(await readFile(join('packages', name, 'package.json'), 'utf8'));
-    expectedVersions[name] = pkg.version;
-  }
-  const verifiedCandidate = await verifyCandidatePackages(candidateDir, expectedVersions);
-  run.state.packageSource = 'candidate-artifact';
-  run.state.candidateSHA256 = verifiedCandidate.sha256;
-  const candidateInspections = {};
-  const env = commandEnv();
-  for (const name of ['theme', 'ui']) {
-    const filename = `cqu-moe-${name}-${expectedVersions[name]}.tgz`;
-    candidateInspections[name] = join(run.work, 'candidate-inspection', name);
-    await mkdir(candidateInspections[name], { recursive: true });
-    await run.command('tar', [
-      '-xf',
-      join(verifiedCandidate.source, filename),
-      '-C',
-      candidateInspections[name],
-    ]);
-  }
-  await run.command('git', ['clone', AUTH_REPOSITORY, auth], { env });
-  await run.command('git', ['-C', auth, 'checkout', '--detach', AUTH_COMMIT], { env });
-  const clonedCommit = execFileSync('git', ['-C', auth, 'rev-parse', 'HEAD'], {
-    encoding: 'utf8',
-    env,
-  }).trim();
-  if (clonedCommit !== AUTH_COMMIT) throw new Error('Auth checkout commit drifted');
-  run.state.auth = {
-    repository: AUTH_REPOSITORY,
-    commit: clonedCommit,
-    sourceClean:
-      execFileSync('git', ['-C', auth, 'status', '--porcelain'], {
-        encoding: 'utf8',
-        env,
-      }).trim().length === 0,
-  };
+await verification(
+  'auth-consumer',
+  async (run) => {
+    const auth = join(run.work, 'auth');
+    const expectedVersions = {};
+    for (const name of ['theme', 'ui']) {
+      const pkg = JSON.parse(await readFile(join('packages', name, 'package.json'), 'utf8'));
+      expectedVersions[name] = pkg.version;
+    }
+    const verifiedCandidate = await verifyCandidatePackages(candidateDir, expectedVersions);
+    run.state.browser = browserName;
+    run.state.packageSource = 'candidate-artifact';
+    run.state.candidateSHA256 = verifiedCandidate.sha256;
+    const candidateInspections = {};
+    const env = commandEnv();
+    for (const name of ['theme', 'ui']) {
+      const filename = `cqu-moe-${name}-${expectedVersions[name]}.tgz`;
+      candidateInspections[name] = join(run.work, 'candidate-inspection', name);
+      await mkdir(candidateInspections[name], { recursive: true });
+      await run.command('tar', [
+        '-xf',
+        join(verifiedCandidate.source, filename),
+        '-C',
+        candidateInspections[name],
+      ]);
+    }
+    await run.command('git', ['clone', AUTH_REPOSITORY, auth], { env });
+    await run.command('git', ['-C', auth, 'checkout', '--detach', AUTH_COMMIT], { env });
+    const clonedCommit = execFileSync('git', ['-C', auth, 'rev-parse', 'HEAD'], {
+      encoding: 'utf8',
+      env,
+    }).trim();
+    if (clonedCommit !== AUTH_COMMIT) throw new Error('Auth checkout commit drifted');
+    run.state.auth = {
+      repository: AUTH_REPOSITORY,
+      commit: clonedCommit,
+      sourceClean:
+        execFileSync('git', ['-C', auth, 'status', '--porcelain'], {
+          encoding: 'utf8',
+          env,
+        }).trim().length === 0,
+    };
 
-  await run.command('npm', ['ci'], { cwd: auth, env });
-  await removeOldTarballs(join(auth, 'frontend', '.design'));
-  await installCandidatePackages(candidateDir, join(auth, 'frontend', '.design'), expectedVersions);
-  await synchronizeCandidateLockfile(auth, expectedVersions);
-  run.state.authLockSynchronizedForCandidate = true;
-  await run.command('pnpm', ['--dir', 'frontend', 'install', '--frozen-lockfile'], {
-    cwd: auth,
-    env,
-  });
-  if (process.env.DESIGN_AUTH_BREAK_PAYLOAD === '1') {
-    const installedPayload = join(
-      auth,
-      'frontend',
-      'node_modules',
-      '@cqu-moe',
-      'ui',
-      'dist',
-      'index.js',
+    await run.command('npm', ['ci'], { cwd: auth, env });
+    await removeOldTarballs(join(auth, 'frontend', '.design'));
+    await installCandidatePackages(
+      candidateDir,
+      join(auth, 'frontend', '.design'),
+      expectedVersions,
     );
-    const bytes = await readFile(installedPayload);
-    bytes[0] ^= 0xff;
-    await writeFile(installedPayload, bytes);
-  }
-  if (process.env.DESIGN_AUTH_EXTRA_PAYLOAD === '1') {
-    const extra = join(auth, 'frontend/node_modules/@cqu-moe/ui/node_modules/arbitrary.js');
-    await mkdir(dirname(extra), { recursive: true });
-    await writeFile(extra, 'export const unexpectedPayload = true;\n');
-    run.state.extraPayloadProbe = 'node_modules/arbitrary.js';
-  }
-  await cp(
-    join(auth, 'frontend', 'pnpm-lock.yaml'),
-    join(run.artifacts, 'auth-consumer-lock.yaml'),
-  );
-  run.state.packages = await packageFacts(auth, expectedVersions, candidateInspections);
-  for (const name of ['theme', 'ui']) {
-    if (run.state.packages[name].installedVersion !== expectedVersions[name]) {
-      throw new Error(`Installed @cqu-moe/${name} version does not match the candidate`);
-    }
-  }
-  await run.command('pnpm', ['--dir', 'frontend', 'run', 'build'], {
-    cwd: auth,
-    env: commandEnv({
-      VITE_POSTHOG_PROJECT_TOKEN: '',
-      VITE_POSTHOG_HOST: '',
-    }),
-  });
-  const browserArgs = ['--no-install', 'e2e-web', 'install', 'chromium'];
-  if (process.env.DESIGN_AUTH_BROWSER_WITH_DEPS === '1') browserArgs.push('--with-deps');
-  await run.command('npx', browserArgs, { cwd: auth, env });
-  await writeGeneratedSuite(auth);
-
-  process.chdir(auth);
-  const { startAuth } = await import(pathToFileURL(join(auth, 'e2e', 'runtime.mjs')).href);
-  const { prepareAccount } = await import(
-    pathToFileURL(join(auth, 'e2e', 'prepare-account.mjs')).href
-  );
-  run.state.variants = [];
-  for (const variant of variants) {
-    const output = join(auth, '.e2e', 'design-consumer', variant);
-    await mkdir(output, { recursive: true });
-    const runtime = await startAuth({ expectedCommit: AUTH_COMMIT });
-    let code;
-    let evidence;
-    let primaryError;
-    try {
-      evidence = {
-        authCommit: runtime.commit,
-        variant,
-        cleanup: 'pending',
-      };
-      await writeFile(join(output, 'runtime.json'), JSON.stringify(evidence, null, 2) + '\n');
-      process.env.AUTH_E2E_URL = runtime.origin;
-      process.env.AUTH_E2E_CONTROL = runtime.controlOrigin;
-      process.env.AUTH_CONSUMER_EMAIL = `design-${variant}-${randomUUID()}@example.test`;
-      process.env.AUTH_CONSUMER_PASSWORD = AUTH_PASSWORD;
-      const closeRuntime = runtime.close.bind(runtime);
-      if (process.env.DESIGN_AUTH_FAIL_CLEANUP === '1') {
-        runtime.close = async () => {
-          await closeRuntime();
-          throw new Error('Controlled Auth runtime cleanup failure');
-        };
-      }
-      await prepareAccount(runtime, {
-        email: process.env.AUTH_CONSUMER_EMAIL,
-        password: AUTH_PASSWORD,
-        name: 'Synthetic Consumer',
-      });
-      console.log(`Auth consumer runtime ready; commit ${runtime.commit}; ${variant}`);
-      code = await runE2e(auth, output, variant);
-      const report = JSON.parse(await readFile(join(output, 'report.json'), 'utf8'));
-      const summary = report.run.summary;
-      if (!summary.executed || summary.skipped || summary.interrupted) {
-        throw new Error('Required Auth consumer suite was empty, skipped or interrupted');
-      }
-      // e2e 0.21 can leave the body passed after an engine cleanup error.
-      if (report.run.results.some(result => result.selected && result.attempts?.some(attempt =>
-        attempt.cleanup === 'failed' || attempt.secondaryErrors?.some(error => error.phase === 'cleanup')))) {
-        throw new Error('Auth consumer browser cleanup failed in framework attempt evidence');
-      }
-      if (process.env.DESIGN_AUTH_BREAK_ASSERTION !== '1') {
-        if (code !== 0 || summary.failed || report.run.status !== 'passed') {
-          throw new Error('Auth consumer runner result mismatch');
-        }
-      } else if (code !== 1 || summary.failed !== 1 || report.run.status !== 'failed') {
-        throw new Error('Controlled login assertion did not fail exactly once');
-      }
-      await runtime.checkArtifacts(output);
-    } catch (error) {
-      primaryError = error;
-    } finally {
-      const finalErrors = primaryError ? [primaryError] : [];
-      let cleanupError;
-      try {
-        await runtime.close();
-      } catch (error) {
-        cleanupError = error;
-      }
-      if (evidence) {
-        evidence.cleanup = cleanupError ? 'failed' : 'passed';
-        evidence.primaryError = primaryError?.stack;
-        evidence.cleanupError = cleanupError?.stack;
-        evidence.listenersClosed = {};
-        for (const [name, url] of [
-          ['auth', runtime.origin],
-          ['control', runtime.controlOrigin],
-        ]) {
-          try {
-            await fetch(url, { signal: AbortSignal.timeout(1_000) });
-            evidence.listenersClosed[name] = false;
-          } catch (error) {
-            evidence.listenersClosed[name] = error.cause?.code === 'ECONNREFUSED';
-          }
-          if (!evidence.listenersClosed[name]) {
-            finalErrors.push(new Error(`Auth ${name} listener did not close`));
-          }
-        }
-      }
-      try {
-        await writeFile(join(output, 'runtime.json'), JSON.stringify(evidence, null, 2) + '\n');
-        await copySanitizedEvidence(output, join(run.artifacts, variant));
-      } catch (error) {
-        finalErrors.push(error);
-      }
-      if (cleanupError) finalErrors.push(cleanupError);
-      if (finalErrors.length === 1) throw finalErrors[0];
-      if (finalErrors.length > 1) {
-        throw new Error(
-          `Auth consumer failed with multiple errors:\n${finalErrors
-            .map((error) => error.stack || String(error))
-            .join('\n\n')}`,
-        );
-      }
-    }
-    run.state.variants.push({
-      variant,
-      cleanup: evidence.cleanup,
-      result: code === 0 ? 'passed' : 'failed',
+    await synchronizeCandidateLockfile(auth, expectedVersions);
+    run.state.authLockSynchronizedForCandidate = true;
+    await run.command('pnpm', ['--dir', 'frontend', 'install', '--frozen-lockfile'], {
+      cwd: auth,
+      env,
     });
-    if (code !== 0) throw new Error(`Auth consumer E2E exited ${code}; see ${output}`);
-  }
-});
+    if (process.env.DESIGN_AUTH_BREAK_PAYLOAD === '1') {
+      const installedPayload = join(
+        auth,
+        'frontend',
+        'node_modules',
+        '@cqu-moe',
+        'ui',
+        'dist',
+        'index.js',
+      );
+      const bytes = await readFile(installedPayload);
+      bytes[0] ^= 0xff;
+      await writeFile(installedPayload, bytes);
+    }
+    if (process.env.DESIGN_AUTH_EXTRA_PAYLOAD === '1') {
+      const extra = join(auth, 'frontend/node_modules/@cqu-moe/ui/node_modules/arbitrary.js');
+      await mkdir(dirname(extra), { recursive: true });
+      await writeFile(extra, 'export const unexpectedPayload = true;\n');
+      run.state.extraPayloadProbe = 'node_modules/arbitrary.js';
+    }
+    await cp(
+      join(auth, 'frontend', 'pnpm-lock.yaml'),
+      join(run.artifacts, 'auth-consumer-lock.yaml'),
+    );
+    run.state.packages = await packageFacts(auth, expectedVersions, candidateInspections);
+    for (const name of ['theme', 'ui']) {
+      if (run.state.packages[name].installedVersion !== expectedVersions[name]) {
+        throw new Error(`Installed @cqu-moe/${name} version does not match the candidate`);
+      }
+    }
+    await run.command('pnpm', ['--dir', 'frontend', 'run', 'build'], {
+      cwd: auth,
+      env: commandEnv({
+        VITE_POSTHOG_PROJECT_TOKEN: '',
+        VITE_POSTHOG_HOST: '',
+      }),
+    });
+    const browserArgs = ['--no-install', 'e2e-web', 'install', browserName];
+    if (process.env.DESIGN_AUTH_BROWSER_WITH_DEPS === '1') browserArgs.push('--with-deps');
+    await run.command('npx', browserArgs, { cwd: auth, env });
+    await writeGeneratedSuite(auth);
+
+    process.chdir(auth);
+    const { startAuth } = await import(pathToFileURL(join(auth, 'e2e', 'runtime.mjs')).href);
+    const { prepareAccount } = await import(
+      pathToFileURL(join(auth, 'e2e', 'prepare-account.mjs')).href
+    );
+    run.state.variants = [];
+    for (const variant of variants) {
+      const output = join(auth, '.e2e', 'design-consumer', variant);
+      await mkdir(output, { recursive: true });
+      const runtime = await startAuth({ expectedCommit: AUTH_COMMIT });
+      let code;
+      let evidence;
+      let primaryError;
+      try {
+        evidence = {
+          authCommit: runtime.commit,
+          browser: browserName,
+          variant,
+          cleanup: 'pending',
+        };
+        await writeFile(join(output, 'runtime.json'), JSON.stringify(evidence, null, 2) + '\n');
+        process.env.AUTH_E2E_URL = runtime.origin;
+        process.env.AUTH_E2E_CONTROL = runtime.controlOrigin;
+        process.env.AUTH_CONSUMER_EMAIL = `design-${variant}-${randomUUID()}@example.test`;
+        process.env.AUTH_CONSUMER_PASSWORD = AUTH_PASSWORD;
+        const closeRuntime = runtime.close.bind(runtime);
+        if (process.env.DESIGN_AUTH_FAIL_CLEANUP === '1') {
+          runtime.close = async () => {
+            await closeRuntime();
+            throw new Error('Controlled Auth runtime cleanup failure');
+          };
+        }
+        await prepareAccount(runtime, {
+          email: process.env.AUTH_CONSUMER_EMAIL,
+          password: AUTH_PASSWORD,
+          name: 'Synthetic Consumer',
+        });
+        console.log(`Auth consumer runtime ready; commit ${runtime.commit}; ${variant}`);
+        code = await runE2e(auth, output, variant);
+        const report = JSON.parse(await readFile(join(output, 'report.json'), 'utf8'));
+        const browserEvidence = JSON.parse(await readFile(join(output, 'browser.json'), 'utf8'));
+        assert.equal(browserEvidence.requested, browserName);
+        assert.equal(browserEvidence.actual, browserName);
+        assert.ok(browserEvidence.version.length > 0);
+        assert.deepEqual(
+          browserEvidence.viewport,
+          variant === 'mobile' ? { width: 390, height: 844 } : { width: 1440, height: 900 },
+        );
+        evidence.browser = browserEvidence;
+        const summary = report.run.summary;
+        if (!summary.executed || summary.skipped || summary.interrupted) {
+          throw new Error('Required Auth consumer suite was empty, skipped or interrupted');
+        }
+        // e2e 0.21 can leave the body passed after an engine cleanup error.
+        if (
+          report.run.results.some(
+            (result) =>
+              result.selected &&
+              result.attempts?.some(
+                (attempt) =>
+                  attempt.cleanup === 'failed' ||
+                  attempt.secondaryErrors?.some((error) => error.phase === 'cleanup'),
+              ),
+          )
+        ) {
+          throw new Error('Auth consumer browser cleanup failed in framework attempt evidence');
+        }
+        if (process.env.DESIGN_AUTH_BREAK_ASSERTION !== '1') {
+          if (code !== 0 || summary.failed || report.run.status !== 'passed') {
+            throw new Error('Auth consumer runner result mismatch');
+          }
+        } else if (code !== 1 || summary.failed !== 1 || report.run.status !== 'failed') {
+          throw new Error('Controlled login assertion did not fail exactly once');
+        }
+        if (code !== 0) {
+          const failure = report.run.results
+            .find((result) => result.selected)
+            ?.attempts?.find((attempt) => attempt.error)?.error;
+          throw new Error(`Auth consumer E2E exited ${code}; see ${output}`, { cause: failure });
+        }
+      } catch (error) {
+        primaryError = error;
+      } finally {
+        const finalErrors = primaryError ? [{ phase: 'primary', error: primaryError }] : [];
+        let cleanupError;
+        try {
+          await runtime.close();
+        } catch (error) {
+          cleanupError = error;
+        }
+        if (evidence) {
+          evidence.cleanup = cleanupError ? 'failed' : 'passed';
+          evidence.primaryError = primaryError?.stack;
+          evidence.cleanupError = cleanupError?.stack;
+          evidence.listenersClosed = {};
+          for (const [name, url] of [
+            ['auth', runtime.origin],
+            ['control', runtime.controlOrigin],
+          ]) {
+            try {
+              await fetch(url, { signal: AbortSignal.timeout(1_000) });
+              evidence.listenersClosed[name] = false;
+            } catch (error) {
+              evidence.listenersClosed[name] = error.cause?.code === 'ECONNREFUSED';
+            }
+            if (!evidence.listenersClosed[name]) {
+              finalErrors.push({
+                phase: 'cleanup',
+                error: new Error(`Auth ${name} listener did not close`),
+              });
+            }
+          }
+        }
+        try {
+          await writeFile(join(output, 'runtime.json'), JSON.stringify(evidence, null, 2) + '\n');
+          if (process.env.DESIGN_AUTH_PROBE_SECRET_ARTIFACT === '1') {
+            await writeFile(join(output, 'late-synthetic-marker.txt'), AUTH_PASSWORD);
+          }
+        } catch (error) {
+          finalErrors.push({ phase: 'evidence', error });
+        }
+        if (cleanupError) finalErrors.push({ phase: 'cleanup', error: cleanupError });
+        const publication = await publishAuthConsumerEvidence({
+          source: output,
+          destination: join(run.artifacts, variant),
+          scan: (directory) => runtime.checkArtifacts(directory),
+          failures: finalErrors,
+          quarantineParent: dirname(run.work),
+        });
+        if (!publication.published) {
+          run.state.publication = publication;
+          if (publication.preserveWork) run.state.privateWorkPreserved = true;
+          // Preserve independent failure phases without sending unscanned messages
+          // to verification's public run.json or console output.
+          const phases = publication.errors.map(({ phase }) => phase);
+          throw new AggregateError(
+            phases.map(
+              (phase) => new Error(`Auth consumer ${phase} failure; unscanned details withheld`),
+            ),
+            'Auth consumer artifact publication rejected; unscanned details retained privately',
+          );
+        }
+        if (finalErrors.length === 1) throw finalErrors[0].error;
+        if (finalErrors.length > 1) {
+          throw new Error(
+            `Auth consumer failed with multiple errors:\n${finalErrors
+              .map(({ error }) => error.stack || String(error))
+              .join('\n\n')}`,
+          );
+        }
+      }
+      run.state.variants.push({
+        browser: evidence.browser,
+        variant,
+        cleanup: evidence.cleanup,
+        result: code === 0 ? 'passed' : 'failed',
+      });
+      if (code !== 0) throw new Error(`Auth consumer E2E exited ${code}; see ${output}`);
+    }
+  },
+  { privateOutput: true },
+);
