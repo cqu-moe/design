@@ -172,6 +172,10 @@ jobs:
           AUTH_E2E_REPOSITORY: https://github.com/cqu-moe/auth.git
           DESIGN_CANDIDATE_PACKAGES: ${{ github.workspace }}/candidate-packages
           DESIGN_AUTH_BROWSER_WITH_DEPS: '1'
+      - name: Verify WebSocket, extra payload, and runner timeout failures
+        run: pnpm verify:auth-consumer:harness
+        env:
+          DESIGN_CANDIDATE_PACKAGES: ${{ github.workspace }}/candidate-packages
       - name: Upload Auth consumer reports
         if: always() && !cancelled()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

@@ -137,6 +137,92 @@ export async function verification(kind, action) {
   }
 }
 
+export async function waitForDetachedChild(child, timeoutMs, killGraceMs = 5_000) {
+  for (const value of [timeoutMs, killGraceMs]) {
+    assert.ok(Number.isSafeInteger(value) && value > 0 && value <= 2_147_483_647);
+  }
+  assert.ok(timeoutMs + 2 * killGraceMs <= 2_147_483_647);
+
+  let timedOut = false;
+  let killTimer;
+  let deadlineTimer;
+  let primaryError;
+  let result;
+  const signalGroup = (signal) => {
+    if (!child.pid) return;
+    try {
+      process.kill(-child.pid, signal);
+    } catch (error) {
+      if (error.code !== 'ESRCH') throw error;
+    }
+  };
+  const closed = new Promise((resolve, reject) => {
+    child.once('error', reject);
+    child.once('close', (code, signal) => resolve({ code: code ?? 1, signal }));
+  });
+  const deadline = new Promise((_, reject) => {
+    deadlineTimer = setTimeout(
+      () => reject(new Error('Detached child did not close after process-group SIGKILL')),
+      timeoutMs + 2 * killGraceMs,
+    );
+  });
+  const timeoutTimer = setTimeout(() => {
+    timedOut = true;
+    try {
+      signalGroup('SIGTERM');
+      killTimer = setTimeout(() => {
+        try {
+          signalGroup('SIGKILL');
+        } catch (error) {
+          primaryError = error;
+        }
+      }, killGraceMs);
+    } catch (error) {
+      primaryError = error;
+    }
+  }, timeoutMs);
+  try {
+    result = await Promise.race([closed, deadline]);
+  } catch (error) {
+    primaryError = error;
+  } finally {
+    clearTimeout(timeoutTimer);
+    clearTimeout(killTimer);
+    clearTimeout(deadlineTimer);
+  }
+  try {
+    signalGroup('SIGKILL');
+    const end = Date.now() + killGraceMs;
+    while (child.pid) {
+      const states = execFileSync('ps', ['-axo', 'pgid=,stat='], {
+        encoding: 'utf8',
+        timeout: 1_000,
+      });
+      const alive = states.split('\n').some((line) => {
+        const [group, state] = line.trim().split(/\s+/);
+        return Number(group) === child.pid && !state.startsWith('Z');
+      });
+      if (!alive) break;
+      if (Date.now() >= end)
+        throw new Error('Detached process group cleanup exceeded its deadline');
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    }
+  } catch (cleanupError) {
+    const errors = [
+      ...(primaryError ? [primaryError] : []),
+      ...(timedOut ? [new Error(`Detached child exceeded ${timeoutMs} ms`)] : []),
+      cleanupError,
+    ];
+    throw new AggregateError(errors, errors.map((error) => error.stack).join('\n\n'));
+  } finally {
+    child.stdout?.destroy();
+    child.stderr?.destroy();
+    child.unref();
+  }
+  if (primaryError) throw primaryError;
+  return { ...result, timedOut, cleanup: 'passed' };
+}
+
 export async function candidate(run, consume) {
   const lock = resolve('.verification/candidate.lock');
   await mkdir(lock); // Refuse concurrent builds instead of serving a torn candidate.

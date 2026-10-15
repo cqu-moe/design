@@ -2,11 +2,12 @@ import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import assert from 'node:assert/strict';
-import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, readdir, realpath, rm, writeFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import { dirname, join, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { installCandidatePackages, verifyCandidatePackages } from './candidate-packages.mjs';
-import { verification } from './verification-runtime.mjs';
+import { verification, waitForDetachedChild } from './verification-runtime.mjs';
 
 const AUTH_COMMIT = 'd9bf0c5e6d5cc459029da6a345991b8d0f13f514';
 const AUTH_REPOSITORY = process.env.AUTH_E2E_REPOSITORY || 'https://github.com/cqu-moe/auth.git';
@@ -59,6 +60,75 @@ async function publishedFiles(directory) {
   return files.sort();
 }
 
+async function verifyPnpmAddedFiles(auth, name, candidatePackage, installedPackage, addedFiles) {
+  if (name === 'theme') {
+    assert.deepEqual(
+      addedFiles,
+      [],
+      'pnpm has no metadata basis to add files inside the installed theme package',
+    );
+    return [];
+  }
+
+  const candidateManifest = JSON.parse(await readFile(join(candidatePackage, 'package.json')));
+  assert.deepEqual(
+    candidateManifest.peerDependencies?.typescript,
+    '>=5.9 <8',
+    'UI candidate no longer declares the TypeScript peer that explains pnpm shims',
+  );
+  assert.deepEqual(
+    candidateManifest.peerDependenciesMeta?.typescript,
+    { optional: true },
+    'UI candidate TypeScript peer must remain optional pnpm shim metadata',
+  );
+  const frontend = join(auth, 'frontend');
+  const typescriptManifest = JSON.parse(
+    await readFile(join(frontend, 'node_modules', 'typescript', 'package.json')),
+  );
+  assert.equal(typescriptManifest.version, '5.9.3');
+  assert.deepEqual(typescriptManifest.bin, {
+    tsc: './bin/tsc',
+    tsserver: './bin/tsserver',
+  });
+  const typescriptPackage = await realpath(join(frontend, 'node_modules', 'typescript'));
+  const expectedFiles = Object.keys(typescriptManifest.bin)
+    .sort()
+    .map((bin) => `node_modules/.bin/${bin}`);
+  assert.deepEqual(
+    addedFiles,
+    expectedFiles,
+    `Installed @cqu-moe/${name} has payload beyond the candidate and declared pnpm shims`,
+  );
+
+  const verified = [];
+  for (const [bin, targetPath] of Object.entries(typescriptManifest.bin)) {
+    const file = `node_modules/.bin/${bin}`;
+    const binDir = await realpath(join(installedPackage, 'node_modules', '.bin'));
+    const target = join(typescriptPackage, targetPath);
+    const bytes = await readFile(join(installedPackage, file));
+    const referenceBinDir = join(frontend, 'node_modules', '.bin');
+    const referenceTarget = join(frontend, 'node_modules', 'typescript', targetPath);
+    const reference = await readFile(join(referenceBinDir, bin), 'utf8');
+    assert.ok(reference.endsWith(`# cmd-shim-target=${referenceTarget}\n`));
+    // Compare the installer's own shim; only its location-dependent target changes.
+    const expected = Buffer.from(
+      reference
+        .replaceAll(relative(referenceBinDir, referenceTarget), relative(binDir, target))
+        .replaceAll(`# cmd-shim-target=${referenceTarget}`, `# cmd-shim-target=${target}`),
+    );
+    assert.ok(
+      bytes.equals(expected),
+      `pnpm-injected ${file} does not match its TypeScript bin metadata shim`,
+    );
+    verified.push({
+      file,
+      target,
+      sha256: createHash('sha256').update(bytes).digest('hex'),
+    });
+  }
+  return verified;
+}
+
 async function packageFacts(auth, expectedVersions, candidateInspections) {
   const facts = {};
   for (const name of ['theme', 'ui']) {
@@ -69,12 +139,15 @@ async function packageFacts(auth, expectedVersions, candidateInspections) {
     const installedPackage = join(auth, 'frontend', 'node_modules', '@cqu-moe', name);
     const candidateFiles = await publishedFiles(candidatePackage);
     const installedFiles = await publishedFiles(installedPackage);
-    const installedPublicationFiles = installedFiles.filter(
-      (file) => !file.startsWith('node_modules/'),
+    const packageManagerAddedFiles = await verifyPnpmAddedFiles(
+      auth,
+      name,
+      candidatePackage,
+      installedPackage,
+      installedFiles.filter((file) => file.startsWith('node_modules/')),
     );
-    const packageManagerAddedFiles = installedFiles.filter((file) =>
-      file.startsWith('node_modules/'),
-    );
+    const allowedAddedFiles = new Set(packageManagerAddedFiles.map((entry) => entry.file));
+    const installedPublicationFiles = installedFiles.filter((file) => !allowedAddedFiles.has(file));
     assert.deepEqual(
       installedPublicationFiles,
       candidateFiles,
@@ -133,9 +206,23 @@ async function writeGeneratedSuite(auth) {
   const directory = join(auth, '.e2e', 'design-consumer');
   await mkdir(directory, { recursive: true });
   await writeFile(
+    join(directory, 'consumer-engine.mjs'),
+    `import { surfaceOf, web } from '@e2e-dev/web';
+
+// Config and test are loaded in separate module graphs in e2e 0.21.
+const holder = globalThis;
+export const consumerEngine = holder.designAuthConsumerEngine ??= web({
+  viewport: process.env.AUTH_E2E_MOBILE
+    ? { width: 390, height: 844 }
+    : { width: 1440, height: 900 },
+});
+export const consumerContext = () => surfaceOf(consumerEngine).context();
+`,
+  );
+  await writeFile(
     join(directory, 'e2e.config.ts'),
     `import type { E2EConfig } from 'e2e';
-import { web } from '@e2e-dev/web';
+import { consumerEngine } from './consumer-engine.mjs';
 
 const credentials = {
   design: {
@@ -155,11 +242,7 @@ export default {
   secrets: { password: async () => credentials.design.password },
   targets: [{
     name: process.env.AUTH_E2E_MOBILE ? 'mobile' : 'desktop',
-    engine: web({
-      viewport: process.env.AUTH_E2E_MOBILE
-        ? { width: 390, height: 844 }
-        : { width: 1440, height: 900 },
-    }),
+    engine: consumerEngine,
     app: { url: process.env.AUTH_E2E_URL },
   }],
 } satisfies E2EConfig;
@@ -169,9 +252,12 @@ export default {
     join(directory, 'design-consumer.e2e.ts'),
     `import { test, beforeEach, afterEach } from '@e2e-dev/web';
 import { expect, credentials, secrets } from 'e2e';
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { consumerContext } from './consumer-engine.mjs';
 let unexpected: string[];
 
-beforeEach(async ({ browser }) => {
+beforeEach(async ({ app, browser }) => {
   unexpected = [];
   const allowed = new URL(process.env.AUTH_E2E_URL!).origin;
   await browser.route('**/*', async route => {
@@ -182,6 +268,13 @@ beforeEach(async ({ browser }) => {
     } else {
       await route.continue();
     }
+  });
+  // The engine is lazy: open a script-free JSON response before taking its live context.
+  await app.open('/api/v1/auth/get-session');
+  expect(await browser.evaluate(() => document.contentType)).toBe('application/json');
+  await consumerContext().routeWebSocket('**/*', socket => {
+    unexpected.push(new URL(socket.url()).origin);
+    socket.close({ code: 1008, reason: 'Unexpected network dependency' });
   });
 });
 
@@ -199,6 +292,19 @@ test('save, reload, survive a real unauthorized save, and restore a profile sett
   const variant = process.env.AUTH_E2E_MOBILE ? 'mobile' : 'desktop';
   await app.open('/login');
   await app.screenshot('auth-consumer-login-' + variant);
+  if (process.env.DESIGN_AUTH_PROBE_WEBSOCKET === '1') {
+    const outcome = await browser.evaluate((url: string) => new Promise(resolve => {
+      const socket = new WebSocket(url);
+      socket.onerror = () => {};
+      socket.onclose = event => resolve({ code: event.code, reason: event.reason });
+    }), process.env.AUTH_CONSUMER_WEBSOCKET_URL!);
+    await writeFile(join(process.env.AUTH_E2E_OUTPUT!, 'websocket-probe.json'), JSON.stringify(outcome));
+    return;
+  }
+  if (process.env.DESIGN_AUTH_PROBE_TIMEOUT === '1') {
+    console.log('Controlled Auth consumer runner hang after real browser navigation');
+    await new Promise(() => {});
+  }
   if (process.env.DESIGN_AUTH_BREAK_ASSERTION === '1') {
     await expect(screen.getByRole('heading', '欢迎回来', { exact: true }))
       .toHaveText('故意错误的登录页面断言');
@@ -282,11 +388,26 @@ async function copySanitizedEvidence(source, destination) {
 
 async function runE2e(auth, output, variant) {
   const log = [];
+  let websocket;
+  let connections = 0;
+  if (process.env.DESIGN_AUTH_PROBE_WEBSOCKET === '1') {
+    const { WebSocketServer } = createRequire(join(auth, 'package.json'))('ws');
+    websocket = new WebSocketServer({ host: '127.0.0.1', port: 0 });
+    await new Promise((resolve, reject) => {
+      websocket.once('listening', resolve);
+      websocket.once('error', reject);
+    });
+    websocket.on('connection', (socket) => {
+      connections++;
+      socket.close(1000, 'Synthetic unplanned WebSocket');
+    });
+  }
   const child = spawn(
     process.execPath,
     ['node_modules/e2e/dist/cli/bin.js', 'run', '--config', '.e2e/design-consumer/e2e.config.ts'],
     {
       cwd: auth,
+      detached: true,
       stdio: ['ignore', 'pipe', 'pipe'],
       env: commandEnv({
         AUTH_E2E_URL: process.env.AUTH_E2E_URL,
@@ -296,6 +417,11 @@ async function runE2e(auth, output, variant) {
         AUTH_CONSUMER_EMAIL: process.env.AUTH_CONSUMER_EMAIL,
         AUTH_CONSUMER_PASSWORD: process.env.AUTH_CONSUMER_PASSWORD,
         DESIGN_AUTH_BREAK_ASSERTION: process.env.DESIGN_AUTH_BREAK_ASSERTION || '',
+        DESIGN_AUTH_PROBE_WEBSOCKET: process.env.DESIGN_AUTH_PROBE_WEBSOCKET || '',
+        DESIGN_AUTH_PROBE_TIMEOUT: process.env.DESIGN_AUTH_PROBE_TIMEOUT || '',
+        AUTH_CONSUMER_WEBSOCKET_URL: websocket
+          ? `ws://127.0.0.1:${websocket.address().port}/synthetic-probe`
+          : '',
       }),
     },
   );
@@ -306,17 +432,60 @@ async function runE2e(auth, output, variant) {
       process.stdout.write(text);
     });
   }
-  const timer = setTimeout(() => child.kill('SIGKILL'), 10 * 60_000);
+  const timeoutMs = process.env.DESIGN_AUTH_PROBE_TIMEOUT === '1' ? 15_000 : 10 * 60_000;
+  let result;
+  let primaryError;
+  const cleanupErrors = [];
   try {
-    const code = await new Promise((resolveCode, reject) => {
-      child.once('error', reject);
-      child.once('close', (code) => resolveCode(code ?? 1));
-    });
-    await writeFile(join(output, 'runner.log'), log.join(''));
-    return code;
+    result = await waitForDetachedChild(child, timeoutMs);
+    if (result.timedOut) throw new Error(`Auth consumer runner exceeded ${timeoutMs} ms`);
+  } catch (error) {
+    primaryError = error;
   } finally {
-    clearTimeout(timer);
+    if (websocket) {
+      try {
+        for (const socket of websocket.clients) socket.terminate();
+        await new Promise((resolve, reject) =>
+          websocket.close((error) => (error ? reject(error) : resolve())),
+        );
+        await writeFile(
+          join(output, 'websocket-server.json'),
+          JSON.stringify({ connections, closed: true }),
+        );
+      } catch (error) {
+        cleanupErrors.push(error);
+      }
+    }
+    try {
+      await writeFile(join(output, 'runner.log'), log.join(''));
+      await writeFile(
+        join(output, 'runner.json'),
+        JSON.stringify(
+          {
+            pid: child.pid,
+            timeoutMs,
+            ...result,
+            error: primaryError?.stack,
+            cleanupErrors: cleanupErrors.map((error) => error.stack),
+          },
+          null,
+          2,
+        ) + '\n',
+      );
+    } catch (error) {
+      cleanupErrors.push(error);
+    }
   }
+  if (cleanupErrors.length)
+    throw new AggregateError(
+      [...(primaryError ? [primaryError] : []), ...cleanupErrors],
+      [primaryError, ...cleanupErrors]
+        .filter(Boolean)
+        .map((error) => error.stack)
+        .join('\n\n'),
+    );
+  if (primaryError) throw primaryError;
+  return result.code;
 }
 
 await verification('auth-consumer', async (run) => {
@@ -381,6 +550,12 @@ await verification('auth-consumer', async (run) => {
     const bytes = await readFile(installedPayload);
     bytes[0] ^= 0xff;
     await writeFile(installedPayload, bytes);
+  }
+  if (process.env.DESIGN_AUTH_EXTRA_PAYLOAD === '1') {
+    const extra = join(auth, 'frontend/node_modules/@cqu-moe/ui/node_modules/arbitrary.js');
+    await mkdir(dirname(extra), { recursive: true });
+    await writeFile(extra, 'export const unexpectedPayload = true;\n');
+    run.state.extraPayloadProbe = 'node_modules/arbitrary.js';
   }
   await cp(
     join(auth, 'frontend', 'pnpm-lock.yaml'),
@@ -465,7 +640,26 @@ await verification('auth-consumer', async (run) => {
       } catch (error) {
         cleanupError = error;
       }
-      if (evidence) evidence.cleanup = cleanupError ? 'failed' : 'passed';
+      if (evidence) {
+        evidence.cleanup = cleanupError ? 'failed' : 'passed';
+        evidence.primaryError = primaryError?.stack;
+        evidence.cleanupError = cleanupError?.stack;
+        evidence.listenersClosed = {};
+        for (const [name, url] of [
+          ['auth', runtime.origin],
+          ['control', runtime.controlOrigin],
+        ]) {
+          try {
+            await fetch(url, { signal: AbortSignal.timeout(1_000) });
+            evidence.listenersClosed[name] = false;
+          } catch (error) {
+            evidence.listenersClosed[name] = error.cause?.code === 'ECONNREFUSED';
+          }
+          if (!evidence.listenersClosed[name]) {
+            finalErrors.push(new Error(`Auth ${name} listener did not close`));
+          }
+        }
+      }
       try {
         await writeFile(join(output, 'runtime.json'), JSON.stringify(evidence, null, 2) + '\n');
         await copySanitizedEvidence(output, join(run.artifacts, variant));

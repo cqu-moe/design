@@ -22,4 +22,8 @@
 
 Auth 消费者同样拒绝缺配置、零用例、跳过、意外外联和清理失败。`DESIGN_AUTH_BREAK_ASSERTION=1` 的负例必须在填写秘密前破坏登录页断言，保留失败截图、trace 和清理记录；`DESIGN_AUTH_FAIL_CLEANUP=1` 会在真实关闭 runtime 后抛出受控清理错误，确认清理阶段错误不能被成功测试掩盖。安装后还会解包两个候选 tarball，把全部发布文件的独立 SHA-256 与 `node_modules` 内实际文件逐一比对；`DESIGN_AUTH_BREAK_PAYLOAD=1` 通过篡改本次独占安装内的一个 UI 发布文件验证该对账会失败。CI 的 auth-consumer job 依赖 source 上传的同一 candidate artifact，远端克隆固定 Auth SHA，安装原锁文件依赖和候选包字节后运行双视口，并把 run/report/runtime 证据作为独立制品上传。
 
+Auth 配置与测试使用独立共享模块中的 `globalThis` engine handle，避免 e2e 0.21 的不同 module graph 重新创建 handle。engine 为延迟启动：先注册 HTTP route，再打开纯 JSON `/api/v1/auth/get-session`，确认文档类型后通过公开的 `surfaceOf(engine).context()` 注册 `routeWebSocket('**/*')`，最后才打开 SPA。所有 WebSocket 默认关闭，拒绝记录仅含 origin；页面吞掉连接错误也会在 afterEach 失败。安装文件集只允许 UI 候选声明的可选 TypeScript peer 对应的 `node_modules/.bin/tsc` 与 `node_modules/.bin/tsserver`；确认锁定 TypeScript 的版本和 bin 元数据，并与同次 pnpm 安装生成的顶层 shim 对账，仅调整目标位置，其他附加文件一律拒绝。
+
+`pnpm verify:auth-consumer:harness` 复用同一 `DESIGN_CANDIDATE_PACKAGES`，运行三个真实负例：`DESIGN_AUTH_EXTRA_PAYLOAD=1` 新增包内 `node_modules/arbitrary.js`；`DESIGN_AUTH_PROBE_WEBSOCKET=1` 在登录页打开到本轮合成 WebSocket 服务的真实连接并吞掉错误，必须以 1008 拒绝且服务器收到零连接；`DESIGN_AUTH_PROBE_TIMEOUT=1 DESIGN_AUTH_FAIL_CLEANUP=1` 在真实浏览器导航后挂起 runner，15 秒后终止整组进程，并保留主超时与实际关闭后受控清理失败的两份错误证据。正常 runner 上限为 10 分钟，先向独占进程组发 SIGTERM，5 秒后升级 SIGKILL，等待关闭和检查组内存活进程均有界。三个子运行必须因各自指定原因退出 1，独占目录删除、Auth/control 监听器关闭以及浏览器进程组清理均独立核验，harness 才能成功。CI 在完整双视口旅程后执行该门禁。
+
 首次失败与后续修复执行分别保留，不配置自动重试掩盖首败。运行记录中的 commit 为启动时源码基线；未提交改动须在票的结果报告中列出，不能由基线 SHA 推定为已提交。源码检查、真实浏览器、本地 tarball、远端 CI、部署及真机结果分别报告；本地通过不等于远端通过。
