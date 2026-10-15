@@ -18,12 +18,12 @@ export function App() {
   return (
     <AppShell
       brand={
-        <>
+        <span className="preview-brand">
           <Box size={24} aria-hidden="true" />
           CQU Moe
           <span className="brand-divider" />
           设计系统
-        </>
+        </span>
       }
       utilities={
         <>

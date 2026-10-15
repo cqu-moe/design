@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('dashboard and charts expose data and respond to period changes', async ({ page }) => {
   await page.goto('/admin');
   await expect(page.getByRole('heading', { name: '仪表盘', exact: true })).toBeVisible({

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 for (const width of [320, 390, 1440])
   test(`navigation available at ${width}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 850 });

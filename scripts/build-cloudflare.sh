@@ -13,6 +13,7 @@ fi
 pnpm check
 mkdir -p .verification
 libs="$(mktemp -d "$PWD/.verification/chromium-libs.XXXXXX")"
+trap 'rm -rf -- "$libs"' EXIT
 mkdir -p "$libs/lists/partial" "$libs/cache/archives/partial"
 # Cloudflare strips global APT indexes. Keep all package state in this build
 # workspace and resolve transitive dependencies against a copy of host state.

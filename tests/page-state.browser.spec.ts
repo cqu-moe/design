@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 for (const width of [320, 390, 768, 1440])
   for (const theme of ['light', 'dark'])
     test(`page states preserve recovery and fit ${width} ${theme}`, async ({ page }) => {

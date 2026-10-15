@@ -1,5 +1,5 @@
 import { elementContrast, elementBackground } from './helpers/contrast';
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('action button keeps width and focus, prevents duplicate work and shows success', async ({
   page,
 }) => {
@@ -7,7 +7,8 @@ test('action button keeps width and focus, prevents duplicate work and shows suc
   const button = page.getByRole('button', { name: '保存设置', exact: true });
   await expect(button).toBeVisible({ timeout: 3000 });
   const width = (await button.boundingBox())!.width;
-  await button.click();
+  await button.focus();
+  await button.press('Enter');
   const loading = page.getByRole('button', { name: '正在保存设置…', exact: true });
   await expect(loading).toHaveAttribute('aria-busy', 'true');
   await expect(loading).toHaveAttribute('aria-disabled', 'true');
@@ -42,9 +43,9 @@ test('button failure is retryable and detailed export feedback uses an actionabl
   await expect(page.getByRole('button', { name: '报告已完成', exact: true })).toBeFocused();
 });
 test('action button respects reduced motion on touch and semantic colors in both themes', async ({
-  browser,
+  newContext,
 }) => {
-  const context = await browser.newContext({
+  const context = await newContext({
     viewport: { width: 390, height: 850 },
     hasTouch: true,
     isMobile: true,
@@ -52,7 +53,7 @@ test('action button respects reduced motion on touch and semantic colors in both
   });
   const page = await context.newPage();
   for (const theme of ['light', 'dark']) {
-    await page.goto('http://127.0.0.1:5173/feedback');
+    await page.goto('/feedback');
     await page.evaluate((value) => localStorage.setItem('cqu-moe-theme', value), theme);
     await page.reload();
     const button = page.getByRole('button', { name: '保存设置', exact: true });
@@ -80,7 +81,6 @@ test('action button respects reduced motion on touch and semantic colors in both
       true,
     );
   }
-  await context.close();
 });
 
 test('completed form buttons remain readable when disabled', async ({ page }) => {

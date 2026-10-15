@@ -1,5 +1,5 @@
 import { elementContrast, elementBackground } from './helpers/contrast';
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('one global toaster follows theme and updates an existing notification', async ({ page }) => {
   await page.goto('/feedback');
   await expect(page.getByRole('heading', { name: '通知与反馈', exact: true })).toBeVisible({
@@ -39,15 +39,15 @@ test('async toast settles, undo works, and persistent feedback remains actionabl
   await expect(page.getByRole('alert')).not.toBeVisible();
 });
 test('reduced motion preview and mobile notification actions stay accessible', async ({
-  browser,
+  newContext,
 }) => {
-  const context = await browser.newContext({
+  const context = await newContext({
     viewport: { width: 390, height: 850 },
     hasTouch: true,
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto('http://127.0.0.1:5173/feedback');
+  await page.goto('/feedback');
   await page.getByRole('switch', { name: '减少动态效果预览' }).check({ timeout: 3000 });
   await page.getByRole('button', { name: '成功通知', exact: true }).tap();
   expect(
@@ -64,7 +64,6 @@ test('reduced motion preview and mobile notification actions stay accessible', a
   expect(target.height).toBeGreaterThanOrEqual(44);
   expect(target.width).toBeGreaterThanOrEqual(44);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await context.close();
 });
 
 test('modal confirmation and route changes keep one accessible notification host', async ({
