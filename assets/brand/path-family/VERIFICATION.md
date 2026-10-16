@@ -56,3 +56,16 @@
 - 设计仓库 `pnpm check`、`pnpm test:e2e`（69 项）、`pnpm verify:consumer` 均通过；完整素材包重新生成，前三枚产品素材字节未变。
 - 实看四产品总览、静态目录双主题与 Feed 本地页面。按 emil-touch-and-accessibility、emil-ui-review 检查；页面增加固定尺寸并跟随实际主题选择黑白图，手机顶栏名称允许省略，键盘焦点可见。
 - ui / theme 保持 1.1.0。未验证真实手机、Safari、Firefox；本地假数据验收不等于真实账号业务验收。生产合并状态见 PR。
+
+## Learning CLI 与 CQU Moe 扩展验收 · 2026-10-16
+
+- 新增两枚已确认标识：Learning CLI 书页与命令提示符、CQU Moe A 版折叠立方。每枚含 7 份 SVG、18 份 RGBA PNG、1 份三尺寸 ICO，原稿、mask、trace 与回绘 PNG 均保留。
+- 原稿二值轮廓与 SVG 回绘 IoU：Learning CLI **99.06%**、CQU Moe **98.70%**；两者超出原稿 2px 容差的面积均为 **0%**。实际图形按最长边 52 单位置于 64 × 64 viewBox，不改变原稿比例。
+- 标准色遵循设计稿约定：Learning CLI `#327354` / 深底 `#A0C9B2`；CQU Moe `#6951A5` / 深底 `#C1B4EF`。白底对比度分别 **5.65:1 / 6.32:1**，深底对比度 **8.49:1 / 8.16:1**。SVG 无位图、脚本、外链与滤镜，PNG 留白透明。
+- 既有 Schedule / Auth / QuickLogin / Feed 产品目录逐文件与基线比较，字节不变。渲染器对一个既有 PNG 产生 6 个边缘像素差异，保留原文件，避免无关素材变化。
+- `pnpm brand:verify`：320 / 390 / 768 / 1440 × 双主题共 8 组通过，18 个 SVG / PNG / ICO 下载通过，图片完整、无横向溢出、链接命中区域至少 44px，无控制台错误或外部请求。
+- `pnpm check` 通过（5 项单元、7 项规则/分发测试）；`CI=1 pnpm test:e2e` **69 项通过**；`pnpm verify:consumer` 通过。构建保留已有的大于 500kB chunk 提示；Playwright 有 NO_COLOR / FORCE_COLOR 环境提示，无失败。
+- 实看六产品总览与品牌预览双主题、主站桌面/窄屏和 Learning CLI 服务区截图。主站 320px 顶栏拥挤已修正，保持首页名称、账号入口与主题按钮可用。
+- `pnpm brand:check cqu-moe <repo-root>` 校验主站 **15 个素材与来源清单**。主站本地 `pnpm check`、Wrangler dry run、8 组宽度/主题、系统主题相反时手动主题选择、无脚本导航、404 页和键盘焦点通过。
+- emil-touch-and-accessibility / emil-ui-review：本次改动无阻塞发现；触屏模拟各操作区域至少 44 × 44px。共享 theme / ui 保持 **1.1.0**，未新增依赖。
+- 范围：本地 Chromium / Ego Lite；未验证真实手机、Safari、Firefox 或各子系统账号业务。GitHub CI、合并与线上资源结果独立报告，不由本节本地验证推断。

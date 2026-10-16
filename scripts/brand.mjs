@@ -1,11 +1,12 @@
-import { copyFile, mkdir, readFile, readdir, stat } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const source = path.join(root, 'assets/brand/path-family');
-const products = ['schedule', 'auth', 'quicklogin', 'feed'];
+const model = JSON.parse(await readFile(path.join(source, 'source/marks.json'), 'utf8'));
+const products = model.products.map(({ id }) => id);
 const common = [
   'logo.svg',
   'logo-dark.svg',
@@ -36,7 +37,7 @@ async function copy(from, to) {
 async function run() {
   if (!['prepare', 'sync', 'check'].includes(command))
     throw new Error(
-      'Usage: node scripts/brand.mjs prepare | sync|check <schedule|auth|quicklogin|feed> <repo-root>',
+      `Usage: node scripts/brand.mjs prepare | sync|check <${products.join('|')}> <repo-root>`,
     );
   await verifyManifest();
   if (command === 'prepare') {
@@ -76,6 +77,47 @@ async function run() {
     throw new Error('Specify a supported product and its existing repository root.');
   const target = path.resolve(targetArg);
   await stat(path.join(target, 'package.json'));
+  if (product === 'cqu-moe') {
+    // The public homepage presents the whole family and its own root-level icons.
+    await stat(path.join(target, 'public'));
+    const mappings = products.flatMap((id) =>
+      (id === 'quicklogin' ? ['logo.svg', 'logo-dark.svg'] : ['logo-black.svg', 'logo-white.svg'])
+        .map((file) => [`${id}/${file}`, `public/brand/${id}/${file}`]),
+    );
+    mappings.push(
+      ['cqu-moe/favicon.svg', 'public/favicon.svg'],
+      ['cqu-moe/favicon.ico', 'public/favicon.ico'],
+      ['cqu-moe/icon-192.png', 'public/apple-touch-icon.png'],
+    );
+    const manifest = { sourceRepository: 'https://github.com/cqu-moe/design', files: [] };
+    for (const [relative, destination] of mappings) {
+      const from = path.join(source, relative), to = path.join(target, destination);
+      if (command === 'sync') await copy(from, to);
+      const bytes = await readFile(from);
+      if (hash(bytes) !== hash(await readFile(to))) throw new Error(`Brand asset differs: ${to}`);
+      manifest.files.push({
+        file: path.relative('public/brand', destination),
+        source: `assets/brand/path-family/${relative}`,
+        sha256: hash(bytes),
+      });
+    }
+    const manifestPath = path.join(target, 'public/brand/manifest.json');
+    if (command === 'sync') await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+    if (JSON.stringify(JSON.parse(await readFile(manifestPath, 'utf8'))) !== JSON.stringify(manifest))
+      throw new Error('Homepage brand manifest differs from canonical sources.');
+    console.log(`cqu-moe: ${mappings.length} canonical assets and source manifest verified.`);
+    return;
+  }
+  if (product === 'learning') {
+    for (const file of common) {
+      const from = path.join(source, product, file), to = path.join(target, 'assets/brand', file);
+      if (command === 'sync') await copy(from, to);
+      if (hash(await readFile(from)) !== hash(await readFile(to)))
+        throw new Error(`Brand asset differs: ${to}`);
+    }
+    console.log(`learning: ${common.length} canonical assets verified.`);
+    return;
+  }
   const publicDir =
     product === 'feed' ? 'public' : product === 'quicklogin' ? 'website/public' : 'frontend/public';
   await stat(path.join(target, publicDir));

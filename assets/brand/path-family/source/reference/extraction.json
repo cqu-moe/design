@@ -54,5 +54,35 @@
     ],
     "hex": "#b13758",
     "foregroundPixels": 121956
+  },
+  "learning": {
+    "reference": "learning-approved-concept.png",
+    "crop": [
+      172,
+      287,
+      913,
+      683
+    ],
+    "size": [
+      913,
+      683
+    ],
+    "hex": "#327354",
+    "foregroundPixels": 382318
+  },
+  "cqu-moe": {
+    "reference": "cqu-moe-approved-concept.png",
+    "crop": [
+      169,
+      177,
+      367,
+      378
+    ],
+    "size": [
+      367,
+      378
+    ],
+    "hex": "#6951A5",
+    "foregroundPixels": 78099
   }
 }

@@ -152,3 +152,10 @@
 - [x] 扩充品牌预览、使用规范和可校验素材同步脚本；Feed 网页黑白、favicon 彩色。
 - [x] 通过设计仓库完整检查与素材验证；共享包保持 1.1.0。
 - Feed 接入与 CI 后合并由本次配套 PR 记录；未以本地假数据代替真实账号验收。
+
+## 2026-10-16 · Learning CLI 与 CQU Moe 标识
+
+- 用户选择 CQU Moe A 版折叠立方；Learning CLI 沿用书页与命令提示符。
+- 扩展通路家族的可编辑路径、双主题与黑白素材、PNG / ICO、预览目录和主站同步脚本。
+- cqu.moe 接入顶栏 Logo、Learning CLI 服务标识和 favicon；验证记录随素材 VERIFICATION.md 与主站 docs/design/brand-verification.md 交付。
+- theme / ui API 与版本保持 1.1.0。

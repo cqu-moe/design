@@ -17,6 +17,8 @@ def oklch(hexcolor):
     b = .0259040371*l+.7827717662*m-.808675766*s
     return [round(L,6),round(math.hypot(a,b),6),round(math.degrees(math.atan2(b,a))%360,6)]
 meanings = {
+    'learning': '展开的书页与命令提示符，贯穿的带状结构连接学习资源与命令行工具。',
+    'cqu-moe': '折叠立方与开放的负空间，表达校园工具汇聚成统一入口。',
     'feed': '叠放的通知页与汇聚的信息流，表达多来源通知采集、统一阅读与存档。',
     'schedule': '叠放的日历页与贯穿其中的流动带，表达课表订阅及持续同步。',
     'auth': '清晰的锁形与交叠带状结构，表达身份认证及服务之间的可信连接。',
@@ -38,6 +40,7 @@ for p in model['products']:
     for item in p['paths']:
         item.pop('fill',None)
     p['traceSize'] = [w,h]
-model['provenance'] = {'type': 'approved imagegen concept traced to editable Bezier paths', 'reference': 'reference/approved-concept.png', 'approvedDate': '2026-10-13'}
+# Keep the original family's approval record; later additions carry their own references.
+model.setdefault('provenance', {'type': 'approved imagegen concept traced to editable Bezier paths', 'reference': 'reference/approved-concept.png', 'approvedDate': '2026-10-13'})
 (root / 'marks.json').write_text(json.dumps(model,ensure_ascii=False,indent=2)+'\n')
 print('Imported approved geometry and sampled colors')
