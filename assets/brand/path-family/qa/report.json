@@ -69,7 +69,13 @@
     "quicklogin/favicon.ico",
     "feed/logo.svg",
     "feed/logo-1024.png",
-    "feed/favicon.ico"
+    "feed/favicon.ico",
+    "learning/logo.svg",
+    "learning/logo-1024.png",
+    "learning/favicon.ico",
+    "cqu-moe/logo.svg",
+    "cqu-moe/logo-1024.png",
+    "cqu-moe/favicon.ico"
   ],
   "contrast": {
     "schedule": {
@@ -87,6 +93,14 @@
     "feed": {
       "lightOnWhite": 5.9,
       "darkOnGraphite": 7.98
+    },
+    "learning": {
+      "lightOnWhite": 5.65,
+      "darkOnGraphite": 8.49
+    },
+    "cqu-moe": {
+      "lightOnWhite": 6.32,
+      "darkOnGraphite": 8.16
     }
   },
   "warnings": [],

@@ -25,3 +25,7 @@ VTracer 的 Python 包版本为 0.6.15，输出 SVG 注释中的 Rust 核心版�
 ## Feed 独立确认稿
 
 先运行 `python3 assets/brand/path-family/source/prepare-feed.py`，再运行 `uv run --python 3.12 --with vtracer==0.6.15 python assets/brand/path-family/source/trace.py feed` 与 `python3 assets/brand/path-family/source/import-traces.py feed`。Feed 原稿为 `reference/feed-approved-concept.png`，固定裁切区域已排除文字和下方黑白示例。只描摹 Feed 时不会修改前三枚路径。常规重建仍只需 build / verify。
+
+## Learning CLI 与 CQU Moe A 版
+
+运行 `python3 assets/brand/path-family/source/prepare-learning-homepage.py`，再运行 `uv run --python 3.12 --with vtracer==0.6.15 python assets/brand/path-family/source/trace.py learning cqu-moe` 和 `python3 assets/brand/path-family/source/import-traces.py learning cqu-moe`。提取脚本固定了原稿尺寸与裁切区域，CQU Moe 只使用左侧 A 方案，排除 B/C 和下方示例。新稿使用约定的标准色而非压缩后取样值，记录见 extraction.json。之后照常 build / verify / package。
