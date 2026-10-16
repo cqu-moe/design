@@ -37,3 +37,5 @@ pnpm verify:consumer
 线上：[CQU Moe Design](https://cqu-moe-design.user-unauthorized.workers.dev/admin)。
 
 登录 Cloudflare 后执行 `pnpm deploy`。站点使用 Workers Static Assets，支持直接打开设置、仪表盘等前端路由。全部业务数据仍为本地演示数据。theme/ui 通过本地 tarball 分发，部署站点不代表发布 npm 包。
+
+生产构建、桌面/手机及发布前 Firefox/WebKit 验证入口、隔离与失败证据见 [E2E 验证](docs/e2e.md)。

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('settings tabs retain drafts, URL state and directional motion', async ({ page }) => {
   await page.goto('/settings');
   await page.getByLabel('显示名称', { exact: true }).fill('未保存的名字');
@@ -32,8 +32,9 @@ test('inline saves isolate fields and global save covers remaining drafts across
   await page.goto('/settings');
   await page.getByLabel('显示名称', { exact: true }).fill('新的名字');
   await page.getByLabel('联系邮箱', { exact: true }).fill('wrong');
-  await page.getByRole('button', { name: '保存显示名称', exact: true }).click({ timeout: 3000 });
   const inline = page.getByRole('button', { name: '保存显示名称', exact: true });
+  await inline.focus({ timeout: 3000 });
+  await inline.press('Enter');
   await expect(inline).toHaveAttribute('data-action-state', 'loading');
   await expect(inline).toBeFocused();
   await expect(inline).toHaveAttribute('data-action-state', 'success');

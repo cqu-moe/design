@@ -4,10 +4,15 @@ on:
   pull_request:
   push:
     branches:
-      - "**"
+      - '**'
     tags:
-      - "v*"
+      - 'v*'
   workflow_dispatch:
+    inputs:
+      release_browsers:
+        description: Run Firefox and WebKit release gates too
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -43,11 +48,10 @@ jobs:
           pnpm --filter @cqu-moe/theme pack --pack-destination "$PWD/artifacts"
           pnpm --filter @cqu-moe/ui pack --pack-destination "$PWD/artifacts"
           cd artifacts && sha256sum *.tgz > SHA256SUMS
-      - name: Upload main package tarballs
-        if: github.ref == 'refs/heads/main'
+      - name: Upload candidate package tarballs
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: cqu-moe-design-packages
+          name: cqu-moe-design-candidate-packages
           path: |
             artifacts/*.tgz
             artifacts/SHA256SUMS
@@ -64,6 +68,7 @@ jobs:
 
   browser:
     name: Chromium design gates
+    needs: source
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
@@ -80,17 +85,158 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Download source-packaged candidate tarballs
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: cqu-moe-design-candidate-packages
+          path: candidate-packages
       - name: Run the Cloudflare source and browser gate without root
         run: bash scripts/build-cloudflare.sh
+        env:
+          DESIGN_CANDIDATE_PACKAGES: ${{ github.workspace }}/candidate-packages
+      - name: Verify assertion, network and zero-test failures
+        run: pnpm test:e2e:harness
       - name: Upload browser reports
         if: always() && !cancelled()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: cqu-moe-design-browser-reports
           path: |
-            test-results
-            playwright-report
-          if-no-files-found: ignore
+            artifacts/e2e
+          if-no-files-found: error
+          retention-days: 7
+
+  release-browsers:
+    name: Firefox and WebKit release gates
+    if: startsWith(github.ref, 'refs/tags/v') || inputs.release_browsers == true
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Set up pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install release browsers
+        run: pnpm exec playwright install --with-deps firefox webkit
+      - name: Verify release browsers against a production build
+        run: node scripts/run-browser-tests.mjs --project=firefox-desktop --project=webkit-desktop
+      - name: Upload release browser reports
+        if: always() && !cancelled()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cqu-moe-design-release-browser-reports
+          path: artifacts/e2e
+          if-no-files-found: error
+          retention-days: 7
+
+  auth-consumer:
+    name: Pinned Auth consumer E2E
+    needs: source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      E2E_TELEMETRY_DISABLED: '1'
+      DO_NOT_TRACK: '1'
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - name: Check out design source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Set up pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - name: Install design tools
+        run: pnpm install --frozen-lockfile
+      - name: Download source-packaged candidate tarballs
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: cqu-moe-design-candidate-packages
+          path: candidate-packages
+      - name: Install candidate packages in pinned Auth and run both viewports
+        run: node scripts/verify-auth-consumer.mjs
+        env:
+          AUTH_E2E_REPOSITORY: https://github.com/cqu-moe/auth.git
+          DESIGN_CANDIDATE_PACKAGES: ${{ github.workspace }}/candidate-packages
+          DESIGN_AUTH_BROWSER_WITH_DEPS: '1'
+      - name: Verify WebSocket, extra payload, and runner timeout failures
+        run: pnpm verify:auth-consumer:harness
+        env:
+          DESIGN_CANDIDATE_PACKAGES: ${{ github.workspace }}/candidate-packages
+      - name: Upload Auth consumer reports
+        if: always() && !cancelled()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cqu-moe-design-auth-consumer-reports
+          path: artifacts/e2e
+          if-no-files-found: error
+          retention-days: 7
+
+  release-auth-consumer:
+    name: Pinned Auth consumer (${{ matrix.browser }})
+    if: startsWith(github.ref, 'refs/tags/v') || inputs.release_browsers == true
+    needs: source
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      E2E_TELEMETRY_DISABLED: '1'
+      DO_NOT_TRACK: '1'
+      WRANGLER_SEND_METRICS: 'false'
+    steps:
+      - name: Check out design source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Set up pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - name: Install design tools
+        run: pnpm install --frozen-lockfile
+      - name: Download source-packaged candidate tarballs
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: cqu-moe-design-candidate-packages
+          path: candidate-packages
+      - name: First fresh Auth consumer round on both viewports
+        run: node scripts/verify-auth-consumer.mjs --browser ${{ matrix.browser }}
+        env:
+          AUTH_E2E_REPOSITORY: https://github.com/cqu-moe/auth.git
+          DESIGN_CANDIDATE_PACKAGES: ${{ github.workspace }}/candidate-packages
+          DESIGN_AUTH_BROWSER_WITH_DEPS: '1'
+      - name: Second fresh Auth consumer round on both viewports
+        run: node scripts/verify-auth-consumer.mjs --browser ${{ matrix.browser }}
+        env:
+          AUTH_E2E_REPOSITORY: https://github.com/cqu-moe/auth.git
+          DESIGN_CANDIDATE_PACKAGES: ${{ github.workspace }}/candidate-packages
+          DESIGN_AUTH_BROWSER_WITH_DEPS: '1'
+      - name: Upload Auth consumer reports
+        if: always() && !cancelled()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cqu-moe-design-auth-consumer-${{ matrix.browser }}-reports
+          path: artifacts/e2e
+          if-no-files-found: error
           retention-days: 7
 
   ci-result:
@@ -98,6 +244,9 @@ jobs:
     needs:
       - source
       - browser
+      - release-browsers
+      - auth-consumer
+      - release-auth-consumer
     if: always() && !cancelled()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -107,9 +256,21 @@ jobs:
         env:
           SOURCE_RESULT: ${{ needs.source.result }}
           BROWSER_RESULT: ${{ needs.browser.result }}
+          RELEASE_BROWSER_RESULT: ${{ needs.release-browsers.result }}
+          AUTH_CONSUMER_RESULT: ${{ needs.auth-consumer.result }}
+          RELEASE_AUTH_CONSUMER_RESULT: ${{ needs.release-auth-consumer.result }}
+          REQUIRE_RELEASE_BROWSERS: ${{ startsWith(github.ref, 'refs/tags/v') || inputs.release_browsers == true }}
         run: |
           test "$SOURCE_RESULT" = success
           test "$BROWSER_RESULT" = success
+          test "$AUTH_CONSUMER_RESULT" = success
+          if [ "$REQUIRE_RELEASE_BROWSERS" = true ]; then
+            test "$RELEASE_BROWSER_RESULT" = success
+            test "$RELEASE_AUTH_CONSUMER_RESULT" = success
+          else
+            test "$RELEASE_BROWSER_RESULT" = skipped
+            test "$RELEASE_AUTH_CONSUMER_RESULT" = skipped
+          fi
 
   release:
     name: Immutable tag packages
@@ -125,6 +286,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Download tested candidate packages
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: cqu-moe-design-candidate-packages
+          path: candidate-packages
       - name: Set up pnpm
         uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
       - name: Set up Node.js
@@ -160,13 +326,8 @@ jobs:
           }
           NODE
           git merge-base --is-ancestor "$GITHUB_SHA" origin/main
-      - name: Build and package release tarballs
-        run: |
-          pnpm build
-          mkdir -p artifacts
-          pnpm --filter @cqu-moe/theme pack --pack-destination "$PWD/artifacts"
-          pnpm --filter @cqu-moe/ui pack --pack-destination "$PWD/artifacts"
-          cd artifacts && sha256sum *.tgz > SHA256SUMS
+      - name: Verify release packages are the tested bytes
+        run: node scripts/candidate-packages.mjs --source candidate-packages
       - name: Create immutable GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -174,12 +335,12 @@ jobs:
           cat > "$RUNNER_TEMP/release-notes.md" <<'NOTES'
           This release contains @cqu-moe/theme and @cqu-moe/ui tarballs plus SHA-256 checksums.
 
-          The same tag workflow reran non-browser checks, browser E2E, and installed-tarball consumer verification before publishing. These assets are not published to npm.
+          The same tag workflow installed and verified these exact artifact bytes before publishing. These assets are not published to npm.
           NOTES
           gh release create "$GITHUB_REF_NAME" \
-            artifacts/cqu-moe-theme-*.tgz \
-            artifacts/cqu-moe-ui-*.tgz \
-            artifacts/SHA256SUMS \
+            candidate-packages/cqu-moe-theme-*.tgz \
+            candidate-packages/cqu-moe-ui-*.tgz \
+            candidate-packages/SHA256SUMS \
             --verify-tag \
             --title "CQU Moe Design ${GITHUB_REF_NAME}" \
             --notes-file "$RUNNER_TEMP/release-notes.md"

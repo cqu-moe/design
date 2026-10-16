@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('shared controls provide names, disabled state and dialog focus return', async ({ page }) => {
   await page.goto('/components');
   await expect(page.getByRole('button', { name: '不可用操作' })).toBeDisabled({ timeout: 3000 });
@@ -44,4 +44,11 @@ test('theme preference syncs across tabs and storage denial allows temporary cho
   await page.reload();
   await page.getByRole('button', { name: '深色', exact: true }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});
+
+test('reference pages load only production assets', async ({ page }) => {
+  const response = await page.goto('/components');
+  expect(response?.ok()).toBe(true);
+  expect(await response!.text()).not.toContain('/@vite/client');
+  await expect(page.getByRole('button', { name: '打开弹窗' })).toBeVisible();
 });

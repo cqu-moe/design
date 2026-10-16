@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('page size and cross-page selection support confirmed bulk changes', async ({ page }) => {
   await page.goto('/admin/users');
   await page.getByRole('checkbox', { name: '选择本页全部用户' }).check({ timeout: 3000 });

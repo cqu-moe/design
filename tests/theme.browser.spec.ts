@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('honors stored theme before application renders', async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('cqu-moe-theme', 'dark'));
   await page.goto('/');

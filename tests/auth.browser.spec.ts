@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('login and registration share email but clear passwords on mode switch', async ({ page }) => {
   await page.goto('/auth');
   await expect(page.getByRole('heading', { name: '欢迎回来', exact: true })).toBeVisible({
@@ -35,7 +35,9 @@ test('registration validates password length and demonstrates failure then succe
   await page.getByLabel('密码', { exact: true }).fill('Demo12345!');
   await page.getByText('演示选项', { exact: true }).click();
   await page.getByLabel('模拟提交失败').check();
-  await page.getByRole('button', { name: '创建账号', exact: true }).click();
+  const submit = page.getByRole('button', { name: '创建账号', exact: true });
+  await submit.focus();
+  await submit.press('Enter');
   await expect(page.getByRole('button', { name: '正在创建…', exact: true })).toBeDisabled();
   await expect(page.getByRole('button', { name: '正在创建…', exact: true })).toBeFocused();
   await expect(page.getByRole('alert')).toContainText('提交失败');

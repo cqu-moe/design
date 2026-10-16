@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('fresh Agent page uses shared inputs and honest local feedback', async ({ page }) => {
   await page.goto('/agent-probe');
   await page.getByRole('button', { name: '保存偏好' }).click();

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './helpers/browser';
 test('settings validates, prevents duplicate submission and recovers after failure', async ({
   page,
 }) => {
@@ -47,14 +47,16 @@ for (const width of [320, 390, 768, 1440])
         );
       }
     });
-test('touch controls stay reachable and long content survives zoom', async ({ browser }) => {
-  const context = await browser.newContext({
+test('touch controls stay reachable and long content survives zoom', async ({
+  newContext,
+}, testInfo) => {
+  const context = await newContext({
     viewport: { width: 390, height: 740 },
     hasTouch: true,
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto('http://127.0.0.1:5173/settings');
+  await page.goto('/settings');
   const menu = page.getByRole('button', { name: '打开导航' });
   const box = await menu.boundingBox();
   expect(box!.width).toBeGreaterThanOrEqual(44);
@@ -67,9 +69,12 @@ test('touch controls stay reachable and long content survives zoom', async ({ br
   await menu.tap();
   await page.getByRole('link', { name: '服务管理' }).filter({ visible: true }).tap();
   await expect(page.getByRole('heading', { name: '服务管理', exact: true })).toBeVisible();
-  await page.goto('http://127.0.0.1:5173/items/archive');
+  await page.goto('/items/archive');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('课程资料归档');
   await page.evaluate(() => (document.documentElement.style.zoom = '2'));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await context.close();
+  await testInfo.attach('zoom-200-percent', {
+    body: await page.screenshot({ fullPage: true }),
+    contentType: 'image/png',
+  });
 });
