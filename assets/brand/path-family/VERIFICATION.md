@@ -82,3 +82,14 @@
 - `pnpm brand:check cqu-moe <repo-root>` 校验主站 **15 个素材与来源清单**。主站本地 `pnpm check`、Wrangler dry run、8 组宽度/主题、系统主题相反时手动主题选择、无脚本导航、404 页和键盘焦点通过。
 - emil-touch-and-accessibility / emil-ui-review：本次改动无阻塞发现；触屏模拟各操作区域至少 44 × 44px。共享 theme / ui 保持 **1.1.0**，未新增依赖。
 - 范围：本地 Chromium / Ego Lite；未验证真实手机、Safari、Firefox 或各子系统账号业务。GitHub CI、合并与线上资源结果独立报告，不由本节本地验证推断。
+
+## 快速评教扩展验收 · 2026-10-20
+
+- 新增用户确认的快速评教标识：`source/reference/jxzljc-approved-concept.png` 为 1536 × 1024 不透明 RGB 原稿，图形取自 crop `[116,104,548,478]`。标准色 `#A66B18`，深底色 `#DEB588`；页面使用彩色双主题标识与赭金主题，不按网页黑白标识接入。
+- 新增 7 份 SVG、18 份 RGBA PNG 与 1 份三尺寸 ICO。全部导出 PNG 的模式 / 尺寸核对通过：纯 logo 与 favicon 画布边缘 alpha 为 0；应用图标容器外角透明，16px 四角抗锯齿 alpha 最高 12/255。ICO 由 16 / 32 / 48 PNG 帧组成。
+- 原 mask 前景与 SVG 回绘 alpha≥128 的二值 IoU 为 `0.9884677636903156`。该值只代表栅格化边缘拟合误差，不宣称与原 PNG 逐像素 100% 相同。
+- `node assets/brand/path-family/source/verify.cjs`：320 / 390 / 768 / 1440 × 双主题均无溢出、断图，21 个下载通过，链接命中区域至少 44px，无控制台错误或外部请求。赭金标识对比度为白底 4.43:1、石墨底 8.18:1。
+- 实看确认稿裁切、浅深 / 黑白透明版、16–192px 应用图标与 favicon；透明变体在棋盘底接触表上核对。品牌包重新生成并校验 manifest / ZIP。
+- design 的 `check` 通过（构建、类型检查、5 项 Vitest、24 项 node:test 与设计规则）；`test:e2e` 桌面 / 触屏 Chromium **106 项通过**。构建保留既有的大于 500kB chunk 提示。
+- 未重跑 `verify:consumer`：本次不修改共享 theme / ui 的源码、公开 API 或模板行为；消费方官网使用已有 theme 1.1.0，并单独完成素材 SHA 与浏览器检查。
+- 范围：品牌素材、design 预览与上述本地回归；不覆盖快速评教真实页面、真实提交或生产部署。

@@ -2,6 +2,7 @@ import { Button, PageHeader } from '@cqu-moe/ui';
 import './brand.css';
 
 const products = [
+  { id: 'jxzljc', name: '快速评教', meaning: '评价气泡、勾选与环绕带，表达学生反馈、逐项核对与确认提交。' },
   { id: 'cqu-moe', name: 'CQU Moe', meaning: '折叠立方与开放负空间，表达校园工具汇聚成统一入口。' },
   {
     id: 'learning',
@@ -136,7 +137,7 @@ export function Brand() {
           开关与导航选中态保持黑白灰。错误、警告和成功仍使用各自的语义色。
         </p>
         <Button asChild variant="outline">
-          <a href="/brand/index.html">查看黑白版本与小尺寸对照</a>
+          <a href="/brand/index.html">查看彩色/黑白版本与小尺寸对照</a>
         </Button>
       </section>
     </>

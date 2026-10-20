@@ -71,3 +71,7 @@ Feed 使用单独确认的 `source/reference/feed-approved-concept.png`；按同
 Learning CLI 为书页与命令提示符，标准色 `#327354`；CQU Moe 为用户选定的 A 版折叠立方，标准色 `#6951A5`。它们的原稿、提取 mask 与可编辑路径一并保留在 `source/reference/` 与 `source/marks.json`。两枚新标识使用设计稿约定的品牌色，将生成图内轻微色差统一为纯色；深底色由相同 OKLCH 色相提高明度生成，精确值见 `palette.json`。
 
 主站的页头和 Learning CLI 入口跟随页面 `data-theme` 使用纯黑或纯白；favicon 保留各自彩色。两者使用现有 64 × 64 viewBox 和约 52 单位最长边，保留原稿比例。CQU Moe 原稿包含三个候选，仅 A 的轮廓被收录。
+
+## 快速评教 · 2026-10-20
+
+快速评教为评价气泡、勾选与环绕带，来源是用户 2026-10-20 确认的 `source/reference/jxzljc-approved-concept.png`，图形取自原 PNG 裁切区域 `[116,104,548,478]`。标准色 `#A66B18`，深底色 `#DEB588`；页面使用彩色双主题标识与赭金主题。原 mask 与矢量的 alpha≥128 二值 IoU 为 0.9884677636903156，仅说明栅格化边缘拟合误差。

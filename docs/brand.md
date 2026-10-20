@@ -41,7 +41,7 @@ const { resolvedTheme } = useTheme();
 
 design 仓库的 `assets/brand/path-family/` 是素材源。`source/marks.json` 只保存轮廓路径、变换、尺寸和含义；颜色由生成器直接读取 `packages/theme/src/tokens.css`。每个产品的确认稿与提取记录保存在 `source/reference/`。详尽留白、变体和来源记录随素材包 README 分发。
 
-运行 `pnpm build && pnpm dev` 后打开 `/brand`，查看双主题预览并下载完整 ZIP；`/brand/index.html` 提供黑白及小尺寸对照。构建自动复制素材到忽略跟踪的预览 public 目录，禁止在那里修改源文件。
+运行 `pnpm build && pnpm dev` 后打开 `/brand`，查看双主题预览并下载完整 ZIP；`/brand/index.html` 提供彩色、黑白及小尺寸对照。构建自动复制素材到忽略跟踪的预览 public 目录，禁止在那里修改源文件。
 
 素材独立于 theme / ui 包发布，不要求消费项目为 Logo 升级共享组件。安装包内附本说明，实际素材从 design 仓库或其预览站素材包取得。
 
@@ -78,3 +78,5 @@ QuickLogin 额外更新扩展 `public/brand/logo.svg`、`public/brand/logo-dark.
 Feed 的独立确认稿保存于 `source/reference/feed-approved-concept.png`。当时页面使用黑白版本，favicon 为彩色；接入仅涉及品牌资源和入口，不改变通知业务。
 
 2026-10-16：新增 CQU Moe（用户选择的 A 版折叠立方）与 Learning CLI（书页与命令提示符）。独立确认稿分别为 `source/reference/cqu-moe-approved-concept.png` 与 `learning-approved-concept.png`。主站页面使用黑白标识，favicon 使用紫色立方；Learning CLI 在主站的服务入口使用黑白书页。主站同步命令同时维护六枚标识、根 favicon / 触屏图标和 `public/brand/manifest.json` 的来源哈希；Learning 仓库同步目标为 `assets/brand/`。
+
+2026-10-20：新增用户确认的快速评教标识，来源 `source/reference/jxzljc-approved-concept.png`，图形取自原 PNG 裁切区域 `[116,104,548,478]`。标准色 `#A66B18`，深底色 `#DEB588`；页面与官网入口使用彩色双主题标识和赭金主题。原 mask 与矢量的 alpha≥128 二值 IoU 为 0.9884677636903156，只代表栅格化边缘拟合误差，不宣称逐像素 100% 相同。
