@@ -48,4 +48,4 @@ node assets/brand/path-family/source/verify.cjs
 
 ## 快速评教独立确认稿
 
-运行 `python3 assets/brand/path-family/source/prepare-jxzljc.py`，再运行 `uv run --python 3.12 --with vtracer==0.6.15 python assets/brand/path-family/source/trace.py jxzljc` 与 `python3 assets/brand/path-family/source/import-traces.py jxzljc`。确认稿为 `reference/jxzljc-approved-concept.png`（2026-10-20 用户确认），图形取自裁切 `[116,104,548,478]`。标准色 `#A66B18`、深底色 `#DEB588`；原 mask 与矢量的 alpha≥128 二值 IoU 为 0.9884677636903156。之后照常 build / verify / package。
+运行 `python3 assets/brand/path-family/source/prepare-jxzljc.py`，再运行 `uv run --python 3.12 --with vtracer==0.6.15 python assets/brand/path-family/source/trace.py jxzljc` 与 `python3 assets/brand/path-family/source/import-traces.py jxzljc`。确认稿为 `reference/jxzljc-approved-concept.png`（2026-10-20 用户确认），图形取自裁切 `[116,104,548,478]`。原稿使用赭金色；重建色值统一读取 theme 蓝色变量。原 mask 与矢量的 alpha≥128 二值 IoU 为 0.9884677636903156。之后照常 build / verify / package。

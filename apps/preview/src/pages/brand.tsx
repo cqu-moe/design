@@ -2,7 +2,6 @@ import { Button, PageHeader } from '@cqu-moe/ui';
 import './brand.css';
 
 const products = [
-  { id: 'jxzljc', name: '快速评教', meaning: '评价气泡、勾选与环绕带，表达学生反馈、逐项核对与确认提交。' },
   { id: 'cqu-moe', name: 'CQU Moe', meaning: '折叠立方与开放负空间，表达校园工具汇聚成统一入口。' },
   {
     id: 'learning',

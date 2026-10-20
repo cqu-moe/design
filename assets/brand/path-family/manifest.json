@@ -1,11 +1,11 @@
 {
   "README.md": {
-    "bytes": 7017,
-    "sha256": "bf003583f0bd3299b268f075850aa905c76b561a6ef862b8283dcbc9de5a0204"
+    "bytes": 7482,
+    "sha256": "48c213b6cb436ddecff4bab8694aa6eaeced88d9475f2a173782b1bcfb01e7cf"
   },
   "VERIFICATION.md": {
-    "bytes": 8539,
-    "sha256": "d841e25ce960414f33fcb06ea9f2de9788528e4dc036d0c0456050294664983a"
+    "bytes": 10374,
+    "sha256": "8418274d20eef3c262ae4fc1dec4922435fcfc7e6fd838d4c0bca9cff586b73a"
   },
   "auth/app-icon.svg": {
     "bytes": 6747,
@@ -756,8 +756,8 @@
     "sha256": "adb8d81f0ea2274bacf9f3db4484b662bc63e8fec7179924ee9bf9eede16f089"
   },
   "source/REBUILD.md": {
-    "bytes": 3741,
-    "sha256": "877c4f8e274e9171ebe3912d0cdc95c90784e7052c2f63508e49881328410dcc"
+    "bytes": 4332,
+    "sha256": "07a285916fbd27d9e7df59060db821b6b11a4f28d5cce0d7bf6dfdd4782b3a20"
   },
   "source/build.cjs": {
     "bytes": 12907,

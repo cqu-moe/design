@@ -83,7 +83,7 @@
 - emil-touch-and-accessibility / emil-ui-review：本次改动无阻塞发现；触屏模拟各操作区域至少 44 × 44px。共享 theme / ui 保持 **1.1.0**，未新增依赖。
 - 范围：本地 Chromium / Ego Lite；未验证真实手机、Safari、Firefox 或各子系统账号业务。GitHub CI、合并与线上资源结果独立报告，不由本节本地验证推断。
 
-## 快速评教扩展验收 · 2026-10-20
+## 快速评教扩展验收 · 2026-10-20（历史记录，颜色已由上文蓝色验收替代）
 
 - 新增用户确认的快速评教标识：`source/reference/jxzljc-approved-concept.png` 为 1536 × 1024 不透明 RGB 原稿，图形取自 crop `[116,104,548,478]`。标准色 `#A66B18`，深底色 `#DEB588`；页面使用彩色双主题标识与赭金主题，不按网页黑白标识接入。
 - 新增 7 份 SVG、18 份 RGBA PNG 与 1 份三尺寸 ICO。全部导出 PNG 的模式 / 尺寸核对通过：纯 logo 与 favicon 画布边缘 alpha 为 0；应用图标容器外角透明，16px 四角抗锯齿 alpha 最高 12/255。ICO 由 16 / 32 / 48 PNG 帧组成。
