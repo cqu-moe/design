@@ -1,6 +1,6 @@
 # 页面布局
 
-AppShell 负责顶部身份区、桌面侧栏、手机导航和正文区域。内容不得放到外壳以外另建一套导航。
+工作界面的 AppShell 负责顶部身份区、桌面侧栏、手机导航和正文区域，使用后不另建重复导航。展示页使用产品顶栏、正文和页脚，不添加工作侧栏；用途判断见 [产品页面](product-pages.md)。
 
 ```tsx
 <AppShell brand="项目名称" navigation={<NavLink to="/settings">设置</NavLink>} utilities={<ThemeMenu />}>

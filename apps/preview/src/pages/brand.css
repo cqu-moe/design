@@ -58,3 +58,52 @@
     aspect-ratio: 2;
   }
 }
+.brand-contexts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--content-reading) / 2)), 1fr));
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+}
+.brand-contexts > div {
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+}
+.brand-contexts h2 {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+}
+.brand-contexts p {
+  margin: 0 0 var(--space-5);
+  color: var(--muted-foreground);
+}
+.brand-contexts a {
+  min-height: 44px;
+}
+.brand-marketing-example {
+  background: var(--brand-soft);
+}
+.brand-work-example {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.brand-action {
+  --primary: var(--brand-solid);
+  --primary-foreground: var(--brand-on-solid);
+}
+.brand-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-6);
+  margin-block: var(--space-4);
+}
+.brand-sizes figure {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+.brand-sizes figcaption {
+  color: var(--muted-foreground);
+  font-size: var(--text-xs);
+}

@@ -45,12 +45,12 @@
       {
         "fg": "link",
         "bg": "background",
-        "ratio": 6.91
+        "ratio": 7.33
       },
       {
         "fg": "link",
         "bg": "surface",
-        "ratio": 7.22
+        "ratio": 7.65
       },
       {
         "fg": "destructive",
@@ -61,6 +61,41 @@
         "fg": "destructive",
         "bg": "surface",
         "ratio": 6.87
+      },
+      {
+        "fg": "brand-ink",
+        "bg": "background",
+        "ratio": 7.33
+      },
+      {
+        "fg": "brand-ink",
+        "bg": "surface",
+        "ratio": 7.65
+      },
+      {
+        "fg": "brand-ink",
+        "bg": "brand-soft",
+        "ratio": 6.72
+      },
+      {
+        "fg": "brand-on-solid",
+        "bg": "brand-solid",
+        "ratio": 6.25
+      },
+      {
+        "fg": "primary-foreground",
+        "bg": "primary",
+        "ratio": 16.79
+      },
+      {
+        "fg": "ring",
+        "bg": "background",
+        "ratio": 7.33
+      },
+      {
+        "fg": "ring",
+        "bg": "surface",
+        "ratio": 7.65
       }
     ]
   },
@@ -110,12 +145,12 @@
       {
         "fg": "link",
         "bg": "background",
-        "ratio": 8.32
+        "ratio": 8.95
       },
       {
         "fg": "link",
         "bg": "surface",
-        "ratio": 7.65
+        "ratio": 8.23
       },
       {
         "fg": "destructive",
@@ -126,6 +161,41 @@
         "fg": "destructive",
         "bg": "surface",
         "ratio": 6.28
+      },
+      {
+        "fg": "brand-ink",
+        "bg": "background",
+        "ratio": 8.95
+      },
+      {
+        "fg": "brand-ink",
+        "bg": "surface",
+        "ratio": 8.23
+      },
+      {
+        "fg": "brand-ink",
+        "bg": "brand-soft",
+        "ratio": 7.56
+      },
+      {
+        "fg": "brand-on-solid",
+        "bg": "brand-solid",
+        "ratio": 9.48
+      },
+      {
+        "fg": "primary-foreground",
+        "bg": "primary",
+        "ratio": 13.61
+      },
+      {
+        "fg": "ring",
+        "bg": "background",
+        "ratio": 8.95
+      },
+      {
+        "fg": "ring",
+        "bg": "surface",
+        "ratio": 8.23
       }
     ]
   }

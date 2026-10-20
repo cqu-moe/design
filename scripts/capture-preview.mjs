@@ -3,11 +3,12 @@ import { mkdir, writeFile } from 'node:fs/promises';
 await mkdir('docs/screenshots', { recursive: true });
 const browser = await chromium.launch();
 const page = await browser.newPage();
+const origin = process.argv[2] || 'http://127.0.0.1:5173';
 const contrast = [];
 for (const width of [390, 768, 1440])
   for (const mode of ['light', 'dark']) {
     await page.setViewportSize({ width, height: 1000 });
-    await page.goto('http://127.0.0.1:5173/settings');
+    await page.goto(`${origin}/settings`);
     await page.evaluate((m) => localStorage.setItem('cqu-moe-theme', m), mode);
     await page.reload();
     await page.getByRole('heading', { name: '账号设置', exact: true }).waitFor();
@@ -43,25 +44,33 @@ for (const width of [390, 768, 1440])
             'warning',
             'link',
             'destructive',
-          ].flatMap((fg) =>
-            ['background', 'surface'].map((bg) => {
-              const a = luminance(style.getPropertyValue('--' + fg)),
-                b = luminance(style.getPropertyValue('--' + bg));
-              return {
-                fg,
-                bg,
-                ratio: +((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)).toFixed(2),
-              };
-            }),
+          ].flatMap((fg) => ['background', 'surface'].map((bg) => [fg, bg]));
+          pairs.push(
+            ['brand-ink', 'background'],
+            ['brand-ink', 'surface'],
+            ['brand-ink', 'brand-soft'],
+            ['brand-on-solid', 'brand-solid'],
+            ['primary-foreground', 'primary'],
+            ['ring', 'background'],
+            ['ring', 'surface'],
           );
-          return { theme: document.documentElement.dataset.theme, pairs };
+          const measured = pairs.map(([fg, bg]) => {
+            const a = luminance(style.getPropertyValue('--' + fg)),
+              b = luminance(style.getPropertyValue('--' + bg));
+            return {
+              fg,
+              bg,
+              ratio: +((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)).toFixed(2),
+            };
+          });
+          return { theme: document.documentElement.dataset.theme, pairs: measured };
         }),
       );
     }
   }
 await page.setViewportSize({ width: 1440, height: 1000 });
 for (const route of ['items', 'components']) {
-  await page.goto(`http://127.0.0.1:5173/${route}`);
+  await page.goto(`${origin}/${route}`);
   await page.screenshot({ path: `docs/screenshots/${route}-1440-dark.png`, fullPage: true });
 }
 await writeFile('docs/contrast.json', JSON.stringify(contrast, null, 2) + '\n');

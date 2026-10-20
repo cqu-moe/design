@@ -25,16 +25,14 @@ pnpm verify:consumer
 ```
 
 首次运行浏览器测试需安装 Chromium：pnpm exec playwright install chromium。
-需要 Node.js 22.12+ 和 pnpm 11；本次在 Node.js 22.22.3、pnpm 11.19.0 验证。
-包版本为 1.1.0，尚未发布。不要直接从公共 registry 安装本项目包名。
+需要 Node.js 22.12+ 和 pnpm 11。
+包版本为 1.2.0，尚未发布到 registry。不要直接从公共 registry 安装本项目包名。
 
 创建新子系统：`pnpm create:app ../my-subsystem`（目标目录必须不存在）。它沿用现有模板并配置可随项目分发的本地 tarball。
 
 第一版规范、图标约定、问题反馈和人工待验项见 [v1 验收记录](docs/v1-acceptance.md)。
 
 ## 部署预览站
-
-线上：[CQU Moe Design](https://cqu-moe-design.user-unauthorized.workers.dev/admin)。
 
 登录 Cloudflare 后执行 `pnpm deploy`。站点使用 Workers Static Assets，支持直接打开设置、仪表盘等前端路由。全部业务数据仍为本地演示数据。theme/ui 通过本地 tarball 分发，部署站点不代表发布 npm 包。
 

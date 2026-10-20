@@ -6,6 +6,7 @@ const http=require('node:http');
 const {chromium}=require('@playwright/test');
 const root=path.resolve(__dirname,'..');
 const palette=require('../palette.json');
+const themeCss=fs.readFileSync(path.resolve(__dirname,'../../../../packages/theme/src/tokens.css'),'utf8');
 function luminance(hex){
  const c=hex.slice(1).match(/../g).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);
  return c[0]*.2126+c[1]*.7152+c[2]*.0722;
@@ -13,7 +14,7 @@ function luminance(hex){
 function contrast(a,b){const [lo,hi]=[luminance(a),luminance(b)].sort((a,b)=>a-b);return (hi+.05)/(lo+.05)}
 (async()=>{
  fs.mkdirSync(path.join(root,'qa'),{recursive:true});
- const report={viewports:[],downloads:[],contrast:{},warnings:[],scope:'Static logo assets and artwork catalog only'};
+ const report={viewports:[],downloads:[],renderedColors:[],contrast:{},warnings:[],scope:'Generated brand assets against shared theme, plus artwork catalog; no consumer deployment'};
  for(const [id,p] of Object.entries(palette)){
   const light=contrast(p.light.srgb,'#ffffff'),dark=contrast(p.dark.srgb,'#242424');
   assert(light>=3 && dark>=3); // Non-text brand symbols; catalog body text is neutral.
@@ -46,6 +47,47 @@ function contrast(a,b){const [lo,hi]=[luminance(a),luminance(b)].sort((a,b)=>a-b
   page.on('pageerror',error=>report.warnings.push(error.message));
   page.on('console',msg=>{if(msg.type()==='error')report.warnings.push(msg.text())});
   await page.route(/^https?:/,route=>{if(new URL(route.request().url()).origin===origin)return route.continue();report.warnings.push(`Unexpected network request: ${route.request().url()}`);return route.abort()});
+  await page.goto(origin);
+  for(const scheme of ['light','dark']){
+   await page.emulateMedia({colorScheme:scheme});
+   await page.setContent(`<base href="${origin}/"><style>${themeCss}</style>`);
+   const colors=await page.evaluate(async({ids,scheme})=>{
+    const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});
+    const css=getComputedStyle(document.documentElement);
+    function color(token){
+     canvas.width=canvas.height=1;
+     ctx.fillStyle=css.getPropertyValue(token);ctx.fillRect(0,0,1,1);
+     return [...ctx.getImageData(0,0,1,1).data].slice(0,3);
+    }
+    const ink=color('--brand-ink'),results=[];
+    // Fixed PNG app icons use the light solid role on either toolbar theme.
+    document.documentElement.dataset.theme='light';
+    const solid=color('--brand-solid');
+    delete document.documentElement.dataset.theme;
+    for(const id of ids)for(const [file,expected] of [
+     [scheme==='dark'?'logo-dark.svg':'logo.svg',ink],
+     [scheme==='dark'?'logo-dark-512.png':'logo-512.png',ink],
+     ['favicon.svg',ink],['icon-16.png',solid],['icon-128.png',solid],
+    ]){
+     const image=new Image();image.src=`${id}/${file}`;await image.decode();
+     canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
+     ctx.drawImage(image,0,0);
+     const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+     let brandPixels=0,nonOpaquePixels=0;
+     for(let i=0;i<pixels.length;i+=4){
+      if(pixels[i+3]<255)nonOpaquePixels++;
+      if(pixels[i+3]===255&&expected.every((channel,j)=>Math.abs(channel-pixels[i+j])<=1))brandPixels++;
+     }
+     results.push({id,file,brandPixels,nonOpaquePixels});
+    }
+    return results;
+   },{ids:Object.keys(palette),scheme});
+   for(const sample of colors){
+    assert(sample.brandPixels>0,`${scheme} ${sample.id}/${sample.file} does not render shared blue`);
+    assert(sample.nonOpaquePixels>0,`${sample.id}/${sample.file} lost alpha edges`);
+   }
+   report.renderedColors.push({scheme,samples:colors});
+  }
   for(const scheme of ['light','dark'])for(const width of [320,390,768,1440]){
    await page.setViewportSize({width,height:960});await page.emulateMedia({colorScheme:scheme,reducedMotion:'reduce'});
    await page.goto(origin);

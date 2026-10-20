@@ -1,6 +1,6 @@
 # 安装、创建项目与升级
 
-当前 @cqu-moe/theme 与 @cqu-moe/ui **1.1.0** 尚未发布到 registry。使用本地 tarball，不要执行从公共 registry 安装这两个包的命令。
+当前 @cqu-moe/theme 与 @cqu-moe/ui **1.2.0** 尚未发布到 registry。使用本地 tarball，不要执行从公共 registry 安装这两个包的命令。
 
 ## 从源码创建新项目（推荐）
 
@@ -39,8 +39,8 @@ pnpm --dir packages/ui pack --pack-destination ../../artifacts
 ```json
 {
   "dependencies": {
-    "@cqu-moe/theme": "file:./.design/cqu-moe-theme-1.1.0.tgz",
-    "@cqu-moe/ui": "file:./.design/cqu-moe-ui-1.1.0.tgz",
+    "@cqu-moe/theme": "file:./.design/cqu-moe-theme-1.2.0.tgz",
+    "@cqu-moe/ui": "file:./.design/cqu-moe-ui-1.2.0.tgz",
     "lucide-react": "1.48.0"
   },
   "scripts": {
@@ -57,7 +57,7 @@ UI 的 peerDependencies 要求 React/React DOM ^19.0.0；检查器需要 TypeScr
 packages:
   - .
 overrides:
-  '@cqu-moe/theme': 'file:./.design/cqu-moe-theme-1.1.0.tgz'
+  '@cqu-moe/theme': 'file:./.design/cqu-moe-theme-1.2.0.tgz'
 allowBuilds:
   esbuild: true
   '@parcel/watcher': true
@@ -80,7 +80,7 @@ import './styles.css';
 
 ## 更新和内容站
 
-维护者提供同版本的两个 tarball 及迁移说明，业务项目替换依赖/override、运行 pnpm install，再执行 acceptance.md。不要直接改 node_modules 或留旧组件分叉。0.4 → 1.0 为兼容新增 PageState、模板图标/错误页/生成器和消费文档；设置/认证示例改用 ActionButton。
+维护者提供同版本的两个 tarball 及迁移说明，业务项目替换依赖/override、运行 pnpm install，再执行 acceptance.md。不要直接改 node_modules 或留旧组件分叉。0.4 → 1.0 为兼容新增 PageState、模板图标/错误页/生成器和消费文档；设置/认证示例改用 ActionButton。1.1 → 1.2 新增品牌 token，Button 变体集合不变；升级后展示页可按主题文档局部映射品牌主动作。
 
 内容站可仅使用 theme/styles.css；无脚本跟随系统，有手动偏好时在框架 head 接入 themeInitScript。当前 React ThemeProvider 面向客户端，不支持直接 SSR 使用；内容站保留自己的渲染框架。
 

@@ -1,71 +1,71 @@
 {
   "README.md": {
-    "bytes": 5692,
-    "sha256": "3eff48051c52ea6d530e9a38fa7e571a11a4e51cfe54f997d6ef076781ff45b4"
+    "bytes": 7017,
+    "sha256": "bf003583f0bd3299b268f075850aa905c76b561a6ef862b8283dcbc9de5a0204"
   },
   "VERIFICATION.md": {
-    "bytes": 7039,
-    "sha256": "cfb23971ceac220252e31d649f243d3eb3e8459b850b2a9525e637dbd5f89f3c"
+    "bytes": 8539,
+    "sha256": "d841e25ce960414f33fcb06ea9f2de9788528e4dc036d0c0456050294664983a"
   },
   "auth/app-icon.svg": {
     "bytes": 6747,
-    "sha256": "4a65889bae07df559407858489652f4fe55a51999831db0beff8639a951234a4"
+    "sha256": "3ee2e91bece0653f17e4735466dab5638096cf95368dce552f8c6034e6ff5c27"
   },
   "auth/favicon-16.png": {
-    "bytes": 490,
-    "sha256": "463ae158ac3552eedc595278f83a1ed00b04ccdc1f8fb352a98bc1b5305a9a49"
+    "bytes": 491,
+    "sha256": "118dcd2b569a3fc91df23823d78af01813527af4d1cb5a4cec48f4b162254935"
   },
   "auth/favicon-32.png": {
-    "bytes": 1091,
-    "sha256": "ce1e92e1d47e08adeeb13bb0d2adac8dcf1a80dc222210d561f9a05f09d0f1a8"
+    "bytes": 1082,
+    "sha256": "77b45200330bdf20e262ba66da46e9e2562b4e40bcbe69756dd9085295a69b60"
   },
   "auth/favicon-48.png": {
-    "bytes": 1461,
-    "sha256": "585db5115f18b4eac2fee85505a2a3bba8e002cc1f6f4ea68b5938cf9a9ae5d2"
+    "bytes": 1447,
+    "sha256": "02f92ad19128942cbdc6a4d99f29294d21991aa733b28d77015860a93d964ec4"
   },
   "auth/favicon.ico": {
-    "bytes": 3096,
-    "sha256": "3523c8283ce223ef26637914ffa98dff7a83d18bbc68a643c301070518e78821"
+    "bytes": 3074,
+    "sha256": "13524d5976368a0e4fca512f18b14894a88a3d1e9fcf7fa03e1d6c2fd15e228e"
   },
   "auth/favicon.svg": {
     "bytes": 6693,
-    "sha256": "9ac7c373d912a501b37f5acaa5d7e5ebd49434123bf4e75e05a4e8e88b4e728e"
+    "sha256": "0bd0af2dbb01e94f61e6a15196df3ae763196dd232cb883419184732979af4c7"
   },
   "auth/icon-1024.png": {
-    "bytes": 39696,
-    "sha256": "337d6ff0b886718065f1a4d5c4359d0363c8ae7906f7f88f9d3f669486dc3699"
+    "bytes": 39824,
+    "sha256": "bff28c15f3aea90793ea73a6e2afe50a3e22406b7cf24cf5a6439325a9471baf"
   },
   "auth/icon-128.png": {
-    "bytes": 4051,
-    "sha256": "f365a412a77fa52a46b7001b2064ec796217b69e1c1b125d6e61df4c9197c17e"
+    "bytes": 4077,
+    "sha256": "ed653fddb0c4705b6d7091a11af6fc92c63bb9f467852629bfa36367617e5725"
   },
   "auth/icon-16.png": {
-    "bytes": 557,
-    "sha256": "ba49c81882b0c0c1d72a5a9bf06e4981575aae2a77232af3f3221df7d35b82e8"
+    "bytes": 544,
+    "sha256": "1a483decfb5af0ee2d4e11a6b8da6c1619f716d7212d5218a7b47415c9c64884"
   },
   "auth/icon-192.png": {
-    "bytes": 6180,
-    "sha256": "80f06388ac780ecd0292f2577acf9e5424fd59262d0448f5da5b9cee2861ec05"
+    "bytes": 6232,
+    "sha256": "4805d39f971f5078a7b45883a9a66635f68988716903395925458b1f19e87fe3"
   },
   "auth/icon-32.png": {
-    "bytes": 1073,
-    "sha256": "abf376902bee655ef3d2e76da0af2a8c9be3ee275032c4546f0c10673d76b313"
+    "bytes": 1058,
+    "sha256": "60f0b4182947f38bc410cfeed7a1a2a0078a1a7677b78df6419b2de06ae5d4fb"
   },
   "auth/icon-48.png": {
-    "bytes": 1602,
-    "sha256": "bff364d0f3240d2892f49d8d8e67c24bd357cca496613bee35500d00b146b584"
+    "bytes": 1607,
+    "sha256": "a95e127c0c5fda47c60babe9ea797d2cf26b6150c751b7868f2e4c4898c1cb6a"
   },
   "auth/icon-512.png": {
-    "bytes": 18081,
-    "sha256": "c81e856103c643b197da31c4e7bf85c99013cd55f97ee954974f035dc869b9be"
+    "bytes": 18123,
+    "sha256": "d6433ef2256101531b010a7d8d417811360718f2821c5a8a750a398069ae920c"
   },
   "auth/logo-1024.png": {
-    "bytes": 38812,
-    "sha256": "b8b5dc81fc08e86c947f3987e403d176d62d4fd3aa58e23dceae4b1f35325478"
+    "bytes": 38494,
+    "sha256": "00bd62f70f8fa61c8e63ada283c0f01522c15261fc981cc91d154082cb79a502"
   },
   "auth/logo-512.png": {
-    "bytes": 17410,
-    "sha256": "4d1c03d334d9e2e1353cbfeb51516cf9bf367f080d20f070090ffccb9d482c9b"
+    "bytes": 17276,
+    "sha256": "1cbca5dd734da9eb80a5fb284187bc0ee89225c688c8d667558e93e64b1a963c"
   },
   "auth/logo-black-1024.png": {
     "bytes": 27287,
@@ -84,16 +84,16 @@
     "sha256": "b4bde51b0c10cc81029de656b97b90fb074f15eca5666e89790a109beb07404c"
   },
   "auth/logo-dark-1024.png": {
-    "bytes": 39472,
-    "sha256": "5f3cfc5be9050a5a5f71aaa96154be2448cb8b1763954b6480cd53fc6ca9b69a"
+    "bytes": 38858,
+    "sha256": "dd03fe55f1922e8f564d54c882c1d3e1649e33198f9e4d7ab0107d792b564fa5"
   },
   "auth/logo-dark-512.png": {
-    "bytes": 17684,
-    "sha256": "4d28af92c0be9f2ef2e7993ccc97ceb1feec6eb7edc390a398e6391214d72c0c"
+    "bytes": 17418,
+    "sha256": "7279868a466c4591b4f8e3d69195f0a34a3a1d2afcedc8dc3f609f121dd9e3a1"
   },
   "auth/logo-dark.svg": {
     "bytes": 6634,
-    "sha256": "2980440a295ace29d329a6971f4cb88614dfccacdbd84c1847b925e4b6495db4"
+    "sha256": "b2139532eb6e9ab1ae4b8b87d9c358e36e4d305ceb3e4bf6b2c587a3351c2215"
   },
   "auth/logo-white-1024.png": {
     "bytes": 29806,
@@ -109,67 +109,67 @@
   },
   "auth/logo.svg": {
     "bytes": 6634,
-    "sha256": "68e91fb2d057f3c80fa7947f488aeac1086306371a7c55724a499c3050375318"
+    "sha256": "9d7f52e378b6f81a4cb6e61d36d83554f19670c00c5699526e207a3e4ea2fc5c"
   },
   "cqu-moe/app-icon.svg": {
     "bytes": 10111,
-    "sha256": "fe843cc3d5df42120b3e1589f78dbee67dc5660ff6dfecb688a5e74f5a13df76"
+    "sha256": "06afbc8451d1601a9e8d432735d5f6e75ff70e7c80c1fe402247abafb3add566"
   },
   "cqu-moe/favicon-16.png": {
-    "bytes": 587,
-    "sha256": "73abd341ff73b462dc2b050cdd840dbb5849354c7b6559f44e55aad5ac132876"
+    "bytes": 570,
+    "sha256": "e500c82a674203c28dbc3bf2eb1e9cfcc3cf78b910076945e8c2b1de4b8e89c2"
   },
   "cqu-moe/favicon-32.png": {
-    "bytes": 1160,
-    "sha256": "83046aace30d78387362ba4a21d903a65ce02416e4c84f4479ba7dd81e6919b3"
+    "bytes": 1120,
+    "sha256": "347c37e1fb775d93c9a6b8d2985dc98b71e753ee91b578e9ca057195d328f1e4"
   },
   "cqu-moe/favicon-48.png": {
-    "bytes": 1817,
-    "sha256": "f85dadcf4a70719e007d5abb3f23ad5a8b66cad3563fccdc548d6d2cfd7f2d78"
+    "bytes": 1751,
+    "sha256": "5b3edb060eaa02e1017fcc7a9cc749f22a0f9c5134b68649b74fa699eb134e02"
   },
   "cqu-moe/favicon.ico": {
-    "bytes": 3618,
-    "sha256": "6ad1a9565db7872d75ce5b8e2a53392d9879f20acb78acc3dd4268410acca4b3"
+    "bytes": 3495,
+    "sha256": "8cd975b53b9b6301b5d3242509c3662617217366c70c597a5d6d8c9f659ce89f"
   },
   "cqu-moe/favicon.svg": {
     "bytes": 10054,
-    "sha256": "ef4f6835c23920ceee0c6d8e61763a499f875157722f831569cc254d84038a50"
+    "sha256": "42e39d0e27230e07666c70e23bbec81161b390c907bc2279edd820f41f98e573"
   },
   "cqu-moe/icon-1024.png": {
-    "bytes": 45087,
-    "sha256": "5b834429ca7689d4a46239f51ce0fe013f718b9471979f2d0bbe3b5d4ca66093"
+    "bytes": 45050,
+    "sha256": "bc65d28a0e21e6760cd5338f7809d0be967273ae9a0640797213da775ffab425"
   },
   "cqu-moe/icon-128.png": {
-    "bytes": 4395,
-    "sha256": "46f7766b66a074950c208e2f5f71f672bbc5b3e4d9444e28dcb11c86720d7fb2"
+    "bytes": 4470,
+    "sha256": "0a2ac39a043e8ef259b0b9c85598dd98e711585b3eabff2b7d9f9ce368f70888"
   },
   "cqu-moe/icon-16.png": {
-    "bytes": 581,
-    "sha256": "8ac6457e43ef1b04a4b71cf0528386d99172983ad51169905392021026c47ca5"
+    "bytes": 557,
+    "sha256": "59d721af7c51b1c1d1a74a8bf467a1b47934a08d4617a4f6407eb74268249c43"
   },
   "cqu-moe/icon-192.png": {
-    "bytes": 6846,
-    "sha256": "ebaa6bb858a97f28dc3966797f827a260936b3a65ad6a7d3bce826c4873a424d"
+    "bytes": 6885,
+    "sha256": "bb1d929e504cc0bb7743572dfde8442788b272e0a1ef2387b2826f7e8659aa5a"
   },
   "cqu-moe/icon-32.png": {
-    "bytes": 1141,
-    "sha256": "642194081d5fe9e5a5d4a7a508e2832dc4495da1e62ef6b08fed5d35170c2c79"
+    "bytes": 1129,
+    "sha256": "0b3b1023aae16eb17e67018ddf49f4d3fab8a5e98af7b0f96d2803942514c121"
   },
   "cqu-moe/icon-48.png": {
-    "bytes": 1745,
-    "sha256": "e1c505ece0cf464ef91667dded723dca969479b04b5ec2d9dcb9055553e21c31"
+    "bytes": 1742,
+    "sha256": "46625fe0d05e4fbd8af3cf3518fef961ebe360b00d19a6653d498943afdfc196"
   },
   "cqu-moe/icon-512.png": {
-    "bytes": 20420,
-    "sha256": "acc63f8bc7bf694d943201596f2788e88c720a88336dc7f2c38eb2183e89fe15"
+    "bytes": 20453,
+    "sha256": "7210d3321ad996be9266d633cd8434892061a5c5d22eec9b8115f3046399f83a"
   },
   "cqu-moe/logo-1024.png": {
-    "bytes": 46485,
-    "sha256": "1f794868346d5d9095e202e43bab025a99a0d8ada679d88a5c92cc86e7c946cc"
+    "bytes": 45059,
+    "sha256": "dc44e47d155c04a7b151a747e0343797e2c614b30c0e8b49e58e15b859e04b46"
   },
   "cqu-moe/logo-512.png": {
-    "bytes": 21007,
-    "sha256": "140c161c70e575444ccd4aa03d3d9c765b4b9e2bc6c0c6163485212f71814be1"
+    "bytes": 20535,
+    "sha256": "2ce2956dfe19478947569bc3198863e368f5c22d4aaa48af5abca147766d8cfe"
   },
   "cqu-moe/logo-black-1024.png": {
     "bytes": 32170,
@@ -188,16 +188,16 @@
     "sha256": "86c90e129aef62b49064ad7bae4785f83005dccd5b666b70022b1f824517f320"
   },
   "cqu-moe/logo-dark-1024.png": {
-    "bytes": 45961,
-    "sha256": "16e14cd72c31edbb518c3d0db3237d07384b9cd3b3b46ab8b19577c01b3e539a"
+    "bytes": 45552,
+    "sha256": "edc2b53d3053ae75cb686a2f4f839d5c1db9ec5e37c388e42f7ed26aa342efad"
   },
   "cqu-moe/logo-dark-512.png": {
-    "bytes": 20865,
-    "sha256": "c0b0d35060b8b99726d94cc8768ca56406e5c5041b54c78828d9ff0faf3c84e7"
+    "bytes": 20446,
+    "sha256": "75a8e86cee1d6fcbb4674f1eb70aa89f9daed52dfbc1f58072c97b9f10fbff2e"
   },
   "cqu-moe/logo-dark.svg": {
     "bytes": 9998,
-    "sha256": "4804adef40d9effbb446a65bb79e9280c4626cac2be6aa669d11a58b7ceb9d68"
+    "sha256": "bf2ac1389b491df8f358abe970c45c278b958234d81fce56cca0495e9dce0d20"
   },
   "cqu-moe/logo-white-1024.png": {
     "bytes": 35548,
@@ -213,67 +213,67 @@
   },
   "cqu-moe/logo.svg": {
     "bytes": 9998,
-    "sha256": "0962519538efcf964e7dc8613a0fdeea994447fd50666cc062830e97b9306527"
+    "sha256": "ebe154c2e5de1dc891b898d9e95986d939e8ced324ae8477b97acf76bff92931"
   },
   "feed/app-icon.svg": {
     "bytes": 15923,
-    "sha256": "97fc08f535f3afdcc1b1dc8f0800f6f78e687d364c71354995ed1479f0ebbf3c"
+    "sha256": "c518966d1bcc847329ee61ccd63b5c66679b09366d87c50dbef888a49bb24fca"
   },
   "feed/favicon-16.png": {
-    "bytes": 610,
-    "sha256": "35cd34452dcecc66ea10c68b886de09bddbdb5e1b0431b88d71261a73c321e68"
+    "bytes": 604,
+    "sha256": "bf7ec5544bbf1518f4fa29b1ca2d714257cffbdff667117a2f466f8172501718"
   },
   "feed/favicon-32.png": {
-    "bytes": 1415,
-    "sha256": "fdabd1f864ed328d3b4a686188a274ca1d5f3af607208f10e506d1e28d9d2c8a"
+    "bytes": 1352,
+    "sha256": "176665dde93168153cc8b4b92468cebdfa18354e1b11c31e96899266b381d17f"
   },
   "feed/favicon-48.png": {
-    "bytes": 2176,
-    "sha256": "713e5f44cc15fb499ad58cbb440dd5a9e0afcaf70f75ce76ed67f2a4ae85521f"
+    "bytes": 2112,
+    "sha256": "78a6f46b661a89a1c21172d4e48eeb72e7598e7ba74f54b948646bd21c99aad3"
   },
   "feed/favicon.ico": {
-    "bytes": 4255,
-    "sha256": "d964b7e12a3fd025fc723ae30c6fedceef669b3ff4c65e495c4935bea9568ac6"
+    "bytes": 4122,
+    "sha256": "4fa944d316d6a9dec712c30b32c5b2ddcb6480a87a6392baa55db058acc886e9"
   },
   "feed/favicon.svg": {
     "bytes": 15869,
-    "sha256": "645a1af06323d83869163764848e72062e7936371ea57b13b70e036d08696f7a"
+    "sha256": "8c5287c64bb88c5e7070353e0d331e53d8ca405b8c5b849ca755a69f66cb1378"
   },
   "feed/icon-1024.png": {
-    "bytes": 50001,
-    "sha256": "f7c978c47021bf6cc09b9f8302f06c60b4224f62cbec4cb8c1f95463ae83692c"
+    "bytes": 49520,
+    "sha256": "61d07799ac46b167574712cb3d9e3ce43f42ec46429cb2d138c9cd4abe8d4e7d"
   },
   "feed/icon-128.png": {
-    "bytes": 5211,
-    "sha256": "695390e6f1228bbaba461832b5b9f2945ec28082b30ebd8b830ba5fecfdbf73e"
+    "bytes": 5237,
+    "sha256": "dbe9b02701763b60573cf721a1c026ff4416cee535e060e81ffedba9576b43a8"
   },
   "feed/icon-16.png": {
-    "bytes": 579,
-    "sha256": "0bc6945322152d8e4e381e2bf8f54af088c3a5d1257b84371c197b00b5614146"
+    "bytes": 578,
+    "sha256": "b24bbcc1ccb9a19bfbebe0c73183a4a959a5faa4512e113e69798716356517e3"
   },
   "feed/icon-192.png": {
-    "bytes": 8091,
-    "sha256": "f9a66940d7c6007526fe09c6cf244e1081b57286ad7b2f14c244f525a262b8ae"
+    "bytes": 8092,
+    "sha256": "2b1a002df46c0e29d14ec240c01541a87668edb24f36c407d175f02b6ce0786b"
   },
   "feed/icon-32.png": {
-    "bytes": 1221,
-    "sha256": "6a7b4348484e225d8f30e0ab7f736c54f352c0c88410d481d83a5f26a7169261"
+    "bytes": 1199,
+    "sha256": "2f75290f90298b3e16e0088bc7a6cc7810db2df5735e6986ea8fed88a5944c6c"
   },
   "feed/icon-48.png": {
-    "bytes": 1978,
-    "sha256": "a27d108799d269411735251a03ac2cdaa206d067d61cbbb0447760cf69299a55"
+    "bytes": 1971,
+    "sha256": "cb7d49b36697e0196274cc13645be4ecf00715cf1ad53ddb027425160a6cfde9"
   },
   "feed/icon-512.png": {
-    "bytes": 23276,
-    "sha256": "adcee6a9982986de3476e18b248b8d5d6a4f83e61470df66ebbcec0088a53f77"
+    "bytes": 23111,
+    "sha256": "56d1bbaf9bce874f16dadd76a83cf49efee4e6da5bc9d1d6e47e5346413e3616"
   },
   "feed/logo-1024.png": {
-    "bytes": 57264,
-    "sha256": "b9ceaf8daf11d681522fac45567951d2bbd1e33d24a012ef40a4087ff2ee9b09"
+    "bytes": 55732,
+    "sha256": "599421d311bb320e6ed6ef2b5739f1351420f675e43a60aa55e45bf83aa1ac3f"
   },
   "feed/logo-512.png": {
-    "bytes": 26951,
-    "sha256": "78b4fc49b0c60cc88b02e0d9b36edfe00bfb5c723289f35157f9101126ed449c"
+    "bytes": 26218,
+    "sha256": "ceed73518ea952e68290d4c10184c187ce16defcc2b9d806626bc7eebd7aa1a5"
   },
   "feed/logo-black-1024.png": {
     "bytes": 35493,
@@ -292,16 +292,16 @@
     "sha256": "9306bd0c7ab2ce4a4bfd724aab88ab41c7e2142244e8d0281c27be801860cb2e"
   },
   "feed/logo-dark-1024.png": {
-    "bytes": 55762,
-    "sha256": "45351310fee44834eeedfc1520c89a17ed4c5a16aca73ec3f89a1d961e8bd019"
+    "bytes": 55992,
+    "sha256": "a77c4a53fd8734c18a1121596f49cfc199e783d9e037cd8275a061382668e91d"
   },
   "feed/logo-dark-512.png": {
-    "bytes": 26314,
-    "sha256": "90f9275c1bc8509968b0b74285967d9e26bba52fc5382b6ea2a15f816a13d1ae"
+    "bytes": 26265,
+    "sha256": "924d1c8eed64c08dff788c6c2ac4a053f3de61eb5148d82d4f55de8b34e5d15e"
   },
   "feed/logo-dark.svg": {
     "bytes": 15810,
-    "sha256": "6c62c019b22526fa1a44c20ee6693fd386af06d6ee050975897de824138ed3bf"
+    "sha256": "731c312b5c1341499c18ba608319659dbbeb811b697e28a15b6ae3b9e87aa1bd"
   },
   "feed/logo-white-1024.png": {
     "bytes": 39763,
@@ -317,71 +317,175 @@
   },
   "feed/logo.svg": {
     "bytes": 15810,
-    "sha256": "6f57f070de1d336fbb03dbaae8d117a529f9888a8394795ae8107beacbf74884"
+    "sha256": "6fa67682fe7fa8ba832a9b5a38db081d5e9465bdb724026662220dc30f2cfe67"
   },
   "index.html": {
-    "bytes": 10114,
-    "sha256": "de0dc77bc531b1c5b50a488c6b8fdde41b3b14e0e7481b00cb64f51298de7240"
+    "bytes": 14546,
+    "sha256": "b203996e8d3d872eb191ffb36185a970f3ed910e6471e71ab288a7a4de9bd21b"
+  },
+  "jxzljc/app-icon.svg": {
+    "bytes": 8520,
+    "sha256": "4eabdf995c740273500307e2e34dc6b03a777c3902f5d33d4bb29aef34f5eea5"
+  },
+  "jxzljc/favicon-16.png": {
+    "bytes": 548,
+    "sha256": "16f42ae9b14b8829815bd36c874358d91565eb3d5ff074bba36c4b73b606e41c"
+  },
+  "jxzljc/favicon-32.png": {
+    "bytes": 1111,
+    "sha256": "dd6773a8f8e8ab4f423d8ad9a5e3d7d5adee4aa7cad85ac62c0573f6be5471c4"
+  },
+  "jxzljc/favicon-48.png": {
+    "bytes": 1763,
+    "sha256": "b39cf86e1321736903a3de4beb59dde1b66905d8b13cff1bc5a9b874bf065293"
+  },
+  "jxzljc/favicon.ico": {
+    "bytes": 3476,
+    "sha256": "7ac8fff54479e5e2d5a6271a8e9feefd974085cf20edf6596f6ad6fa8463637a"
+  },
+  "jxzljc/favicon.svg": {
+    "bytes": 8458,
+    "sha256": "4ad282a422527189dca7f418544f2c7787aeb8121e99aff23c3f578c2fc04520"
+  },
+  "jxzljc/icon-1024.png": {
+    "bytes": 43409,
+    "sha256": "21c6e92ebe9d5fb4e266e66b349f83738e0f91968874bafefabaf2198b73ee7e"
+  },
+  "jxzljc/icon-128.png": {
+    "bytes": 4451,
+    "sha256": "1b44d7ceb97e86140fb3fafe1e4bc0cce19f88e49227a7e58e38d38b312ec354"
+  },
+  "jxzljc/icon-16.png": {
+    "bytes": 544,
+    "sha256": "4bfe9efb9e2c28f951d301af65272aec2d512b1535aa5aa1c09e6b19103f7040"
+  },
+  "jxzljc/icon-192.png": {
+    "bytes": 6672,
+    "sha256": "f9151804339b6ca1c0ec7f94624639584cffc7d980be3d524a2517b0f6990f59"
+  },
+  "jxzljc/icon-32.png": {
+    "bytes": 1098,
+    "sha256": "e9a65c1f5539fbd132419b207e96b024f76f8b1b11b67e634aa0283bf2768f00"
+  },
+  "jxzljc/icon-48.png": {
+    "bytes": 1699,
+    "sha256": "99dcfec4de67dc9d1f12bec32d5454a50e7bc31db400390e49b4332b2cdd1128"
+  },
+  "jxzljc/icon-512.png": {
+    "bytes": 20043,
+    "sha256": "f8a881d1472f39a6478b3389acf163ffe6d3fe8ec34aa3d8c9b0250acf7bd82a"
+  },
+  "jxzljc/logo-1024.png": {
+    "bytes": 44274,
+    "sha256": "67aa2222da35c81c97ed8b35bd4339bfc150b2eb91814c224119062cc27a39b5"
+  },
+  "jxzljc/logo-512.png": {
+    "bytes": 20527,
+    "sha256": "bfc47c7968ca79c9704318b0e09ea3629a4b270940a2a189479377c7caea5cca"
+  },
+  "jxzljc/logo-black-1024.png": {
+    "bytes": 29822,
+    "sha256": "0719a7399a9740be7aaa8a5ff393f962dec85f66dcdbee478d6c5c9d1317ad14"
+  },
+  "jxzljc/logo-black-512.png": {
+    "bytes": 13906,
+    "sha256": "a92ea7c9d47efe9b9db6e1ad1196e1c497e92aa8173bbd8f1be3283852b46f74"
+  },
+  "jxzljc/logo-black.svg": {
+    "bytes": 8407,
+    "sha256": "e615cbd165eba06d98723e89b2cf12a78eba417e95f9e8972f7d223e6212627c"
+  },
+  "jxzljc/logo-current.svg": {
+    "bytes": 8412,
+    "sha256": "28e7647ae6e036c1b0fa4b9017a36b86560aaa402f2f67198b79546087d144a5"
+  },
+  "jxzljc/logo-dark-1024.png": {
+    "bytes": 44783,
+    "sha256": "219b3424786dc765650aa95130fe0ee8cf1349fca19c6db328f9d3a177c2bf24"
+  },
+  "jxzljc/logo-dark-512.png": {
+    "bytes": 20500,
+    "sha256": "48ce06346ae06f524fc597e337b7f63f7088a29c6224fbffa9fb404c5da14a85"
+  },
+  "jxzljc/logo-dark.svg": {
+    "bytes": 8407,
+    "sha256": "1e889226385b3837d3105a95feca614077438bd5d727154a8984f4e516881900"
+  },
+  "jxzljc/logo-white-1024.png": {
+    "bytes": 33487,
+    "sha256": "bcdb3095059200ddb38e5f650e9a51a64ad737dde0083aab4d9be08d313d2c31"
+  },
+  "jxzljc/logo-white-512.png": {
+    "bytes": 15413,
+    "sha256": "d8665d1aa408d5a442a51ddcbe9492950f84f3ec7b550e9ba94da6bd5bad53c3"
+  },
+  "jxzljc/logo-white.svg": {
+    "bytes": 8407,
+    "sha256": "596b5d83025b491816148dce411d5b4371c40e69823b20709dc088a63a370fca"
+  },
+  "jxzljc/logo.svg": {
+    "bytes": 8407,
+    "sha256": "dbafd6cee1f4a37d2236e55a70e25f098ff5b4969ac1b030146704e10bec1c10"
   },
   "learning/app-icon.svg": {
     "bytes": 12039,
-    "sha256": "9d5fed210cb5d03e2dbec8a02e983f4d4c9d2114f55f8b74eb4fef7c896df78d"
+    "sha256": "3e17d4a06dbb84669fceab567032d1c51c4b445b2ed60960946429c369f5b78b"
   },
   "learning/favicon-16.png": {
-    "bytes": 476,
-    "sha256": "700110c44b901e67a5b71e840bc75a01c1c05088caef0c23c0280a9fd664974f"
+    "bytes": 471,
+    "sha256": "cfdfcab8a38b54442191394e5603bcf112e9709b3f4c11b41d3a80e580fa6100"
   },
   "learning/favicon-32.png": {
-    "bytes": 962,
-    "sha256": "0136c8f2c70b91964745479b726ef876872d5b4723cf3187456d13709c5efbf9"
+    "bytes": 944,
+    "sha256": "01cbc9fa2e76d0cefb0c95b2f30777442a1d7b42347fce745d194c2ac9a79e91"
   },
   "learning/favicon-48.png": {
-    "bytes": 1586,
-    "sha256": "8232c198b51eb8f3f8be2e99eeda27be4340286bbde9c1d01b5ed472ac1a13f8"
+    "bytes": 1530,
+    "sha256": "9d8be85715525a1a23e523b3d1e2152b0b82f4f377d185dc8fd0f63ed2c75782"
   },
   "learning/favicon.ico": {
-    "bytes": 3078,
-    "sha256": "8cfd132faa104c247cab92de3544f7f7a66cad272819d40869d5185a26699a60"
+    "bytes": 2999,
+    "sha256": "174b4b4c196f2332b28af72b3c14fa920eb9ec2fd3816c65054c8cedb710dfa6"
   },
   "learning/favicon.svg": {
     "bytes": 11977,
-    "sha256": "f3ae1bcf3c6387b31d834b0e5f6854670291d2f29f0bacbdcbe2992490336e4e"
+    "sha256": "b9ea21eedd40ed36fd4e2826854773770a67ba89403eec00e240c280ea730936"
   },
   "learning/icon-1024.png": {
-    "bytes": 40933,
-    "sha256": "f42f7c2bd247f51a1908d44dee1c949a8f83339b2d6729dd95b2d71b6e34259e"
+    "bytes": 40089,
+    "sha256": "0c784de82d8f600e0343dc74c90b0130a922cedb66d9fadfd7782855deb154e0"
   },
   "learning/icon-128.png": {
-    "bytes": 4250,
-    "sha256": "2572fca2d945cc22432d250b8d6b9cc3f7f6537d61df4d2e6f5568e943a455aa"
+    "bytes": 4160,
+    "sha256": "be6a791af5278ad85cfed135d9d0a1dafe006f6b328be896069b1750cd8c3739"
   },
   "learning/icon-16.png": {
-    "bytes": 510,
-    "sha256": "88716cdb7a53319f08651d1ddc55878825f2e5eae96c9b965dc94d0ffbf17ff8"
+    "bytes": 496,
+    "sha256": "fa29415a3581f68d31e69d11e0607884e36985b193b3292d929bcc40356d492b"
   },
   "learning/icon-192.png": {
-    "bytes": 6420,
-    "sha256": "c4fc17d49d6396aa87321825c53a7a4e40513819e6089bc800cd7f79e3fc24f8"
+    "bytes": 6334,
+    "sha256": "156c06d83ea67d61ef347e0e35e783348b9131c94b342c8756807d46f4bb628f"
   },
   "learning/icon-32.png": {
-    "bytes": 1055,
-    "sha256": "d22225ad811628f92a2754cc636f5097ac2e3844a5f2055be0e959e66b9833ee"
+    "bytes": 1007,
+    "sha256": "174de4089a9bf811703487a9aac5d2c044cfaea9823a8256749ddb7b5c704a7b"
   },
   "learning/icon-48.png": {
-    "bytes": 1607,
-    "sha256": "95639a29f40de1fa1723f0f6506bd093475ef914c7013e398703cbf302d0704d"
+    "bytes": 1573,
+    "sha256": "71bc6b80997101ade441ad3c327e06d88a538f93c9eff0abf22916abb52e3517"
   },
   "learning/icon-512.png": {
-    "bytes": 18740,
-    "sha256": "5e38bc8123d1f9a876598c75a87ecde67815f8a77818196e2f1dd8d4fcc8e825"
+    "bytes": 18484,
+    "sha256": "3f4350dbeff8baf7c139678b6d655260160dd467e84c3b7d4e99971378258c21"
   },
   "learning/logo-1024.png": {
-    "bytes": 41027,
-    "sha256": "12a693d4a31cd4baa15d99bdf0ce76499e969a78e489f0cbba664029f8d8efd3"
+    "bytes": 39750,
+    "sha256": "823f066323a0956a1bf38cb5d34f3ed0a78ae1b7f011562226ff8c848a21df4b"
   },
   "learning/logo-512.png": {
-    "bytes": 19111,
-    "sha256": "f6d7051ef814e4497bdf19ca7e4f2f3aca55ccfb44752a761f78c8c3d1f1f277"
+    "bytes": 18486,
+    "sha256": "439149b6353800349c55e1c9288fb34299c318d668cba757a11b79d5d521b8e6"
   },
   "learning/logo-black-1024.png": {
     "bytes": 27320,
@@ -400,16 +504,16 @@
     "sha256": "199de91b0811110e318e634518aa732efffaff8b5c292e29a7ef35bee9468f91"
   },
   "learning/logo-dark-1024.png": {
-    "bytes": 40980,
-    "sha256": "b29e212730985febf32deffc135442859e1d9e5396243df0f1d1340509910e80"
+    "bytes": 40184,
+    "sha256": "2895fd079b695702f17283b5190184ec3ad8126b9874e3967aa644fed0072a93"
   },
   "learning/logo-dark-512.png": {
-    "bytes": 18994,
-    "sha256": "c9f63cd45c9f709f7742a360b5dd8c0b3b54ba692e6569bc3e02bce7882a6aae"
+    "bytes": 18630,
+    "sha256": "652e94306cbc2b618c9202fc891f4d66a673357a512d7b221fd7290a54873a88"
   },
   "learning/logo-dark.svg": {
     "bytes": 11926,
-    "sha256": "2f193283b71c67dd1d2dde597c20eb940d5fed9d705cc1f166d493e265137d30"
+    "sha256": "b0d5e67a375cf46fa36de9b9985bebee70208be8917ff9451f42404f83943718"
   },
   "learning/logo-white-1024.png": {
     "bytes": 30352,
@@ -425,91 +529,91 @@
   },
   "learning/logo.svg": {
     "bytes": 11926,
-    "sha256": "ed6cfa4ac926b20f81bb482c2b0074d6a333526a7ef06bea6e70d10ff4890227"
+    "sha256": "fc61a51463dea00997deffd387337ce6991c93a1746d67ee8d3e86aee5910e9d"
   },
   "overview.png": {
-    "bytes": 213896,
-    "sha256": "73c23972a4caa959f2d6f49b3e2d2324a49c6d583eccd69b698dd270cb41d8bd"
+    "bytes": 246875,
+    "sha256": "d0d21758ee37b8acae4be0c54bed6c582ed8b3af29f7fba9b53b680ad08e1d9c"
   },
   "overview.svg": {
-    "bytes": 493879,
-    "sha256": "b6d547f3794fd43dd1ca2135ddc1c20a14cb67203f72cb5d58d6898bd6691734"
+    "bytes": 561626,
+    "sha256": "1e4fc9857998c404aeeb6a8199da08a4158031692f6e94239b65e6dea0b25d80"
   },
   "palette.json": {
-    "bytes": 1604,
-    "sha256": "9a25acd541aed7bb3090bc4637cedafc347a7d2504d8b1fa5223c60d6b6850ea"
+    "bytes": 2465,
+    "sha256": "76f47b64895af5db2f0d89bde68bcdd9056d6905838cc9e6964d45731e01d506"
   },
   "qa/report.json": {
-    "bytes": 2116,
-    "sha256": "33e21dc7c7775f288f3e67bc5a1323b417c72c4f98c34540d0a243bc84b5e49e"
+    "bytes": 12701,
+    "sha256": "db1a3f22dc3d58b3a2a5d9aaf0941393b4c0539a46ad8529240b2d7fb18f8cb2"
   },
   "quicklogin/app-icon.svg": {
     "bytes": 8395,
-    "sha256": "1c099c22e41df83acb6fac1f76ddc0481fc8550b914a4df46f4dbe6dd47c696f"
+    "sha256": "2d7e86acd7763567cd5844970e076e0fadf2ef73713e81cf0fdaa19864768e18"
   },
   "quicklogin/favicon-16.png": {
-    "bytes": 569,
-    "sha256": "2e1e0b334604c596778f6a9004a80e94b1b6f56b79b24588b816931f56f265c3"
+    "bytes": 561,
+    "sha256": "34378a8a2783b3d4e9c6e2ec2a0c9f4a197452008f8ab54963da23c74cde6902"
   },
   "quicklogin/favicon-32.png": {
-    "bytes": 1091,
-    "sha256": "22c2d817e2bcc9428a8ad79aeecd4f2b9b8355d1bb908e244af679dcd30b6ab5"
+    "bytes": 1074,
+    "sha256": "2ffbffa69e99b3c2409d018cfed97cd707397496550130850f861e08a5c53239"
   },
   "quicklogin/favicon-48.png": {
-    "bytes": 1640,
-    "sha256": "c2bd7384d2b43ac2cfba44fc3dc37a982818e765217ae8049377b76929e9e12f"
+    "bytes": 1630,
+    "sha256": "063bbcc1067f5710e4addd96273fad716294405bdba144880e256f0b13d66d17"
   },
   "quicklogin/favicon.ico": {
-    "bytes": 3354,
-    "sha256": "fa35a42a27dd1dc3ae757f6007d95f98d026643b42ada23e1a47c761589ca959"
+    "bytes": 3319,
+    "sha256": "89613470fabb6390891255a4a91dc58a8b1da92a8119d6a5f0becd4d753f0950"
   },
   "quicklogin/favicon.svg": {
     "bytes": 8335,
-    "sha256": "fc327faffcea6d27e584f00eff1be4ade414c66e5ffbcbd08ee05485e41bb71a"
+    "sha256": "6ffb94f1660fe6361062291a9f848a53bfdd2f0d18b2d4a938e386e7fc9ac9fd"
   },
   "quicklogin/icon-1024.png": {
-    "bytes": 38476,
-    "sha256": "e08395cb792df062458fb2ea5675a59acf0c9a2a69cbe4faabb3f0eec519bcb7"
+    "bytes": 39741,
+    "sha256": "a8d370215196c7853eb7eeb69d233f721e22f3ca889b067dcba4acf294eaaceb"
   },
   "quicklogin/icon-128.png": {
-    "bytes": 3980,
-    "sha256": "e09b1c01ff5d8f80151994925612bcb162963daa32e762d54d06bcf4b7f9e8d1"
+    "bytes": 4102,
+    "sha256": "41060a12142ad6b856b7ed46a06617e9a2f2c664467b7b07b0f70c86a5d58855"
   },
   "quicklogin/icon-16.png": {
-    "bytes": 532,
-    "sha256": "c78eaa3b4e7dba9db80f18ce53b117a1a6684aa280918b9e53b831a3e04b654c"
+    "bytes": 566,
+    "sha256": "9470ac6434b48260ff702bb4d7f0e9d8953629a4783cbdac8a3551641a9c9ff9"
   },
   "quicklogin/icon-192.png": {
-    "bytes": 6079,
-    "sha256": "71476c2a885d3dd8a9a4af407e94935f8c6d595efab9c50f67e6503fafcb1aa4"
+    "bytes": 6293,
+    "sha256": "7d8dae4f2ca0c73da60def5a6f8db3ce2706fde505311586f218bb19b98ab310"
   },
   "quicklogin/icon-32.png": {
-    "bytes": 1043,
-    "sha256": "c97e0b50839e392d84f5be700fadf108dd4126da688246c7a0485056a8b5434a"
+    "bytes": 1065,
+    "sha256": "755d411aa4cd16536c080303d2c1dfd1bf61e61f12420a4cf967eaa866df627e"
   },
   "quicklogin/icon-48.png": {
-    "bytes": 1518,
-    "sha256": "6524aa3dd84835b4dfce37416dde03c5fccb8b8d047ca6f8a2ff32bbc8cb2efd"
+    "bytes": 1556,
+    "sha256": "637b5b4542bb85af62d7f72eeef830ae29575827abd11fd8129fa7860de81bae"
   },
   "quicklogin/icon-512.png": {
-    "bytes": 17628,
-    "sha256": "1528a7eebecc342c27b00b75214842e2449519e665d58b3e4462e41733645dd6"
+    "bytes": 18379,
+    "sha256": "5f798000e3b9c7b9ea6530ae282cc69574874ff85c1e9ecd449ad2e607409024"
   },
   "quicklogin/logo-1024.png": {
-    "bytes": 41882,
-    "sha256": "ed0c10a6ee64bc06e8caecb1d5329c3710352b3f49bb1367e574a75d300631a0"
+    "bytes": 41116,
+    "sha256": "647e78d7a4039b567e16dcba457a7a1b9d9b2b8c1de3a8b38a74e8da27b9ca43"
   },
   "quicklogin/logo-512.png": {
-    "bytes": 19102,
-    "sha256": "749f2db7b7b2eaee532591c069115feba9a428c8194866d111e65c42177695a9"
+    "bytes": 18842,
+    "sha256": "6b0e0d3ba2112f0c4bddd528b439d6abafefeeb7116175bcff6f8425ea972722"
   },
   "quicklogin/logo-black-1024.png": {
     "bytes": 27104,
     "sha256": "9f3176253787029e81dd8d1347bbdff9c61cc5bfa9b6231a081451b8f3f893ff"
   },
   "quicklogin/logo-black-512.png": {
-    "bytes": 12421,
-    "sha256": "1f0dc05524a7f65f9ae01dff7d2e839cf8613a336cc629e4d41e58e5c39594b8"
+    "bytes": 12425,
+    "sha256": "ab5dd8310b87464d21575c0f77f6d8ae5156c3f7be09d1f3f802c91d81bbbb3d"
   },
   "quicklogin/logo-black.svg": {
     "bytes": 8282,
@@ -520,24 +624,24 @@
     "sha256": "9cb33edea0ce8374802f982e1ab317cc4813aed7297b01b5da49a186e4882476"
   },
   "quicklogin/logo-dark-1024.png": {
-    "bytes": 41593,
-    "sha256": "970dabb98e0ba6d9074cf7c9f279b0310f80ca7335c5972e345450daa3a72530"
+    "bytes": 41897,
+    "sha256": "0fdd5cfc4c047fa4bef28906d4462becda3257f2f76b925fdd51fa54fa9a2606"
   },
   "quicklogin/logo-dark-512.png": {
-    "bytes": 18920,
-    "sha256": "2ad72ff886d8e4b53a88332965a130694b3395214b0034cba57e6d971fb2f8b3"
+    "bytes": 19021,
+    "sha256": "97bd1769cc50a1599e8827310d54bcf9db4cee93e38d758c4a4db770087c63e7"
   },
   "quicklogin/logo-dark.svg": {
     "bytes": 8282,
-    "sha256": "b87479f91e6b6e263d646b7435a5d0ec86261b27cf492e8e3c2e0ef53b99ee81"
+    "sha256": "3504b192d45d1428647c6966ee4fb490366f0e3d5a5faf7171a60815c49d719b"
   },
   "quicklogin/logo-white-1024.png": {
     "bytes": 29876,
     "sha256": "ea080741bde9f5b5c870ff35266179a2099505826d4dd31a0e2ccdf87f6e097d"
   },
   "quicklogin/logo-white-512.png": {
-    "bytes": 13640,
-    "sha256": "20e89bdb3a03f5d537869baef41fd73fca5217637062db9e253511f4e31a03de"
+    "bytes": 13642,
+    "sha256": "be70783c26059062a5a7e3e3610ad654296fc180f5c53dbe488eadc37a679c8c"
   },
   "quicklogin/logo-white.svg": {
     "bytes": 8282,
@@ -545,67 +649,67 @@
   },
   "quicklogin/logo.svg": {
     "bytes": 8282,
-    "sha256": "8dc53384274faaa125035d8c0dc39c99ca3a8973dd7c02de6886345455e90556"
+    "sha256": "0707d95b464521deb7db40b7560e41514f93b62f72de68a210acb758291e5ec3"
   },
   "schedule/app-icon.svg": {
     "bytes": 8654,
-    "sha256": "d0b4a959909b14ad3868d718ebe88a37cb8dd1a0a12449eb2b26166892cb51b0"
+    "sha256": "91cc2b36e23b30451d987e303a788a3dce7d690ed180f4a19d349b6ed3d5a1b3"
   },
   "schedule/favicon-16.png": {
-    "bytes": 618,
-    "sha256": "f37506e193f0398a875e4e24e6db04e7f610cb8e009960cf787cbaf3b26810ff"
+    "bytes": 611,
+    "sha256": "74cf7634e182039159a1c09b258d2723e3bb150693db33efb752be104aa0725d"
   },
   "schedule/favicon-32.png": {
-    "bytes": 1289,
-    "sha256": "33a986d7ebe212e58faa7b3709393e4ee8629797a4de33f249e85061c6dcd108"
+    "bytes": 1259,
+    "sha256": "e3b5693c41ba9ea95cf8a3ddbc3ade897561db25c64f60212fe96fa408e2b370"
   },
   "schedule/favicon-48.png": {
-    "bytes": 2045,
-    "sha256": "8a2c8fc6b114c6a8027b0d493ed8d8f62e6b0d24091aa5fde7e690f198f93092"
+    "bytes": 2004,
+    "sha256": "44082a4ba2aad9fbe6c5594fb2723595660c9a69c078796dae187e30b2118ce2"
   },
   "schedule/favicon.ico": {
-    "bytes": 4006,
-    "sha256": "1fc01b16b9060c7eddcb7ce5ece63ecd905c937a693dcbcd8b7184a48f92b095"
+    "bytes": 3928,
+    "sha256": "76fd2aedba8691aaf09a279db85631a2999ba6af3d7c9255aeb6cd9112b007c5"
   },
   "schedule/favicon.svg": {
     "bytes": 8596,
-    "sha256": "390f6aef5cfd066d09b2f76099bdbd6f8d679a6b1c5baf2c850768df6658e30a"
+    "sha256": "c02b08a9827c1a24203b6559d2e5b2d6dc98af440e9a9bce9781108cb94f4897"
   },
   "schedule/icon-1024.png": {
-    "bytes": 45040,
-    "sha256": "e182713be0b53132b56cfc3a8980d77f576cbd9708a9126a1fc395709fb06841"
+    "bytes": 45273,
+    "sha256": "b8bb7665a285640c6f17745699e47bc4dbcb852021a3c4aa15e0981057364393"
   },
   "schedule/icon-128.png": {
-    "bytes": 4716,
-    "sha256": "baed0938616b8f34316beeb465dc003c63b8e196bba2fc4bde2d80ea1d6e65b3"
+    "bytes": 4749,
+    "sha256": "99a88431885a3237f357f78d4fd8a5892b2f3c014d83aa7fc4793b78feb48878"
   },
   "schedule/icon-16.png": {
-    "bytes": 567,
-    "sha256": "8338a0327020a69dab2d0dfc850613bea9c61240fe163c8b01f9c7b447b9e21f"
+    "bytes": 571,
+    "sha256": "23dac9b51b7d64dd4090a241c10da97a327f7f9f5d0c6a623b425d6688a29fc7"
   },
   "schedule/icon-192.png": {
-    "bytes": 7121,
-    "sha256": "423086cec75aac48949eab5ed4786d8afa0e7d1b40b8e803ebc287865ff47445"
+    "bytes": 7246,
+    "sha256": "0d5b4da54c0c303098dbb8d6cf16c79b9d382455c76aebf2545f83637fb7d07e"
   },
   "schedule/icon-32.png": {
-    "bytes": 1171,
-    "sha256": "8d5c6405a6daa492e35d6a8f856a49e92dc5138cf5d707d9b686febc88093e50"
+    "bytes": 1183,
+    "sha256": "29b6e08d16f90b2c96dc0446b325d1f6f107f985f46d39922a32a7af5689d999"
   },
   "schedule/icon-48.png": {
-    "bytes": 1816,
-    "sha256": "db7880f430d0a3e4fb46e31c624ba39216d3a0cda741e840d84cb50662fcd133"
+    "bytes": 1793,
+    "sha256": "2b1dfea1e7367a107afc5c2041d3af5bd4ee9bea976bd55c40838207a01845ca"
   },
   "schedule/icon-512.png": {
-    "bytes": 20694,
-    "sha256": "885c47c00381e9805d91883125b7a9a42d31adaeb83d64f9ddd9838ddf0b7a4c"
+    "bytes": 20896,
+    "sha256": "3398a90bcd3db2d6942cce7521d45ac8fb80352b3c07f497e32b0f6fef74df22"
   },
   "schedule/logo-1024.png": {
-    "bytes": 49660,
-    "sha256": "c830f348b0b4e85b1a11e172426f4099d8e3edbb62170474d2ab5d5398c4bab2"
+    "bytes": 48671,
+    "sha256": "7bc0f1b905be7ab1e489fd0a90bd0001b322565d35d18557bea911809c850bf0"
   },
   "schedule/logo-512.png": {
-    "bytes": 22477,
-    "sha256": "fa689eb26c8d58dc13d3d286f290052a7aaa10e1055ff61b59c184e90ae1b954"
+    "bytes": 22017,
+    "sha256": "875c462a57845e0611cc5d8cb59bd2b045b1b0bf82221cf73047fe685430d758"
   },
   "schedule/logo-black-1024.png": {
     "bytes": 32346,
@@ -624,16 +728,16 @@
     "sha256": "67ccef1e6ce1f643995752d93ba93cc21ae476e873983a56254626d0f409fddd"
   },
   "schedule/logo-dark-1024.png": {
-    "bytes": 47125,
-    "sha256": "9bf01225c5507d2c86625ef22313339ae71092b54d1c8f840b0ed9ca6bddc2be"
+    "bytes": 49169,
+    "sha256": "a8ff15a88c03ff2c2fb6aad68e2e2e1f310abfb1835aee4e4a989191daaf8f95"
   },
   "schedule/logo-dark-512.png": {
-    "bytes": 21280,
-    "sha256": "cd3458e3e747d51b952c2807b14be439e1e8b93e1db5cbdc957f8fe52dcb60e2"
+    "bytes": 22264,
+    "sha256": "ea9a9044e510f0daeb630543fa0aa9d10810b6ded139e2f296875ce955ccb49e"
   },
   "schedule/logo-dark.svg": {
     "bytes": 8541,
-    "sha256": "7978e818071af0ebb8eaa786b271c9615b5c8fdf09c62725a8d83bc18545d677"
+    "sha256": "45b435801bfafc9b5e58f5a037d6d242ae11ff2c7fd830370c87f6f2e9ef97c0"
   },
   "schedule/logo-white-1024.png": {
     "bytes": 35816,
@@ -649,27 +753,31 @@
   },
   "schedule/logo.svg": {
     "bytes": 8541,
-    "sha256": "114cfc6a729fc1c6c4ccc8a529d9009edefb73893ea1e517b6b666ca0068b6de"
+    "sha256": "adb8d81f0ea2274bacf9f3db4484b662bc63e8fec7179924ee9bf9eede16f089"
   },
   "source/REBUILD.md": {
-    "bytes": 2748,
-    "sha256": "af5b9a1b0579cb1d6b775c47553a19f53fec26250631e7627d0454b11b839285"
+    "bytes": 3741,
+    "sha256": "877c4f8e274e9171ebe3912d0cdc95c90784e7052c2f63508e49881328410dcc"
   },
   "source/build.cjs": {
-    "bytes": 11908,
-    "sha256": "2d510f13b8a5bd505a18200633463299135f8706cac582841c3059df11774b36"
+    "bytes": 12907,
+    "sha256": "0413657aa94f6312b3df8291d9e6ee7d1565c3985442bd01b7e6dec996549108"
   },
   "source/import-traces.py": {
-    "bytes": 2673,
-    "sha256": "4706ae9c4c8555a9a45dcaec82799a732c0b254b7328b52432a8db15ff037e2d"
+    "bytes": 2116,
+    "sha256": "c5891dbc750ec55071baf92a7120c885c1093781cd366b792ebe3f9826037412"
   },
   "source/marks.json": {
-    "bytes": 64849,
-    "sha256": "e1460bf9b4178953286fc084c1b93137b62dd86bfc28ce250e89dd469b2b6124"
+    "bytes": 72746,
+    "sha256": "7b4e8fa1be64740aff30bb031cd4d3ed6c88ea1ac5876a9e09a44b7a375299dd"
   },
   "source/prepare-feed.py": {
     "bytes": 1306,
     "sha256": "33ba2e40ca843319bcbd16fc42705abbcc6d31223356cc0b2ef705405aa39e8d"
+  },
+  "source/prepare-jxzljc.py": {
+    "bytes": 1468,
+    "sha256": "789e419bef6b2fac3cfa29e251c8530461724c1854a132e9aa6f6af752ca43c9"
   },
   "source/prepare-learning-homepage.py": {
     "bytes": 1782,
@@ -712,8 +820,8 @@
     "sha256": "f74c2556cbc04258ed55eb09223f6142d6909847eb890809501ca84d5712bd59"
   },
   "source/reference/extraction.json": {
-    "bytes": 1171,
-    "sha256": "8966a891a2cb08862c2af9e3dd27f909ed7a3cdbe0f818d73ba0a240d0fef4e0"
+    "bytes": 1397,
+    "sha256": "1db727c47146868a7e659915906a5046d5b7da9b04e62d159244cc81e3f156c2"
   },
   "source/reference/feed-approved-concept.png": {
     "bytes": 1099979,
@@ -730,6 +838,22 @@
   "source/reference/feed-vector-check.png": {
     "bytes": 17482,
     "sha256": "da15db87739082211d9b0fc9979b62fa9080308ca656304632ac67a73511ceea"
+  },
+  "source/reference/jxzljc-approved-concept.png": {
+    "bytes": 1180635,
+    "sha256": "af5d2f614c496fea3c8f8a499748a2215994a2c2ac340d900a0da5b2105ddd2e"
+  },
+  "source/reference/jxzljc-mask.png": {
+    "bytes": 4182,
+    "sha256": "2333026a1764eaf38bafdefd3015bfd9d66b5f8c45570f8b2d84d4c204153a3a"
+  },
+  "source/reference/jxzljc-trace.svg": {
+    "bytes": 8446,
+    "sha256": "f97cce55624a307118eafdae7b3e2dae26ab4d5bba2c9eedb6ff8e5bb18612ce"
+  },
+  "source/reference/jxzljc-vector-check.png": {
+    "bytes": 16567,
+    "sha256": "f217e40e3205f837787e8f17738b428eb54ca917ce96152da548f4a720d77096"
   },
   "source/reference/learning-approved-concept.png": {
     "bytes": 482592,
@@ -780,7 +904,7 @@
     "sha256": "1e4833917b1bf38d77a0452de9dcd0f98cd24b5c6d36fd200f640a261bbdc733"
   },
   "source/verify.cjs": {
-    "bytes": 4784,
-    "sha256": "1eb71b65d4d5cd35f4f808cb0454689cbb7ca36e9b8d58dd333b12dfabc5ee68"
+    "bytes": 6993,
+    "sha256": "f5449d6316ada36603fffbc3e496515ce3e715fe66d8466a0474b887b88d4937"
   }
 }
