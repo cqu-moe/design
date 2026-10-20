@@ -1,11 +1,11 @@
 {
   "README.md": {
-    "bytes": 5692,
-    "sha256": "3eff48051c52ea6d530e9a38fa7e571a11a4e51cfe54f997d6ef076781ff45b4"
+    "bytes": 6425,
+    "sha256": "4a2b60e7032ae7eb78cfe4daf90a82f39d2637695c0048d7f1a56e1b2ca1eaa0"
   },
   "VERIFICATION.md": {
-    "bytes": 7039,
-    "sha256": "cfb23971ceac220252e31d649f243d3eb3e8459b850b2a9525e637dbd5f89f3c"
+    "bytes": 8817,
+    "sha256": "00765e22d7ac1187fd065ea03b1b717bd197042b0d326fc67fe918545fa320ad"
   },
   "auth/app-icon.svg": {
     "bytes": 6747,
@@ -320,8 +320,112 @@
     "sha256": "6f57f070de1d336fbb03dbaae8d117a529f9888a8394795ae8107beacbf74884"
   },
   "index.html": {
-    "bytes": 10114,
-    "sha256": "de0dc77bc531b1c5b50a488c6b8fdde41b3b14e0e7481b00cb64f51298de7240"
+    "bytes": 11274,
+    "sha256": "fa6e8756b85dcdf063a90829d1721d857ab61488dc1830c68fc6d9c4386b7790"
+  },
+  "jxzljc/app-icon.svg": {
+    "bytes": 8520,
+    "sha256": "92e55432e1a71f9e660e21a5db77962e9f8f0b14ff7e520c46fea7967e8ec8df"
+  },
+  "jxzljc/favicon-16.png": {
+    "bytes": 556,
+    "sha256": "0d9bb6fa08da0147e1c5b4d7393f631dba73487bb04b8ad439f27c68cc197ae7"
+  },
+  "jxzljc/favicon-32.png": {
+    "bytes": 1132,
+    "sha256": "9467e70a6a8f1ff823bbcbb1ed6688e5118627ac5b43bee515045a6b9c970cd7"
+  },
+  "jxzljc/favicon-48.png": {
+    "bytes": 1790,
+    "sha256": "7bdeb9b9f97c4de9e547fbd60b524399496b6c44b768f63aa123428b7c5eeb95"
+  },
+  "jxzljc/favicon.ico": {
+    "bytes": 3532,
+    "sha256": "a6b81db62eb189fda38aa1122afa87fb9924395b1ef713cb3c473cc33eff7d24"
+  },
+  "jxzljc/favicon.svg": {
+    "bytes": 8458,
+    "sha256": "a653b29f385300c888cd4a1d1be01756d9a3b682bdedda8875345145f0e29a6d"
+  },
+  "jxzljc/icon-1024.png": {
+    "bytes": 43427,
+    "sha256": "54da7f19869207db1b30db4951d5d6259ae8134cd580b190e1d34fbf8aa44753"
+  },
+  "jxzljc/icon-128.png": {
+    "bytes": 4509,
+    "sha256": "02d9490b3824c187dd4c3e90f198d5c5d4962f68cf5afc2ef6e8dbb5eb5a3111"
+  },
+  "jxzljc/icon-16.png": {
+    "bytes": 549,
+    "sha256": "ab4e32e15e1d45de1c49804b613bf0e294adbafff64fda89c4f56a72b845d3a0"
+  },
+  "jxzljc/icon-192.png": {
+    "bytes": 6682,
+    "sha256": "7126f5c5bc1aa13c5d6cb6158cada372875cb2bf5bb65469e066c3744e73ee10"
+  },
+  "jxzljc/icon-32.png": {
+    "bytes": 1098,
+    "sha256": "f54f36f8981e6a7ec273df22ab1bd203638e70b7d7aacdff5c36394d7407dafe"
+  },
+  "jxzljc/icon-48.png": {
+    "bytes": 1708,
+    "sha256": "bc16618263a1e48a6ff30130f4913eecb44f85e0d01fd68d4f3a38fa4d6ca00e"
+  },
+  "jxzljc/icon-512.png": {
+    "bytes": 20036,
+    "sha256": "1e02483381a03c1990402f21f7de7df019e29923a362bd0fd98b6e5d77f9c805"
+  },
+  "jxzljc/logo-1024.png": {
+    "bytes": 45440,
+    "sha256": "ddbe2a076ce4fe58f15d8941f570ee4a0f31b82a86383c64d47b94aa93167f35"
+  },
+  "jxzljc/logo-512.png": {
+    "bytes": 21013,
+    "sha256": "7ad41ab7cc2b5461f41ca9e30160adeb9b57b278aec3dd70d61db0ca7afeb51c"
+  },
+  "jxzljc/logo-black-1024.png": {
+    "bytes": 29822,
+    "sha256": "0719a7399a9740be7aaa8a5ff393f962dec85f66dcdbee478d6c5c9d1317ad14"
+  },
+  "jxzljc/logo-black-512.png": {
+    "bytes": 13906,
+    "sha256": "a92ea7c9d47efe9b9db6e1ad1196e1c497e92aa8173bbd8f1be3283852b46f74"
+  },
+  "jxzljc/logo-black.svg": {
+    "bytes": 8407,
+    "sha256": "e615cbd165eba06d98723e89b2cf12a78eba417e95f9e8972f7d223e6212627c"
+  },
+  "jxzljc/logo-current.svg": {
+    "bytes": 8412,
+    "sha256": "28e7647ae6e036c1b0fa4b9017a36b86560aaa402f2f67198b79546087d144a5"
+  },
+  "jxzljc/logo-dark-1024.png": {
+    "bytes": 45328,
+    "sha256": "1cad82b04136fad78e4773255699c75ca14ca2ace3b6673aa47ec8df87bef6c4"
+  },
+  "jxzljc/logo-dark-512.png": {
+    "bytes": 20944,
+    "sha256": "61113d9f9464bb2bcdb3885ed6b4cad63414ff295f346536ea1be6a66d977fe9"
+  },
+  "jxzljc/logo-dark.svg": {
+    "bytes": 8407,
+    "sha256": "32ae845dae6611adfcd39f5b8863a1d9a6160792cd36dec08c90b9b29337dbf4"
+  },
+  "jxzljc/logo-white-1024.png": {
+    "bytes": 33487,
+    "sha256": "bcdb3095059200ddb38e5f650e9a51a64ad737dde0083aab4d9be08d313d2c31"
+  },
+  "jxzljc/logo-white-512.png": {
+    "bytes": 15413,
+    "sha256": "d8665d1aa408d5a442a51ddcbe9492950f84f3ec7b550e9ba94da6bd5bad53c3"
+  },
+  "jxzljc/logo-white.svg": {
+    "bytes": 8407,
+    "sha256": "596b5d83025b491816148dce411d5b4371c40e69823b20709dc088a63a370fca"
+  },
+  "jxzljc/logo.svg": {
+    "bytes": 8407,
+    "sha256": "27ff123f99ab06a24d8a41036ab2cb9855ca62427b0be53bfcfb706b637a857e"
   },
   "learning/app-icon.svg": {
     "bytes": 12039,
@@ -428,20 +532,20 @@
     "sha256": "ed6cfa4ac926b20f81bb482c2b0074d6a333526a7ef06bea6e70d10ff4890227"
   },
   "overview.png": {
-    "bytes": 213896,
-    "sha256": "73c23972a4caa959f2d6f49b3e2d2324a49c6d583eccd69b698dd270cb41d8bd"
+    "bytes": 256136,
+    "sha256": "022bf240ae0da9466491fc41621a3471d3fa680f0bec7a3d49f512960bc7e2b8"
   },
   "overview.svg": {
-    "bytes": 493879,
-    "sha256": "b6d547f3794fd43dd1ca2135ddc1c20a14cb67203f72cb5d58d6898bd6691734"
+    "bytes": 561641,
+    "sha256": "5f9b1b248a090ffa91f66dc74b20b83a3367596eb12931a3b7bac0af87cf9c77"
   },
   "palette.json": {
-    "bytes": 1604,
-    "sha256": "9a25acd541aed7bb3090bc4637cedafc347a7d2504d8b1fa5223c60d6b6850ea"
+    "bytes": 1870,
+    "sha256": "b85766379039f493042aea0be5076f747313efe628f7ccaf65058b829e3e0637"
   },
   "qa/report.json": {
-    "bytes": 2116,
-    "sha256": "33e21dc7c7775f288f3e67bc5a1323b417c72c4f98c34540d0a243bc84b5e49e"
+    "bytes": 2273,
+    "sha256": "f16787f94fa6b720e98f547333244d6f468e85a82f56aa5cac2c0fd8ac003b49"
   },
   "quicklogin/app-icon.svg": {
     "bytes": 8395,
@@ -652,24 +756,28 @@
     "sha256": "114cfc6a729fc1c6c4ccc8a529d9009edefb73893ea1e517b6b666ca0068b6de"
   },
   "source/REBUILD.md": {
-    "bytes": 2748,
-    "sha256": "af5b9a1b0579cb1d6b775c47553a19f53fec26250631e7627d0454b11b839285"
+    "bytes": 3313,
+    "sha256": "920b9f7be2863c5eb893bed9d5e40543be54aded87795dc2455d7081890d8301"
   },
   "source/build.cjs": {
-    "bytes": 11908,
-    "sha256": "2d510f13b8a5bd505a18200633463299135f8706cac582841c3059df11774b36"
+    "bytes": 11978,
+    "sha256": "cb403b6ea11849eab0db8820a1eef56aee117a3d2a4a52fd59cb8427110ef8bb"
   },
   "source/import-traces.py": {
-    "bytes": 2673,
-    "sha256": "4706ae9c4c8555a9a45dcaec82799a732c0b254b7328b52432a8db15ff037e2d"
+    "bytes": 2778,
+    "sha256": "d18c7179099fb5b1da5e90960f7c32cc8a0c7c2826fc02981d25e17bb25cb62e"
   },
   "source/marks.json": {
-    "bytes": 64849,
-    "sha256": "e1460bf9b4178953286fc084c1b93137b62dd86bfc28ce250e89dd469b2b6124"
+    "bytes": 73873,
+    "sha256": "3d0a07fdb31fb8cc6423e812f6d31214dd1249fff735094c108cb1f28380d05a"
   },
   "source/prepare-feed.py": {
     "bytes": 1306,
     "sha256": "33ba2e40ca843319bcbd16fc42705abbcc6d31223356cc0b2ef705405aa39e8d"
+  },
+  "source/prepare-jxzljc.py": {
+    "bytes": 1468,
+    "sha256": "789e419bef6b2fac3cfa29e251c8530461724c1854a132e9aa6f6af752ca43c9"
   },
   "source/prepare-learning-homepage.py": {
     "bytes": 1782,
@@ -712,8 +820,8 @@
     "sha256": "f74c2556cbc04258ed55eb09223f6142d6909847eb890809501ca84d5712bd59"
   },
   "source/reference/extraction.json": {
-    "bytes": 1171,
-    "sha256": "8966a891a2cb08862c2af9e3dd27f909ed7a3cdbe0f818d73ba0a240d0fef4e0"
+    "bytes": 1397,
+    "sha256": "1db727c47146868a7e659915906a5046d5b7da9b04e62d159244cc81e3f156c2"
   },
   "source/reference/feed-approved-concept.png": {
     "bytes": 1099979,
@@ -730,6 +838,22 @@
   "source/reference/feed-vector-check.png": {
     "bytes": 17482,
     "sha256": "da15db87739082211d9b0fc9979b62fa9080308ca656304632ac67a73511ceea"
+  },
+  "source/reference/jxzljc-approved-concept.png": {
+    "bytes": 1180635,
+    "sha256": "af5d2f614c496fea3c8f8a499748a2215994a2c2ac340d900a0da5b2105ddd2e"
+  },
+  "source/reference/jxzljc-mask.png": {
+    "bytes": 4182,
+    "sha256": "2333026a1764eaf38bafdefd3015bfd9d66b5f8c45570f8b2d84d4c204153a3a"
+  },
+  "source/reference/jxzljc-trace.svg": {
+    "bytes": 8446,
+    "sha256": "f97cce55624a307118eafdae7b3e2dae26ab4d5bba2c9eedb6ff8e5bb18612ce"
+  },
+  "source/reference/jxzljc-vector-check.png": {
+    "bytes": 16567,
+    "sha256": "f217e40e3205f837787e8f17738b428eb54ca917ce96152da548f4a720d77096"
   },
   "source/reference/learning-approved-concept.png": {
     "bytes": 482592,

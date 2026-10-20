@@ -17,6 +17,7 @@ const common = [
   'icon-192.png',
   'icon-512.png',
 ];
+const coloredPageProducts = new Set(['quicklogin', 'jxzljc']);
 const [command, product, targetArg] = process.argv.slice(2);
 const hash = (data) => createHash('sha256').update(data).digest('hex');
 
@@ -81,7 +82,7 @@ async function run() {
     // The public homepage presents the whole family and its own root-level icons.
     await stat(path.join(target, 'public'));
     const mappings = products.flatMap((id) =>
-      (id === 'quicklogin' ? ['logo.svg', 'logo-dark.svg'] : ['logo-black.svg', 'logo-white.svg'])
+      (coloredPageProducts.has(id) ? ['logo.svg', 'logo-dark.svg'] : ['logo-black.svg', 'logo-white.svg'])
         .map((file) => [`${id}/${file}`, `public/brand/${id}/${file}`]),
     );
     mappings.push(
@@ -119,12 +120,11 @@ async function run() {
     return;
   }
   const publicDir =
-    product === 'feed' ? 'public' : product === 'quicklogin' ? 'website/public' : 'frontend/public';
+    product === 'feed' ? 'public' : coloredPageProducts.has(product) ? 'website/public' : 'frontend/public';
   await stat(path.join(target, publicDir));
-  const files =
-    product === 'quicklogin'
-      ? common.filter((file) => !['logo-black.svg', 'logo-white.svg'].includes(file))
-      : common;
+  const files = coloredPageProducts.has(product)
+    ? common.filter((file) => !['logo-black.svg', 'logo-white.svg'].includes(file))
+    : common;
   const mappings = files.map((file) => [file, `${publicDir}/brand/${file}`]);
   if (product === 'quicklogin') {
     for (const file of ['logo.svg', 'logo-dark.svg']) mappings.push([file, `public/brand/${file}`]);

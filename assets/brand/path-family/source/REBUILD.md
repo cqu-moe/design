@@ -29,3 +29,7 @@ VTracer 的 Python 包版本为 0.6.15，输出 SVG 注释中的 Rust 核心版�
 ## Learning CLI 与 CQU Moe A 版
 
 运行 `python3 assets/brand/path-family/source/prepare-learning-homepage.py`，再运行 `uv run --python 3.12 --with vtracer==0.6.15 python assets/brand/path-family/source/trace.py learning cqu-moe` 和 `python3 assets/brand/path-family/source/import-traces.py learning cqu-moe`。提取脚本固定了原稿尺寸与裁切区域，CQU Moe 只使用左侧 A 方案，排除 B/C 和下方示例。新稿使用约定的标准色而非压缩后取样值，记录见 extraction.json。之后照常 build / verify / package。
+
+## 快速评教独立确认稿
+
+运行 `python3 assets/brand/path-family/source/prepare-jxzljc.py`，再运行 `uv run --python 3.12 --with vtracer==0.6.15 python assets/brand/path-family/source/trace.py jxzljc` 与 `python3 assets/brand/path-family/source/import-traces.py jxzljc`。确认稿为 `reference/jxzljc-approved-concept.png`（2026-10-20 用户确认），图形取自裁切 `[116,104,548,478]`。标准色 `#A66B18`、深底色 `#DEB588`；原 mask 与矢量的 alpha≥128 二值 IoU 为 0.9884677636903156。之后照常 build / verify / package。

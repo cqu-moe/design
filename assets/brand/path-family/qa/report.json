@@ -75,7 +75,10 @@
     "learning/favicon.ico",
     "cqu-moe/logo.svg",
     "cqu-moe/logo-1024.png",
-    "cqu-moe/favicon.ico"
+    "cqu-moe/favicon.ico",
+    "jxzljc/logo.svg",
+    "jxzljc/logo-1024.png",
+    "jxzljc/favicon.ico"
   ],
   "contrast": {
     "schedule": {
@@ -101,6 +104,10 @@
     "cqu-moe": {
       "lightOnWhite": 6.32,
       "darkOnGraphite": 8.16
+    },
+    "jxzljc": {
+      "lightOnWhite": 4.43,
+      "darkOnGraphite": 8.18
     }
   },
   "warnings": [],

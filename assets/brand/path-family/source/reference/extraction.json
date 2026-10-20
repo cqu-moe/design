@@ -84,5 +84,20 @@
     ],
     "hex": "#6951A5",
     "foregroundPixels": 78099
+  },
+  "jxzljc": {
+    "reference": "jxzljc-approved-concept.png",
+    "crop": [
+      116,
+      104,
+      548,
+      478
+    ],
+    "size": [
+      548,
+      478
+    ],
+    "hex": "#A66B18",
+    "foregroundPixels": 146785
   }
 }
