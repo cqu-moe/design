@@ -17,6 +17,7 @@ def oklch(hexcolor):
     b = .0259040371*l+.7827717662*m-.808675766*s
     return [round(L,6),round(math.hypot(a,b),6),round(math.degrees(math.atan2(b,a))%360,6)]
 meanings = {
+    'jxzljc': '评价气泡、勾选与环绕带，表达学生反馈、逐项核对与确认提交。',
     'learning': '展开的书页与命令提示符，贯穿的带状结构连接学习资源与命令行工具。',
     'cqu-moe': '折叠立方与开放的负空间，表达校园工具汇聚成统一入口。',
     'feed': '叠放的通知页与汇聚的信息流，表达多来源通知采集、统一阅读与存档。',
