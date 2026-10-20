@@ -35,6 +35,7 @@ for (const name of [
   'agent-prompts',
   'icons',
   'brand',
+  'product-pages',
   'states',
   'business-integration',
   'acceptance',

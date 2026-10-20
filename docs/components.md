@@ -24,7 +24,16 @@
 <Button variant="primary">保存</Button>
 ```
 
-决策顺序：破坏性操作 → destructive；主要操作 → default；普通次要操作 → outline；紧凑工具栏 → ghost。
+```text
+选择按钮变体
+├─ 破坏性操作 → destructive
+├─ 当前操作区最重要的动作 → default
+├─ 工具栏 / 图标动作 → ghost
+├─ 轻量文字动作 → link
+└─ 次要动作 → outline；需要填充背景时使用 secondary
+```
+
+default 是动作层级，不是品牌色。工作界面始终保持黑白主按钮；展示页用色见 [产品页面](product-pages.md)。没有 brand / primary 变体，不能发明属性替代语义变量。
 图标按钮必须有 aria-label。触屏下共享包将有效尺寸提升到至少 44px；不要覆盖 ds-button 类。
 
 ## 表单

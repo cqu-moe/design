@@ -5,6 +5,17 @@ const path = require('node:path');
 const { chromium } = require('@playwright/test');
 const root = path.resolve(__dirname, '..');
 const model = require('./marks.json');
+// Shared theme is the color source; marks.json owns only approved geometry.
+const theme = fs.readFileSync(path.resolve(__dirname, '../../../../packages/theme/src/tokens.css'), 'utf8');
+function brandColors(name) {
+  const values = [...theme.matchAll(new RegExp(`--${name}:\\s*oklch\\(([^)]+)\\)`, 'g'))]
+    .map(match => match[1].trim().split(/\s+/).map(Number));
+  if (values.length < 2 || values.some(value => value.length !== 3 || value.some(v => !Number.isFinite(v))))
+    throw Error(`Missing literal light/dark theme token: ${name}`);
+  return values;
+}
+const [brandInk, brandInkDark] = brandColors('brand-ink');
+const [brandSolid] = brandColors('brand-solid');
 const svg = (body, size = 64, label = '') => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 64 64"${label ? ` role="img" aria-label="${label}"` : ''}>${body}</svg>\n`;
 function rgb([L,C,H]) {
   const a=C*Math.cos(H*Math.PI/180), b=C*Math.sin(H*Math.PI/180);
@@ -15,9 +26,9 @@ function rgb([L,C,H]) {
   if(channels.some(v=>v<0 || v>1)) throw Error(`Out of sRGB gamut: ${[L,C,H]}`);
   return '#'+channels.map(v=>Math.round(255*(v<=0.0031308?12.92*v:1.055*v**(1/2.4)-0.055)).toString(16).padStart(2,'0')).join('');
 }
-const products=model.products.map(p=>({...p,hex:rgb(p.color),darkHex:rgb(p.darkColor)}));
+const products=model.products.map(p=>({...p,color:brandInk,darkColor:brandInkDark,hex:rgb(brandInk),darkHex:rgb(brandInkDark)}));
 const mark=(p, color)=>`<g fill="${color}" transform="${p.transform}">${p.paths.map(attrs=>`<path ${Object.entries(attrs).map(([k,v])=>`${k}="${v}"`).join(' ')}/>`).join('')}</g>`;
-const app=(p)=>`<rect x="0" y="0" width="64" height="64" rx="14" fill="${p.hex}"/><g transform="translate(8 8) scale(.75)">${mark(p,'#fff')}</g>`;
+const app=(p)=>`<rect x="0" y="0" width="64" height="64" rx="14" fill="${rgb(brandSolid)}"/><g transform="translate(8 8) scale(.75)">${mark(p,'#fff')}</g>`;
 const write=(file,value)=>fs.writeFileSync(path.join(root,file),value);
 for(const p of products){
   fs.mkdirSync(path.join(root,p.id),{recursive:true});
@@ -27,7 +38,7 @@ for(const p of products){
   // The approved silhouette is retained; small-size acceptance is recorded separately.
   write(`${p.id}/favicon.svg`,svg(`<style>:root{color:${p.hex}}@media(prefers-color-scheme:dark){:root{color:${p.darkHex}}}</style>${mark(p,'currentColor')}`,32));
 }
-write('palette.json',JSON.stringify(Object.fromEntries(products.map(p=>[p.id,{light:{oklch:p.color,srgb:p.hex},dark:{oklch:p.darkColor,srgb:p.darkHex}}])),null,2)+'\n');
+write('palette.json',JSON.stringify(Object.fromEntries(products.map(p=>[p.id,{light:{oklch:p.color,srgb:p.hex},dark:{oklch:p.darkColor,srgb:p.darkHex},app:{oklch:brandSolid,srgb:rgb(brandSolid)}}])),null,2)+'\n');
 
 const ink='#242424',muted='#666666',line='#e5e5e5',paper='#fafaf9';
 const text=(x,y,value,size=16,fill=ink,weight=400)=>`<text x="${x}" y="${y}" fill="${fill}" font-size="${size}" font-weight="${weight}">${value}</text>`;
@@ -37,7 +48,7 @@ const rows=Math.ceil(products.length/columns), boardWidth=100+columns*500, board
 let board=`<rect width="${boardWidth}" height="${boardHeight}" fill="${paper}"/>`;
 board+=text(80,70,'CQU MOE  /  VISUAL IDENTITY',15,muted,600);
 board+=text(80,146,'通路',64,ink,600)+text(252,143,'Path',56,ink,500);
-board+=text(80,193,'已确认概念稿 · SVG 矢量复刻',20,muted);
+board+=text(80,193,'统一蓝色 · 独立轮廓 · SVG 矢量标识',20,muted);
 board+=text(boardWidth-320,70,'01 — LOGO FAMILY',13,muted,500);
 board+=`<path d="M80 230H${boardWidth-80}" stroke="${line}"/>`;
 products.forEach((p,i)=>{
@@ -58,18 +69,18 @@ products.forEach((p,i)=>{
 });
 board+=`<g transform="translate(0 ${(rows-1)*740})"><path d="M80 985H${boardWidth-80}" stroke="${line}"/>`;
 board+=text(80,1029,'可编辑贝塞尔路径 · 原稿比例 · 透明背景 · 彩色与黑白版本',15,muted);
-board+=text(80,1062,'网页：QuickLogin 与快速评教使用彩色标识，其余使用黑白标识；所有 favicon 使用彩色版。',15,muted);
+board+=text(80,1062,'页面、favicon、应用与扩展图标统一蓝色；工作界面主按钮保持黑白。',15,muted);
 board+=text(boardWidth-270,1062,'VECTOR EDITION / 01',12,muted,500)+'</g>';
 write('overview.svg',`<svg xmlns="http://www.w3.org/2000/svg" width="${boardWidth}" height="${boardHeight}" viewBox="0 0 ${boardWidth} ${boardHeight}" role="img" aria-label="CQU Moe 通路 Logo 家族，${products.map(p=>p.name).join("、")} 标识与黑白及小尺寸展示"><g font-family="Arial, PingFang SC, Microsoft YaHei, sans-serif">${board}</g></svg>`);
 
 // A static artwork catalog; not a product UI or shared-component implementation.
 // design-exception: fixed brand specimen dimensions and palette are content assets.
-const tiles=products.map(p=>`<section aria-labelledby="${p.id}"><div class="specimen"><img src="${p.id}/logo.svg" alt="${p.name} 彩色标识" width="192" height="192"></div><h2 id="${p.id}">${p.name}</h2><p>${p.meaning}</p><div class="pair"><div><img src="${p.id}/logo-black.svg" alt="纯黑版" width="64" height="64"></div><div class="inverse"><img src="${p.id}/logo-white.svg" alt="纯白版" width="64" height="64"></div></div><div class="sizes">${[16,24,32,48].map(n=>`<figure><img src="${p.id}/logo.svg" alt="${n} 像素" width="${n}" height="${n}"><figcaption>${n}px</figcaption></figure>`).join('')}</div><div class="downloads"><a href="${p.id}/logo.svg" download>SVG</a><a href="${p.id}/logo-1024.png" download>PNG</a><a href="${p.id}/favicon.ico" download>ICO</a></div></section>`).join('');
+const tiles=products.map(p=>`<section aria-labelledby="${p.id}"><div class="specimen"><picture><source media="(prefers-color-scheme:dark)" srcset="${p.id}/logo-dark.svg"><img src="${p.id}/logo.svg" alt="${p.name} 蓝色标识" width="192" height="192"></picture></div><h2 id="${p.id}">${p.name}</h2><p>${p.meaning}</p><div class="pair"><div><img src="${p.id}/logo-black.svg" alt="纯黑版" width="64" height="64"></div><div class="inverse"><img src="${p.id}/logo-white.svg" alt="纯白版" width="64" height="64"></div></div><div class="sizes">${[16,24,32,48].map(n=>`<figure><picture><source media="(prefers-color-scheme:dark)" srcset="${p.id}/logo-dark.svg"><img src="${p.id}/logo.svg" alt="${n} 像素" width="${n}" height="${n}"></picture><figcaption>${n}px</figcaption></figure>`).join('')}</div><div class="downloads"><a href="${p.id}/logo.svg" download>SVG</a><a href="${p.id}/logo-1024.png" download>PNG</a><a href="${p.id}/favicon.ico" download>ICO</a></div></section>`).join('');
 write('index.html',`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>通路 · CQU Moe Logo 家族</title><style>
 :root{color-scheme:light dark;--background:oklch(.985 0 0);--surface:oklch(1 0 0);--foreground:oklch(.24 0 0);--muted-foreground:oklch(.46 0 0);--border:oklch(0 0 0 / .1);--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-6:1.5rem;--space-8:2rem;--space-12:3rem;--radius:.5rem;--text-sm:.875rem;--text-base:1rem;--text-title:1.75rem;--text-display:2.25rem}
 @media(prefers-color-scheme:dark){:root{--background:oklch(.235 0 0);--surface:oklch(.265 0 0);--foreground:oklch(.93 0 0);--muted-foreground:oklch(.735 0 0);--border:oklch(.37 0 0)}}
-*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font:var(--text-base)/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;-webkit-font-smoothing:antialiased}main{max-width:75rem;margin:auto;padding:var(--space-12) var(--space-6)}header{padding-bottom:var(--space-8);border-bottom:1px solid var(--border)}.eyebrow{font-size:var(--text-sm);color:var(--muted-foreground);letter-spacing:.08em}h1{font-size:var(--text-display);letter-spacing:-.04em;line-height:1.2;margin:var(--space-4) 0}h2{font-size:var(--text-title);line-height:1.2;margin:var(--space-6) 0 var(--space-3)}p{color:var(--muted-foreground);max-width:65ch;margin:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-8);padding:var(--space-8) 0}.specimen{display:grid;place-items:center;background:oklch(1 0 0);aspect-ratio:1.3;border-radius:var(--radius)}.pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-top:var(--space-6)}.pair>div{display:grid;place-items:center;padding:var(--space-4);background:oklch(1 0 0);border:1px solid var(--border);border-radius:var(--radius)}.pair>.inverse{background:oklch(.24 0 0)}.sizes{display:flex;justify-content:space-between;align-items:end;padding:var(--space-6) var(--space-4);background:oklch(1 0 0);color:oklch(.24 0 0);margin-top:var(--space-3);border-radius:var(--radius)}figure{margin:0;text-align:center}figcaption{font-size:var(--text-sm);margin-top:var(--space-2)}img{display:block;max-width:100%;object-fit:contain}figure img{margin:auto}.downloads{display:flex;gap:var(--space-3);margin-top:var(--space-4)}a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:var(--space-2) var(--space-3);border:1px solid var(--border);border-radius:var(--radius);color:var(--foreground);text-underline-offset:3px;touch-action:manipulation}a:focus-visible{outline:2px solid var(--foreground);outline-offset:4px}footer{padding-top:var(--space-8);border-top:1px solid var(--border)}footer p+p{margin-top:var(--space-3)}@media(max-width:50rem){.grid{grid-template-columns:1fr}.specimen{aspect-ratio:1.8}main{padding:var(--space-8) var(--space-4)}}
-</style><main><header><div class="eyebrow">CQU MOE / VISUAL IDENTITY</div><h1>通路 · Path</h1><p>已确认概念稿 · SVG 矢量复刻</p></header><div class="grid">${tiles}</div><footer><p>可编辑贝塞尔路径 · 原稿比例 · 透明背景 · 彩色与黑白版本</p><p>网页：QuickLogin 与快速评教使用彩色标识，其余使用黑白标识；所有 favicon 使用彩色版。<a href="README.md">使用规范</a></p></footer></main></html>`);
+*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font:var(--text-base)/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;-webkit-font-smoothing:antialiased}main{max-width:75rem;margin:auto;padding:var(--space-12) var(--space-6)}header{padding-bottom:var(--space-8);border-bottom:1px solid var(--border)}.eyebrow{font-size:var(--text-sm);color:var(--muted-foreground);letter-spacing:.08em}h1{font-size:var(--text-display);letter-spacing:-.04em;line-height:1.2;margin:var(--space-4) 0}h2{font-size:var(--text-title);line-height:1.2;margin:var(--space-6) 0 var(--space-3)}p{color:var(--muted-foreground);max-width:65ch;margin:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-8);padding:var(--space-8) 0}.specimen{display:grid;place-items:center;background:var(--surface);aspect-ratio:1.3;border-radius:var(--radius)}.pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-top:var(--space-6)}.pair>div{display:grid;place-items:center;padding:var(--space-4);background:oklch(1 0 0);border:1px solid var(--border);border-radius:var(--radius)}.pair>.inverse{background:oklch(.24 0 0)}.sizes{display:flex;justify-content:space-between;align-items:end;padding:var(--space-6) var(--space-4);background:var(--surface);color:var(--foreground);margin-top:var(--space-3);border-radius:var(--radius)}figure{margin:0;text-align:center}figcaption{font-size:var(--text-sm);margin-top:var(--space-2)}img{display:block;max-width:100%;object-fit:contain}figure img{margin:auto}.downloads{display:flex;gap:var(--space-3);margin-top:var(--space-4)}a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:var(--space-2) var(--space-3);border:1px solid var(--border);border-radius:var(--radius);color:var(--foreground);text-underline-offset:3px;touch-action:manipulation}a:focus-visible{outline:2px solid var(--foreground);outline-offset:4px}footer{padding-top:var(--space-8);border-top:1px solid var(--border)}footer p+p{margin-top:var(--space-3)}@media(max-width:50rem){.grid{grid-template-columns:1fr}.specimen{aspect-ratio:1.8}main{padding:var(--space-8) var(--space-4)}}
+</style><main><header><div class="eyebrow">CQU MOE / VISUAL IDENTITY</div><h1>通路 · Path</h1><p>统一蓝色 · 独立轮廓 · SVG 矢量标识</p></header><div class="grid">${tiles}</div><footer><p>可编辑贝塞尔路径 · 原稿比例 · 透明背景 · 彩色与黑白版本</p><p>页面、favicon、应用与扩展图标统一蓝色；工作界面主按钮保持黑白。<a href="README.md">使用规范</a></p></footer></main></html>`);
 // end design-exception.
 
 (async()=>{

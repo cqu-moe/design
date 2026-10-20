@@ -39,6 +39,14 @@ code {
   min-width: 0;
   white-space: normal;
 }
+.preview-brand-mark {
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--space-6);
+  height: var(--space-6);
+  background: var(--brand-ink);
+  mask: url('/brand/cqu-moe/logo-black.svg') center / contain no-repeat;
+}
 .brand-divider {
   width: 1px;
   height: var(--space-5);

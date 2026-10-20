@@ -80,36 +80,468 @@
     "jxzljc/logo-1024.png",
     "jxzljc/favicon.ico"
   ],
+  "renderedColors": [
+    {
+      "scheme": "light",
+      "samples": [
+        {
+          "id": "schedule",
+          "file": "logo.svg",
+          "brandPixels": 1036,
+          "nonOpaquePixels": 3060
+        },
+        {
+          "id": "schedule",
+          "file": "logo-512.png",
+          "brandPixels": 78725,
+          "nonOpaquePixels": 183419
+        },
+        {
+          "id": "schedule",
+          "file": "favicon.svg",
+          "brandPixels": 208,
+          "nonOpaquePixels": 816
+        },
+        {
+          "id": "schedule",
+          "file": "icon-16.png",
+          "brandPixels": 155,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "schedule",
+          "file": "icon-128.png",
+          "brandPixels": 12384,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "auth",
+          "file": "logo.svg",
+          "brandPixels": 1336,
+          "nonOpaquePixels": 2760
+        },
+        {
+          "id": "auth",
+          "file": "logo-512.png",
+          "brandPixels": 94072,
+          "nonOpaquePixels": 168072
+        },
+        {
+          "id": "auth",
+          "file": "favicon.svg",
+          "brandPixels": 289,
+          "nonOpaquePixels": 735
+        },
+        {
+          "id": "auth",
+          "file": "icon-16.png",
+          "brandPixels": 152,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "auth",
+          "file": "icon-128.png",
+          "brandPixels": 12010,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "quicklogin",
+          "file": "logo.svg",
+          "brandPixels": 1145,
+          "nonOpaquePixels": 2951
+        },
+        {
+          "id": "quicklogin",
+          "file": "logo-512.png",
+          "brandPixels": 83402,
+          "nonOpaquePixels": 178742
+        },
+        {
+          "id": "quicklogin",
+          "file": "favicon.svg",
+          "brandPixels": 239,
+          "nonOpaquePixels": 785
+        },
+        {
+          "id": "quicklogin",
+          "file": "icon-16.png",
+          "brandPixels": 152,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "quicklogin",
+          "file": "icon-128.png",
+          "brandPixels": 12306,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "feed",
+          "file": "logo.svg",
+          "brandPixels": 1244,
+          "nonOpaquePixels": 2852
+        },
+        {
+          "id": "feed",
+          "file": "logo-512.png",
+          "brandPixels": 96962,
+          "nonOpaquePixels": 165182
+        },
+        {
+          "id": "feed",
+          "file": "favicon.svg",
+          "brandPixels": 251,
+          "nonOpaquePixels": 773
+        },
+        {
+          "id": "feed",
+          "file": "icon-16.png",
+          "brandPixels": 137,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "feed",
+          "file": "icon-128.png",
+          "brandPixels": 11636,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "learning",
+          "file": "logo.svg",
+          "brandPixels": 1095,
+          "nonOpaquePixels": 3001
+        },
+        {
+          "id": "learning",
+          "file": "logo-512.png",
+          "brandPixels": 79582,
+          "nonOpaquePixels": 182562
+        },
+        {
+          "id": "learning",
+          "file": "favicon.svg",
+          "brandPixels": 222,
+          "nonOpaquePixels": 802
+        },
+        {
+          "id": "learning",
+          "file": "icon-16.png",
+          "brandPixels": 161,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "learning",
+          "file": "icon-128.png",
+          "brandPixels": 12452,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "cqu-moe",
+          "file": "logo.svg",
+          "brandPixels": 1379,
+          "nonOpaquePixels": 2717
+        },
+        {
+          "id": "cqu-moe",
+          "file": "logo-512.png",
+          "brandPixels": 98511,
+          "nonOpaquePixels": 163633
+        },
+        {
+          "id": "cqu-moe",
+          "file": "favicon.svg",
+          "brandPixels": 286,
+          "nonOpaquePixels": 738
+        },
+        {
+          "id": "cqu-moe",
+          "file": "icon-16.png",
+          "brandPixels": 150,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "cqu-moe",
+          "file": "icon-128.png",
+          "brandPixels": 11814,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "jxzljc",
+          "file": "logo.svg",
+          "brandPixels": 1188,
+          "nonOpaquePixels": 2908
+        },
+        {
+          "id": "jxzljc",
+          "file": "logo-512.png",
+          "brandPixels": 86192,
+          "nonOpaquePixels": 175952
+        },
+        {
+          "id": "jxzljc",
+          "file": "favicon.svg",
+          "brandPixels": 240,
+          "nonOpaquePixels": 784
+        },
+        {
+          "id": "jxzljc",
+          "file": "icon-16.png",
+          "brandPixels": 154,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "jxzljc",
+          "file": "icon-128.png",
+          "brandPixels": 12188,
+          "nonOpaquePixels": 798
+        }
+      ]
+    },
+    {
+      "scheme": "dark",
+      "samples": [
+        {
+          "id": "schedule",
+          "file": "logo-dark.svg",
+          "brandPixels": 1036,
+          "nonOpaquePixels": 3060
+        },
+        {
+          "id": "schedule",
+          "file": "logo-dark-512.png",
+          "brandPixels": 78725,
+          "nonOpaquePixels": 183419
+        },
+        {
+          "id": "schedule",
+          "file": "favicon.svg",
+          "brandPixels": 208,
+          "nonOpaquePixels": 816
+        },
+        {
+          "id": "schedule",
+          "file": "icon-16.png",
+          "brandPixels": 155,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "schedule",
+          "file": "icon-128.png",
+          "brandPixels": 12384,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "auth",
+          "file": "logo-dark.svg",
+          "brandPixels": 1336,
+          "nonOpaquePixels": 2760
+        },
+        {
+          "id": "auth",
+          "file": "logo-dark-512.png",
+          "brandPixels": 94072,
+          "nonOpaquePixels": 168072
+        },
+        {
+          "id": "auth",
+          "file": "favicon.svg",
+          "brandPixels": 289,
+          "nonOpaquePixels": 735
+        },
+        {
+          "id": "auth",
+          "file": "icon-16.png",
+          "brandPixels": 152,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "auth",
+          "file": "icon-128.png",
+          "brandPixels": 12010,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "quicklogin",
+          "file": "logo-dark.svg",
+          "brandPixels": 1145,
+          "nonOpaquePixels": 2951
+        },
+        {
+          "id": "quicklogin",
+          "file": "logo-dark-512.png",
+          "brandPixels": 83402,
+          "nonOpaquePixels": 178742
+        },
+        {
+          "id": "quicklogin",
+          "file": "favicon.svg",
+          "brandPixels": 239,
+          "nonOpaquePixels": 785
+        },
+        {
+          "id": "quicklogin",
+          "file": "icon-16.png",
+          "brandPixels": 152,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "quicklogin",
+          "file": "icon-128.png",
+          "brandPixels": 12306,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "feed",
+          "file": "logo-dark.svg",
+          "brandPixels": 1244,
+          "nonOpaquePixels": 2852
+        },
+        {
+          "id": "feed",
+          "file": "logo-dark-512.png",
+          "brandPixels": 96962,
+          "nonOpaquePixels": 165182
+        },
+        {
+          "id": "feed",
+          "file": "favicon.svg",
+          "brandPixels": 251,
+          "nonOpaquePixels": 773
+        },
+        {
+          "id": "feed",
+          "file": "icon-16.png",
+          "brandPixels": 137,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "feed",
+          "file": "icon-128.png",
+          "brandPixels": 11636,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "learning",
+          "file": "logo-dark.svg",
+          "brandPixels": 1095,
+          "nonOpaquePixels": 3001
+        },
+        {
+          "id": "learning",
+          "file": "logo-dark-512.png",
+          "brandPixels": 79582,
+          "nonOpaquePixels": 182562
+        },
+        {
+          "id": "learning",
+          "file": "favicon.svg",
+          "brandPixels": 222,
+          "nonOpaquePixels": 802
+        },
+        {
+          "id": "learning",
+          "file": "icon-16.png",
+          "brandPixels": 161,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "learning",
+          "file": "icon-128.png",
+          "brandPixels": 12452,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "cqu-moe",
+          "file": "logo-dark.svg",
+          "brandPixels": 1379,
+          "nonOpaquePixels": 2717
+        },
+        {
+          "id": "cqu-moe",
+          "file": "logo-dark-512.png",
+          "brandPixels": 98511,
+          "nonOpaquePixels": 163633
+        },
+        {
+          "id": "cqu-moe",
+          "file": "favicon.svg",
+          "brandPixels": 286,
+          "nonOpaquePixels": 738
+        },
+        {
+          "id": "cqu-moe",
+          "file": "icon-16.png",
+          "brandPixels": 150,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "cqu-moe",
+          "file": "icon-128.png",
+          "brandPixels": 11814,
+          "nonOpaquePixels": 798
+        },
+        {
+          "id": "jxzljc",
+          "file": "logo-dark.svg",
+          "brandPixels": 1188,
+          "nonOpaquePixels": 2908
+        },
+        {
+          "id": "jxzljc",
+          "file": "logo-dark-512.png",
+          "brandPixels": 86192,
+          "nonOpaquePixels": 175952
+        },
+        {
+          "id": "jxzljc",
+          "file": "favicon.svg",
+          "brandPixels": 240,
+          "nonOpaquePixels": 784
+        },
+        {
+          "id": "jxzljc",
+          "file": "icon-16.png",
+          "brandPixels": 154,
+          "nonOpaquePixels": 26
+        },
+        {
+          "id": "jxzljc",
+          "file": "icon-128.png",
+          "brandPixels": 12188,
+          "nonOpaquePixels": 798
+        }
+      ]
+    }
+  ],
   "contrast": {
     "schedule": {
-      "lightOnWhite": 7.56,
-      "darkOnGraphite": 8.32
+      "lightOnWhite": 7.65,
+      "darkOnGraphite": 8.34
     },
     "auth": {
-      "lightOnWhite": 3.55,
-      "darkOnGraphite": 8.52
+      "lightOnWhite": 7.65,
+      "darkOnGraphite": 8.34
     },
     "quicklogin": {
-      "lightOnWhite": 3.28,
-      "darkOnGraphite": 8.06
+      "lightOnWhite": 7.65,
+      "darkOnGraphite": 8.34
     },
     "feed": {
-      "lightOnWhite": 5.9,
-      "darkOnGraphite": 7.98
+      "lightOnWhite": 7.65,
+      "darkOnGraphite": 8.34
     },
     "learning": {
-      "lightOnWhite": 5.65,
-      "darkOnGraphite": 8.49
+      "lightOnWhite": 7.65,
+      "darkOnGraphite": 8.34
     },
     "cqu-moe": {
-      "lightOnWhite": 6.32,
-      "darkOnGraphite": 8.16
+      "lightOnWhite": 7.65,
+      "darkOnGraphite": 8.34
     },
     "jxzljc": {
-      "lightOnWhite": 4.43,
-      "darkOnGraphite": 8.18
+      "lightOnWhite": 7.65,
+      "darkOnGraphite": 8.34
     }
   },
   "warnings": [],
-  "scope": "Static logo assets and artwork catalog only"
+  "scope": "Generated brand assets against shared theme, plus artwork catalog; no consumer deployment"
 }

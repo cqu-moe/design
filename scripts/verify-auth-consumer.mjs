@@ -196,10 +196,26 @@ async function packageFacts(auth, expectedVersions, candidateInspections) {
 }
 
 async function synchronizeCandidateLockfile(auth, expectedVersions) {
-  const lockPath = join(auth, 'frontend', 'pnpm-lock.yaml');
+  const frontend = join(auth, 'frontend');
+  const manifestPath = join(frontend, 'package.json');
+  const workspacePath = join(frontend, 'pnpm-workspace.yaml');
+  const lockPath = join(frontend, 'pnpm-lock.yaml');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  let workspace = await readFile(workspacePath, 'utf8');
   let lock = await readFile(lockPath, 'utf8');
   for (const name of ['theme', 'ui']) {
+    const previous = manifest.dependencies[`@cqu-moe/${name}`];
+    const match = new RegExp(`^file:\\.design/(cqu-moe-${name}-(.+)\\.tgz)$`).exec(previous);
+    assert.ok(match, `Pinned Auth has an unexpected ${name} dependency`);
+    const [, previousFilename, previousVersion] = match;
     const filename = `cqu-moe-${name}-${expectedVersions[name]}.tgz`;
+    // Move only the two pinned package references; keep every other dependency frozen.
+    manifest.dependencies[`@cqu-moe/${name}`] = `file:.design/${filename}`;
+    lock = lock.replaceAll(previousFilename, filename);
+    if (name === 'theme') {
+      assert.ok(workspace.includes(previousFilename), 'Pinned Auth theme override is missing');
+      workspace = workspace.replaceAll(previousFilename, filename);
+    }
     const marker = `  '@cqu-moe/${name}@file:.design/${filename}':`;
     const resolution = '    resolution: {integrity: sha512-';
     const markerIndex = lock.indexOf(marker);
@@ -212,7 +228,20 @@ async function synchronizeCandidateLockfile(auth, expectedVersions) {
     const bytes = await readFile(join(auth, 'frontend', '.design', filename));
     const integrity = createHash('sha512').update(bytes).digest('base64');
     lock = lock.slice(0, valueStart) + integrity + lock.slice(valueEnd);
+    const entryEnd = lock.indexOf('\n\n', markerIndex);
+    assert.ok(entryEnd > markerIndex, `Auth lockfile has malformed ${name} entry`);
+    const entry = lock.slice(markerIndex, entryEnd);
+    assert.equal(entry.match(/\n    version: ([^\n]+)/)?.[1], previousVersion);
+    lock =
+      lock.slice(0, markerIndex) +
+      entry.replace(
+        `\n    version: ${previousVersion}`,
+        `\n    version: ${expectedVersions[name]}`,
+      ) +
+      lock.slice(entryEnd);
   }
+  await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+  await writeFile(workspacePath, workspace);
   await writeFile(lockPath, lock);
 }
 

@@ -12,7 +12,7 @@ import {
   TabsTrigger,
   TabsContent,
 } from '@cqu-moe/ui';
-import { Box, ArrowLeft, ArrowRight, Eye, EyeOff, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Eye, EyeOff, AlertCircle, CheckCircle2 } from 'lucide-react';
 type Mode = 'login' | 'register';
 type Field = 'name' | 'email' | 'password';
 function AuthForm({
@@ -248,7 +248,7 @@ export function Auth() {
     <div className="auth-page">
       <header className="auth-header">
         <Link to="/" className="auth-brand">
-          <Box aria-hidden="true" />
+          <span className="preview-brand-mark" aria-hidden="true" />
           CQU Moe
         </Link>
         <div className="auth-header-actions">
@@ -265,7 +265,7 @@ export function Auth() {
         <div className="auth-wrap">
           <div className="auth-intro">
             <div className="auth-mark" aria-hidden="true">
-              <Box />
+              <span className="preview-brand-mark" />
             </div>
             <h1>{mode === 'login' ? '欢迎回来' : '创建账号'}</h1>
             <p>
