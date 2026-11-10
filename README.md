@@ -26,7 +26,7 @@ pnpm verify:consumer
 
 首次运行浏览器测试需安装 Chromium：pnpm exec playwright install chromium。
 需要 Node.js 22.12+ 和 pnpm 11。
-包版本为 1.2.0，尚未发布到 registry。不要直接从公共 registry 安装本项目包名。
+包版本为 1.3.0，尚未发布到 registry。不要直接从公共 registry 安装本项目包名。
 
 创建新子系统：`pnpm create:app ../my-subsystem`（目标目录必须不存在）。它沿用现有模板并配置可随项目分发的本地 tarball。
 

@@ -16,7 +16,7 @@ import {
   DialogClose,
   Button,
 } from '@cqu-moe/ui';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Download, Save } from 'lucide-react';
 const saveLabels = {
   idle: '保存设置',
   loading: '正在保存设置…',
@@ -85,7 +85,12 @@ export function ButtonFeedback() {
       <div className="feedback-stack button-feedback-examples">
         <div className="button-feedback-case">
           <div className="component-examples">
-            <ActionButton state={saveState} labels={saveLabels} onClick={save} />
+            <ActionButton
+              state={saveState}
+              labels={saveLabels}
+              idleIcon={Save}
+              onClick={save}
+            />
             <Label htmlFor="button-failure">
               <Switch
                 id="button-failure"
@@ -112,6 +117,7 @@ export function ButtonFeedback() {
             variant="outline"
             state={exportState}
             labels={exportLabels}
+            idleIcon={Download}
             onClick={exportReport}
           />
           <p className="field-hint">需要更多信息时，用通知补充“查看详情”等下一步操作。</p>

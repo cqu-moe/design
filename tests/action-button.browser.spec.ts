@@ -6,6 +6,7 @@ test('action button keeps width and focus, prevents duplicate work and shows suc
   await page.goto('/feedback');
   const button = page.getByRole('button', { name: '保存设置', exact: true });
   await expect(button).toBeVisible({ timeout: 3000 });
+  await expect(button.locator('svg.lucide-save')).toBeVisible();
   const width = (await button.boundingBox())!.width;
   await button.focus();
   await button.press('Enter');
@@ -16,6 +17,7 @@ test('action button keeps width and focus, prevents duplicate work and shows suc
   await loading.dispatchEvent('click');
   const saved = page.getByRole('button', { name: '设置已保存', exact: true });
   await expect(saved).toBeVisible();
+  await expect(saved.locator('svg.lucide-check')).toBeVisible();
   expect(Math.abs((await saved.boundingBox())!.width - width)).toBeLessThan(1);
   await expect(page.getByText('演示配置：第 2 版', { exact: true })).toBeVisible();
   await expect(page.locator('[data-sonner-toast]')).toHaveCount(0);
@@ -25,18 +27,35 @@ test('button failure is retryable and detailed export feedback uses an actionabl
 }) => {
   await page.goto('/feedback');
   await page.getByRole('switch', { name: '模拟按钮失败' }).check({ timeout: 3000 });
+  await expect(
+    page.getByRole('button', { name: '保存设置', exact: true }).locator('svg.lucide-save'),
+  ).toBeVisible();
   await page.getByRole('button', { name: '保存设置', exact: true }).click();
   await expect(page.getByRole('button', { name: '重试保存', exact: true })).toHaveAttribute(
     'data-action-state',
     'error',
   );
+  await expect(
+    page.getByRole('button', { name: '重试保存', exact: true }).locator('svg.lucide-circle-alert'),
+  ).toBeVisible();
   await expect(page.getByRole('alert')).toContainText('保存未完成');
   await page.getByRole('switch', { name: '模拟按钮失败' }).uncheck();
   await page.getByRole('button', { name: '重试保存', exact: true }).click();
   await expect(page.getByRole('button', { name: '设置已保存', exact: true })).toBeVisible();
   await expect(page.getByRole('alert')).not.toBeVisible();
+  await expect(
+    page.getByRole('button', { name: '导出报告', exact: true }).locator('svg.lucide-download'),
+  ).toBeVisible();
   await page.getByRole('button', { name: '导出报告', exact: true }).click();
+  await expect(
+    page.getByRole('button', { name: '正在导出报告…', exact: true }).locator(
+      'svg.lucide-loader-circle',
+    ),
+  ).toBeVisible();
   await expect(page.getByRole('button', { name: '报告已完成', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: '报告已完成', exact: true }).locator('svg.lucide-check'),
+  ).toBeVisible();
   await page.locator('[data-sonner-toast]').getByRole('button', { name: '查看详情' }).click();
   await expect(page.getByRole('dialog')).toContainText('没有创建或下载真实文件');
   await page.keyboard.press('Escape');
