@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'react';
+import type { LucideIcon } from 'lucide-react';
 import { ArrowRight, LoaderCircle, Check, AlertCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { cn } from '../lib/utils';
@@ -9,12 +10,14 @@ type ActionButtonProps = Omit<
 > & {
   state: ActionButtonState;
   labels: Record<ActionButtonState, string>;
+  idleIcon?: LucideIcon;
   size?: 'default' | 'sm' | 'lg';
 };
 const icons = { idle: ArrowRight, loading: LoaderCircle, success: Check, error: AlertCircle };
 export function ActionButton({
   state,
   labels,
+  idleIcon: IdleIcon = ArrowRight,
   className,
   disabled,
   onClick,
@@ -45,7 +48,7 @@ export function ActionButton({
       >
         <span className="ds-action-labels" aria-hidden="true">
           {(Object.keys(icons) as ActionButtonState[]).map((value) => {
-            const Icon = icons[value];
+            const Icon = value === 'idle' ? IdleIcon : icons[value];
             return (
               <span key={value} className="ds-action-label" data-active={state === value}>
                 <Icon

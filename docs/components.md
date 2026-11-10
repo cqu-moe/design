@@ -92,6 +92,8 @@ Toaster 在应用根部挂载一次，toast 原生 API 用于操作结果。Aler
 <ActionButton state={state} labels={{ idle: '保存', loading: '正在保存…', success: '已保存', error: '重试保存' }} onClick={save} />
 ```
 
+`idleIcon` 可选传入 Lucide 图标组件（如 `Save`、`RefreshCw`），默认仍为 `ArrowRight`；loading、成功和失败图标保持统一。
+
 所有文字占据同一个固定网格，按最长标签预留宽度。进行中使用 aria-busy / aria-disabled 并阻止点击，保留键盘焦点；业务提交处理器仍应防止并发。
 成功和失败使用语义色、图标与文字。状态由调用方更新；修改输入或开始新任务时回到 idle，不自动计时复位。size 支持 default、sm、lg，不支持 asChild 或图标专用尺寸。
 按钮成功通常不再额外弹同文 Toast；需要详情或撤销入口时可以组合可操作通知。示例在 /feedback、/settings、/auth。
