@@ -1,9 +1,14 @@
 import { build } from 'esbuild';
 import { execFileSync } from 'node:child_process';
+import { cp, mkdir, copyFile, rm } from 'node:fs/promises';
+
+await rm('dist', { recursive: true, force: true });
 await build({
-  entryPoints: ['src/index.ts', 'src/charts.tsx'],
+  entryPoints: ['src/**/*.ts', 'src/**/*.tsx'],
+  outbase: 'src',
   outdir: 'dist',
   bundle: true,
+  splitting: true,
   format: 'esm',
   target: 'es2022',
   jsx: 'automatic',
@@ -17,7 +22,6 @@ execFileSync(
 );
 
 // Version the consuming Agent's rules with the component code.
-const { cp, mkdir, copyFile } = await import('node:fs/promises');
 await mkdir('dist/docs', { recursive: true });
 await mkdir('dist/examples/pages', { recursive: true });
 await copyFile('../../DESIGN.md', 'dist/DESIGN.md');
